@@ -118,3 +118,38 @@ if has("gui_macvim")
     set fuoptions=maxvert,maxhorz
     au GUIEnter * set fullscreen
 endif
+
+" Completion
+" ==========
+
+set wildmode=list:longest
+set wildmenu " Enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~ " Stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+
+" Scrolling
+" =========
+
+" Start scrolling when we're getting close to margins
+set scrolloff=10
+set sidescrolloff=15
+set sidescroll=1
+
+" Status Line
+" ===========
+
+set statusline= " Override default
+set statusline+=%{fugitive#statusline()[4:-2]} " Show fugitive git info
+set statusline+=\ %f\ %m\ %r " Show filename/path
+set statusline+=%= " Set right-side status info after this line
+set statusline+=%l/%L:%v " Set <line number>/<total lines>:<column>
+set statusline+=\ " Set ending space
+
+" Windows
+" ==========
+
+" easier navigation between split windows
+ nnoremap <c-j> <c-w>j
+ nnoremap <c-k> <c-w>k
+ nnoremap <c-h> <c-w>h
+ nnoremap <c-l> <c-w>l
