@@ -29,7 +29,7 @@ bind-key n command-prompt 'rename-window %%'
 bind-key N command-prompt 'rename-session %%'
 bind-key Escape copy-mode -u
 bind-key Up copy-mode -u
-bind-key r source-file ~/.tmux.conf; display-message " The Matrix has been reloaded"
+bind-key r source-file ~/.tmux.conf; display-message " ~/.tmux.conf has been reloaded"
 bind-key R refresh-client
 bind-key a send-key C-a
 bind-key C-h resize-pane -L 5
@@ -42,39 +42,71 @@ bind-key -r l select-pane -t :.+
 
 #bind-key u select-window -t :1
 
+## Solarized Colors for tmux
+## Copied from https://github.com/seebi/tmux-colors-solarized/blob/master/tmuxcolors.conf
+
+# default statusbar colors
+set-option -g status-bg colour235 #base02
+set-option -g status-fg colour136 #yellow
+set-option -g status-attr default
+
+# default window title colors
+set-window-option -g window-status-fg colour244
+set-window-option -g window-status-bg default
+#set-window-option -g window-status-attr dim
+
+# active window title colors
+set-window-option -g window-status-current-fg colour166 #orange
+set-window-option -g window-status-current-bg default
+#set-window-option -g window-status-current-attr bright
+
+# pane border
+set-option -g pane-border-fg colour235 #base02
+set-option -g pane-active-border-fg colour240 #base01
+
+# message text
+set-option -g message-bg colour235 #base02
+set-option -g message-fg colour166 #orange
+
+# pane number display
+set-option -g display-panes-active-colour colour33 #blue
+set-option -g display-panes-colour colour166 #orange
+
+# clock
+set-window-option -g clock-mode-colour colour64 #green
+
+# window activity colors
+set-window-option -g window-status-activity-fg colour160 #red
 
 ## messages
-set-option -g message-fg colour0
-set-option -g message-bg colour4
 set-option -g display-time 1500
 
 ## set status bar
 set-option -g status-utf8 on
 set-option -g status-interval 1
-set-option -g status-fg colour10
-set-option -g status-bg default
 
-# "I' == current window index
-# 'H' == Hostname
-# 'F' == current window flag
-# 'P' == current pane index
-# 'S' == Session name
-# 'T' == current window title
-# 'W' == current window name
-# '#' == a literal "#"
+#  Character pair    Replaced with
+#  #(shell-command)  First line of the command's output
+#  #[attributes]     Colour or attribute change
+#  #H                Hostname of local host
+#  #h                Hostname of local host without the domain name
+#  #F                Current window flag
+#  #I                Current window index
+#  #P                Current pane index
+#  #S                Session name
+#  #T                Current pane title
+#  #W                Current window name
+#  ##                A literal `#'
 # Where appropriate, special character sequences may be prefixed with a
 # number to specify the maximum length, in this line "#10W'.
-set-option -g status-left ''
+set-option -g status-left '#[fg=green]#(whoami)@#h'
 set-option -g status-right '#[fg=yellow]#S#[fg=default] // %Y-%m-%d %H:%M'
 
 set-option -g status-right-length 100
 set-option -g status-left-length 120
 
-## highlight active window
-set-window-option -g window-status-current-fg colour4
-set-window-option -g window-status-current-bg default
-set-window-option -g window-status-current-attr bright
-set-window-option -g window-status-current-format '[ #I #W ]'
+## active window
+set-window-option -g window-status-current-format '[#I: #W]'
 
 ## set window notifications
 set-option -g visual-activity on
@@ -85,13 +117,18 @@ set-window-option -g window-status-bell-fg colour226
 set-window-option -g window-status-bell-bg colour23
 
 set-window-option -g monitor-activity off
+
+# this only works for paying attention to tmux internal rename attempts
+# you also need the new-to-tmux-1.6 allow-rename off below
 set-window-option -g automatic-rename off
+
+# don't let ZSH override the window title
+set-window-option -g allow-rename off
 
 ## tmux window titling for X
 set-option -g set-titles on
 set-option -g set-titles-string '[#I] #W'
-set-window-option -g automatic-rename on
-set-window-option -g window-status-format ' #I #W '
+set-window-option -g window-status-format '[#I: #W]'
 set-window-option -g window-status-attr bold
 # starts windows at 1 not 0
 set-option -g base-index 1
@@ -105,10 +142,9 @@ set-window-option -g mode-mouse on
 # set-option -g status-keys vi
 # set-option -g history-limit 4096
 
-## pane border and colors
-set-option -g pane-active-border-fg colour240
-set-option -g pane-border-fg colour240
-
-
 ## Copy/paste
-## set-option -g default-command "reattach-to-user-namespace -l zsh"
+set-option -g default-command "reattach-to-user-namespace -l zsh"
+
+# ZSH
+set-environment -g INSCREEN yes
+set-environment TMUX_TITLE yes

@@ -16,3 +16,15 @@
 [submodule "vim/vim.symlink/bundle/vim-fugitive"]
 	path = vim/vim.symlink/bundle/vim-fugitive
 	url = git://github.com/tpope/vim-fugitive.git
+[submodule "zsh/plugins/history-substring-search"]
+	path = zsh/plugins/history-substring-search
+	url = https://github.com/zsh-users/zsh-history-substring-search
+[submodule "vim/vim.symlink/bundle/gist-vim"]
+	path = vim/vim.symlink/bundle/gist-vim
+	url = git://github.com/mattn/gist-vim.git
+[submodule "vim/vim.symlink/bundle/supertab"]
+	path = vim/vim.symlink/bundle/supertab
+	url = git://github.com/ervandew/supertab.git
+[submodule "vim/vim.symlink/bundle/nerdcommenter"]
+	path = vim/vim.symlink/bundle/nerdcommenter
+	url = git://github.com/scrooloose/nerdcommenter.git
