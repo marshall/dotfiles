@@ -70,6 +70,9 @@ set t_Co=256
 colorscheme solarized
 set background=dark
 
+" Forces use of the system clipboard in OS X
+set clipboard=unnamed
+
 set tabpagemax=15
 set showmode
 set cursorline
@@ -86,6 +89,13 @@ inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
 map <F2> :NERDTreeToggle \| :silent NERDTreeMirror<CR>
 let g:NERDTreeMapOpenVSplit = "v"
 map <leader>r :NERDTreeFind<cr>
+
+" Auto-open NERDTree when vim opens
+autocmd VimEnter * NERDTree
+autocmd VimEnter * wincmd p
+
+" Close when NERDTree is the only thing left around
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Ack mapping 
 nnoremap <leader>a :Ack
