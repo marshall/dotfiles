@@ -12,72 +12,42 @@ git_dirty() {
   then
     echo ""
   else
-    if [[ $st == "nothing to commit (working directory clean)" ]]
+    echo -n "%{$fg_bold[green]%}[$(git_prompt_info)%{$reset_color%}"
+    if [[ $st != "nothing to commit (working directory clean)" ]]
     then
-      echo "on %{$fg_bold[green]%}$(git_prompt_info)%{$reset_color%}"
-    else
-      echo "on %{$fg_bold[red]%}$(git_prompt_info)%{$reset_color%}"
+      echo -n "%{$fg_bold[red]%} *%{$reset_color%}"
     fi
+    echo "%{$fg_bold[green]%}]%{$reset_color%}"
   fi
 }
 
-git_prompt_info () {
+git_prompt_info() {
  ref=$(/usr/bin/git symbolic-ref HEAD 2>/dev/null) || return
-# echo "(%{\e[0;33m%}${ref#refs/heads/}%{\e[0m%})"
  echo "${ref#refs/heads/}"
 }
 
-unpushed () {
-  /usr/bin/git cherry -v @{upstream} 2>/dev/null
+hg_prompt_info() {
+    hg prompt --angle-brackets "%{$fg_bold[green]%}[<branch>@<tags|,>]%{$reset_color%}" 2>/dev/null
 }
 
-need_push () {
-  if [[ $(unpushed) == "" ]]
-  then
-    echo " "
-  else
-    echo " with %{$fg_bold[magenta]%}unpushed%{$reset_color%} "
-  fi
+current_dir() {
+  echo "%{$fg[white]%}[%~]%{$reset_color%}"
 }
 
-rb_prompt(){
-  if $(which rbenv &> /dev/null)
-  then
-	  echo "%{$fg_bold[yellow]%}$(rbenv version | awk '{print $1}')%{$reset_color%}"
-	else
-	  echo ""
-  fi
+user_at_host() {
+  echo "%{$fg_bold[green]%}%n@%m%{$reset_color%}"
 }
 
-# This keeps the number of todos always available the right hand side of my
-# command line. I filter it to only count those tagged as "+next", so it's more
-# of a motivation to clear out the list.
-todo(){
-  if $(which todo.sh &> /dev/null)
-  then
-    num=$(echo $(todo.sh ls +next | wc -l))
-    let todos=num-2
-    if [ $todos != 0 ]
-    then
-      echo "$todos"
-    else
-      echo ""
-    fi
-  else
-    echo ""
-  fi
+current_time() {
+  echo "%{$fg[blue]%}%D{[%I:%M:%S]}%{$reset_color%}"
 }
 
-directory_name(){
-  echo "%{$fg_bold[cyan]%}%1/%\/%{$reset_color%}"
+prompt_chars() {
+  echo "%{$fg[blue]%}->%{$fg_bold[blue]%} %#%{$reset_color%}"
 }
 
-export PROMPT=$'\n$(rb_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
-set_prompt () {
-  export RPROMPT="%{$fg_bold[cyan]%}$(todo)%{$reset_color%}"
-}
+export PROMPT=$'$(user_at_host) $(current_time) $(current_dir) $(git_dirty)$(hg_prompt_info)\n$(prompt_chars) '
 
 precmd() {
   title "zsh" "%m" "%55<...<%~"
-  set_prompt
 }

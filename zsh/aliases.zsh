@@ -1,1 +1,5 @@
 alias reload!='. ~/.zshrc'
+alias ls='ls -G'
+alias ack='nocorrect ack'
+alias adb='nocorrect adb'
+alias repo='nocorrect repo'

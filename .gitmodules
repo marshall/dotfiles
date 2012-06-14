@@ -1,0 +1,15 @@
+[submodule "vim/vim.symlink/bundle/ctrlp.vim"]
+	path = vim/vim.symlink/bundle/ctrlp.vim
+	url = git://github.com/kien/ctrlp.vim.git
+[submodule "vim/vim.symlink/bundle/nerdtree"]
+	path = vim/vim.symlink/bundle/nerdtree
+	url = git://github.com/scrooloose/nerdtree.git
+[submodule "vim/vim.symlink/bundle/vim-colors-solarized"]
+	path = vim/vim.symlink/bundle/vim-colors-solarized
+	url = git://github.com/altercation/vim-colors-solarized.git
+[submodule "vim/vim.symlink/bundle/ack.vim"]
+	path = vim/vim.symlink/bundle/ack.vim
+	url = https://github.com/mileszs/ack.vim
+[submodule "vim/vim.symlink/bundle/vim-pathogen"]
+	path = vim/vim.symlink/bundle/vim-pathogen
+	url = git://github.com/tpope/vim-pathogen.git

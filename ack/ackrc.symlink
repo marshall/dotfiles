@@ -1,0 +1,4 @@
+--type-add
+idl=.idl
+--type-add
+jsm=.jsm
