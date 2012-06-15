@@ -7,3 +7,6 @@ fi
 export MOZILLA_CENTRAL=~/Code/mozilla-central
 export MC_DOM=$MOZILLA_CENTRAL/dom
 export TEST_MOBILE_NETWORKS=$MC_DOM/network/tests/marionette/test_mobile_networks.js
+
+export MARIONETTE_CLIENT=$MOZILLA_CENTRAL/testing/marionette/client/marionette
+export MARIONETTE_LOGCAT=$MARIONETTE_CLIENT/logcat

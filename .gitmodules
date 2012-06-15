@@ -28,3 +28,6 @@
 [submodule "vim/vim.symlink/bundle/nerdcommenter"]
 	path = vim/vim.symlink/bundle/nerdcommenter
 	url = git://github.com/scrooloose/nerdcommenter.git
+[submodule "android/logcat-color"]
+	path = android/logcat-color
+	url = git://github.com/marshall/logcat-color.git
