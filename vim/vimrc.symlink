@@ -34,6 +34,10 @@ function! TwoSpaceCodeFormat ()
     call SetCodeFormat(0, 2)
 endfunction
 
+function! TabCodeFormat ()
+    call SetCodeFormat(1, 4)
+endfunction
+
 " Default code format
 call TwoSpaceCodeFormat()
 
@@ -85,47 +89,13 @@ cmap cwd lcd %:p:h
 inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
 inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
 
-" NERDTree mappings / config
-map <F2> :NERDTreeToggle \| :silent NERDTreeMirror<CR>
-let g:NERDTreeMapOpenVSplit = "v"
-map <leader>r :NERDTreeFind<cr>
-
-" Auto-open NERDTree when vim opens, but not for git commits
-function! NERDTreeOpenOnVimEnter()
-    if (bufname(winnr("$")) == ".git/COMMIT_EDITMSG")
-        return
-    endif
-
-    NERDTree
-    wincmd p
-    wincmd =
-endfunction
-
-autocmd VimEnter * call NERDTreeOpenOnVimEnter()
-
-" Close when NERDTree is the only thing left around
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-" Always make sure buffers have equal width / height when NERDTree is opened
-" and there are more than 2 editor buffers open
-function! NERDTreeEqualWhenOpen ()
-    if (exists("t:NERDTreeBufName"))
-      let l:NERDTreeBufNum = bufwinnr(t:NERDTreeBufName)
-      let l:BufCount = bufwinnr("$") - 1 " exclude NERDTree from buf count
-      if (winnr() == l:NERDTreeBufNum && l:BufCount > 2)
-        wincmd =
-      endif
-    endif
-endfunction
-
-autocmd bufenter * call NERDTreeEqualWhenOpen()
-
 " Ack mapping 
 nnoremap <leader>a :Ack
 
 " Other mappings
-map <leader>4sf :call FourSpaceCodeFormat()<cr>
-map <leader>2sf :call TwoSpaceCodeFormat()<cr>
+map <leader>4s :call FourSpaceCodeFormat()<cr>
+map <leader>2s :call TwoSpaceCodeFormat()<cr>
+map <leader>tab :call TabCodeFormat()<cr>
 
 " Highlight the 80 char column
 set colorcolumn=80
@@ -180,9 +150,18 @@ set statusline+=\ " Set ending space
 set equalalways
 " always vertical-split to the right
 set splitright
+" always horizontal-split to the bottom
+set splitbelow
 
 " easier navigation between split windows
- nnoremap <c-j> <c-w>j
- nnoremap <c-k> <c-w>k
- nnoremap <c-h> <c-w>h
- nnoremap <c-l> <c-w>l
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+" NERDTree settings
+map <F2> :NERDTreeToggle \| :silent NERDTreeMirror<CR>
+map <leader>r :NERDTreeFind<cr>
+
+let g:NERDTreeIgnore = ['\.pyc$', '\.egg-info$', 'objdir-gecko']
+let g:NERDTreeMapOpenVSplit = "v"
