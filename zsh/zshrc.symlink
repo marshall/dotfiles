@@ -1,7 +1,10 @@
 
 # read the DOTFILES path from this symlink
-SCRIPT_PATH=`readlink $0`;
+SCRIPT_PATH=`readlink $HOME/.zshrc || echo $HOME/.zshrc`;
 export DOTFILES=$(cd `dirname $SCRIPT_PATH`/..; pwd)
+
+# for platform specific / conditional config
+export OS_NAME=`uname`
 
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$DOTFILES
