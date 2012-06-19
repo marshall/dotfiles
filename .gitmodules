@@ -18,7 +18,7 @@
 	url = git://github.com/tpope/vim-fugitive.git
 [submodule "zsh/plugins/history-substring-search"]
 	path = zsh/plugins/history-substring-search
-	url = https://github.com/zsh-users/zsh-history-substring-search
+	url = git://github.com/zsh-users/zsh-history-substring-search.git
 [submodule "vim/vim.symlink/bundle/gist-vim"]
 	path = vim/vim.symlink/bundle/gist-vim
 	url = git://github.com/mattn/gist-vim.git
