@@ -1,0 +1,17 @@
+
+# Width of the TAG column
+tag_width = 10
+
+# Whether or not to wrap the message width inside a column
+wrap = False
+
+# Custom Logcat profiles
+Profile(name = "ril",
+    buffers = ("radio", "main"),
+    tags = {
+        "Gecko": BLUE,
+        "GeckoConsole": GREEN,
+        "RIL": YELLOW,
+        "RILC": YELLOW
+    }
+)
