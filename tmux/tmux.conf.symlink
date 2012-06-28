@@ -39,9 +39,26 @@ bind-key C-l resize-pane -R 5
 bind-key C-j resize-pane -D 5
 bind-key C-k resize-pane -U 5
 
-# copy / paste
-bind-key y run-shell "tmux-copy"
+## Copy / Paste
 bind-key p paste-buffer
+
+# Remove the default binding for copy-selection
+unbind -t vi-copy Enter
+unbind -t vi-copy Space
+
+# Use "v" (like visual mode) for beginning selection
+bind-key -t vi-copy 'v' begin-selection
+
+# Use "y" (link yank) for copying
+bind-key -t vi-copy y copy-selection
+
+# Bind prefix-y to copy-selection, save selection to buffer, and then pipe it's
+# contents to pbcopy. tmux can only bind multiple commands globally
+bind-key y send-keys y\;\
+           save-buffer /tmp/tmux-buffer\;\
+           run-shell "reattach-to-user-namespace -l zsh -c 'cat /tmp/tmux-buffer|pbcopy'"
+
+## End Copy / Paste
 
 # -r: can be repeated without pressing prefix# again (500ms after last '-r' action or prefix)
 bind-key -r h select-pane -t :.-
@@ -143,6 +160,7 @@ set-option -g base-index 1
 ## enable mouse
 set-option -g mouse-utf8 on
 set-option -g mouse-select-pane on
+set-option -g mouse-select-window on
 set-window-option -g mode-keys vi
 set-window-option -g mode-mouse on
 

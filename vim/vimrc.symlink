@@ -12,35 +12,6 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 call pathogen#helptags()
 
-" Code formatting helpers
-function! SetCodeFormat (usetabs, tabwidth)
-    if a:usetabs
-        set noexpandtab
-    else
-        set expandtab
-    endif
-    execute "set tabstop=" . a:tabwidth
-    execute "set softtabstop=" . a:tabwidth
-    execute "set shiftwidth=" . a:tabwidth
-endfunction
-
-" Indent with 4 spaces
-function! FourSpaceCodeFormat ()
-    call SetCodeFormat(0, 4)
-endfunction
-
-" Indent with 2 spaces
-function! TwoSpaceCodeFormat ()
-    call SetCodeFormat(0, 2)
-endfunction
-
-function! TabCodeFormat ()
-    call SetCodeFormat(1, 4)
-endfunction
-
-" Default code format
-call TwoSpaceCodeFormat()
-
 " Misc config
 filetype plugin indent on
 filetype on
@@ -69,6 +40,14 @@ set nowrap
 set autoindent
 set pastetoggle=<F12>
 set t_Co=256
+set exrc
+
+" Tell vim to remember certain things when we exit
+" "  '10  :  marks will be remembered for up to 10 previously edited files
+" "  "100 :  will save up to 100 lines for each register
+" "  :20  :  up to 20 lines of command-line history will be remembered
+" "  %    :  saves and restores the buffer list
+set viminfo='10,\"100,:20,%
 
 " Solarized color settings
 colorscheme solarized
@@ -91,11 +70,6 @@ inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
 
 " Ack mapping 
 nnoremap <leader>a :Ack
-
-" Other mappings
-map <leader>4s :call FourSpaceCodeFormat()<cr>
-map <leader>2s :call TwoSpaceCodeFormat()<cr>
-map <leader>tab :call TabCodeFormat()<cr>
 
 " Highlight the 80 char column
 set colorcolumn=80
