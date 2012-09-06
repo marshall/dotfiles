@@ -77,6 +77,12 @@ set colorcolumn=80
 " Highlight .jsm files as Javascript
 au BufNewFile,BufRead *.jsm set filetype=javascript
 
+" gdbinit.symlink -> gdb
+au BufNewFile,BufRead gdbinit.symlink set filetype=gdb
+
+" Rust
+au BufNewFile,BufRead *.rs setfiletype rust
+
 " disable audio / visual bell
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
@@ -137,5 +143,17 @@ nnoremap <c-l> <c-w>l
 map <F2> :NERDTreeToggle \| :silent NERDTreeMirror<CR>
 map <leader>r :NERDTreeFind<cr>
 
-let g:NERDTreeIgnore = ['\.pyc$', '\.egg-info$', 'objdir-gecko']
+let g:NERDTreeIgnore = ['\.pyc$', '\.egg-info$', 'objdir-.*$[[dir]]', '_virtualenv[[dir]]']
 let g:NERDTreeMapOpenVSplit = "v"
+
+" CtrlP settings
+set wildignore+=*/objdir-*/*,*/.git/*,*/.hg/*,*/_virtualenv/*
+set wildignore+=*.pyc
+
+let g:ctrlp_max_files = 50000
+let g:ctrlp_custom_ignore = {
+  \ 'dir': '\.git$|\.hg$|objdir-.*$|_virtualenv',
+  \ }
+
+" ConqueTerm settings
+let g:ConqueTerm_TERM = 'xterm'
