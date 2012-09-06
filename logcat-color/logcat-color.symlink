@@ -1,4 +1,7 @@
 
+# Path to adb
+adb = "/Users/mculpepper/Code/B2G/out/host/darwin-x86/bin/adb"
+
 # Width of the TAG column
 tag_width = 10
 
@@ -6,6 +9,14 @@ tag_width = 10
 wrap = False
 
 # Custom Logcat profiles
+
+def negatedRegex(regex):
+  return r"^(?!.*" + regex + ").*$"
+
+# JS GC debug messages
+jsGcFilter = negatedRegex(r"(GC\(T\+|Totals: Purge: |Totals: Begin Callback: |CC\(T\+|Slice: |ForgetSkippable)")
+formsFilter = negatedRegex(r"forms.js loaded")
+
 Profile(name = "ril",
     buffers = ("radio", "main"),
     tags = {
@@ -14,4 +25,31 @@ Profile(name = "ril",
         "RIL": YELLOW,
         "RILC": YELLOW
     }
+)
+
+dupUpdateMsgFilter = negatedRegex(r"\*\*\* (AUS|UTM)\:SVC")
+
+Profile(name = "updates",
+    tags = {
+        "Gecko": BLUE,
+        "GeckoConsole": GREEN,
+        "GeckoDump": BLUE,
+        "GeckoUpdater": RED,
+        "GonkAutoMounter": WHITE
+    },
+    filters =  (jsGcFilter, formsFilter, dupUpdateMsgFilter)
+)
+
+Profile(name = "sensor",
+  tags = ("GonkSensor")
+)
+
+
+def otoroFilter(data):
+    return data["tag"] not in ("ONCRPC", "memalloc")
+
+Profile(name = "otoro",
+  device = "full_otoro",
+  format = "threadtime",
+  filters = (jsGcFilter, formsFilter, otoroFilter, dupUpdateMsgFilter)
 )
