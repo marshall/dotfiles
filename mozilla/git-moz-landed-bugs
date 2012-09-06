@@ -1,0 +1,43 @@
+#!/bin/zsh
+#
+# List local branches that have landed in the master of the current repo.
+
+typeset -A bug_branches
+bug_branches=()
+gitlog_regex="Bug ("
+i=0
+
+git branch --no-color | sed 's/[* ]//g' | while read branch; do
+  if [[ ! ( $branch =~ bug([0-9]+) ) ]]; then
+    continue;
+  fi
+
+  bug_number=${match[1]}
+  bug_branches[$bug_number]=$branch
+
+  if [[ "$i" != "0" ]]; then
+    gitlog_regex+="|"
+  fi
+  gitlog_regex+="$bug_number"
+  i=$(expr $i + 1)
+done
+
+gitlog_regex+=")"
+
+typeset -A branch_commits
+branch_commits=()
+
+git log --grep="$gitlog_regex" -E --pretty=oneline | while read commit; do
+  if [[ ! ( $commit =~ Bug\ ([0-9]+) ) ]]; then
+    continue;
+  fi
+
+  bug_number=${match[1]}
+  branch=${bug_branches[$bug_number]}
+  branch_commits[$branch]+="    $commit\n"
+done
+
+for branch in ${(k)branch_commits}; do
+  echo "Branch $branch"
+  echo ${branch_commits[$branch]}
+done
