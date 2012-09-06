@@ -1,4 +1,25 @@
---type-add
+# IDL files
+--type-set
 idl=.idl
---type-add
+
+# JSM (javascript module) files
+--type-set
 jsm=.jsm
+
+# Makefile.in
+--type-set
+makein=.in
+
+# *.webapp
+--type-set
+webapp=.webapp
+
+# manifest files
+--type-set
+manifest=.manifest
+
+# Ignore dirs
+--ignore-dir=objdir-b2g_desktop
+--ignore-dir=objdir-otoro
+--ignore-dir=objdir-generic
+--ignore-dir=objdir-crespo
