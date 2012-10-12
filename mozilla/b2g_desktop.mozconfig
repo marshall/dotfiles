@@ -1,10 +1,15 @@
 
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/objdir-b2g_desktop
-mk_add_options MOZ_MAKE_FLAGS="-s -j8"
+mk_add_options MOZ_MAKE_FLAGS="-s -j6"
+ac_add_options --with-ccache
 
 ac_add_options --enable-application=b2g
 ac_add_options --enable-debug-symbols
-ac_add_options --enable-b2g-ril
+#ac_add_options --enable-b2g-ril
 ac_add_options --enable-tests
+ac_add_options --enable-updater
+ac_add_options --enable-update-packaging
+
+ac_add_options --disable-libjpeg-turbo
 ac_add_options --disable-crashreporter
 ac_add_options --disable-necko-wifi

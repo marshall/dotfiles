@@ -12,11 +12,11 @@ export TEST_MOBILE_NETWORKS=$MC_DOM/network/tests/marionette/test_mobile_network
 
 export MARIONETTE_CLIENT=$MOZILLA_CENTRAL/testing/marionette/client/marionette
 export MARIONETTE_LOGCAT=$MARIONETTE_CLIENT/logcat
-export B2G_DIR=~/Code/B2G
+export B2G_DEV_DIR=~/Code/B2G-dev
 
 b2g_push_busybox() {
   adb $@ shell 'mkdir -p /data/busybox/busybox'
-  adb $@ push $B2G_DIR/gaia/build/busybox-armv6l /data/busybox/busybox-bin
+  adb $@ push $B2G_DEV_DIR/gaia/build/busybox-armv6l /data/busybox/busybox-bin
   adb $@ shell 'chmod 755 /data/busybox/busybox-bin'
 }
 
@@ -43,7 +43,7 @@ b2g_build_update_full() {
 
 b2g_push_update_full() {
   . load-config.sh
-  b2g_push_update $GECKO_OBJDIR/dist/b2g-update/b2g-update/b2g-gecko-update.mar
+  b2g_push_update $GECKO_OBJDIR/dist/b2g-update/b2g-gecko-update.mar
 }
 
 b2g_push_update() {
@@ -81,8 +81,13 @@ b2g_start_update_httpd() {
   adb $@ shell /data/busybox/busybox-bin httpd -h /data/local/b2g-updates
 }
 
+b2g_build_filters() {
+  awk -f $DOTFILES/mozilla/b2g_build_filters.awk
+}
+
 b2g_build() {
-  ./build.sh 2>&1 | grcat conf.gcc
+  ./build.sh $@ 2>&1 | b2g_build_filters | grcat conf.gcc
+  return $pipestatus[1]
 }
 
 b2g_repo_sync_manifest() {
@@ -95,4 +100,20 @@ b2g_repo_sync_manifest() {
   rm -rf .repo/manifest* &&
   ./repo init -u git://github.com/mozilla-b2g/b2g-manifest.git -b $DEVICE &&
   ./repo sync
+}
+
+b2g_nserror() {
+  # find an error name based on it's code, or vice-versa using xpcshell
+  XPCSHELL=$B2G_DEV_DIR/gaia/xulrunner-sdk/bin/xpcshell
+  if [[ -z $1 ]]; then
+    echo "Error: required error code or name missing"
+    return 1
+  fi
+
+  ERR=$1
+  if [[ "$ERR" = NS_* ]]; then
+    $XPCSHELL -e "print(\"$ERR = \" + Components.results.$ERR);"
+  else
+    $XPCSHELL -e "for (var err in Components.results) { var code = Components.results[err]; if (code === $ERR) { print(err + \" = \" + code); } }"
+  fi
 }
