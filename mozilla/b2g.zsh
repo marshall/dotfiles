@@ -14,6 +14,12 @@ export MARIONETTE_CLIENT=$MOZILLA_CENTRAL/testing/marionette/client/marionette
 export MARIONETTE_LOGCAT=$MARIONETTE_CLIENT/logcat
 export B2G_DEV_DIR=~/Code/B2G-dev
 
+b2g_test_local_update() {
+  MAR=$1
+  B2G_DIR=$B2G_DEV_DIR b2g_test_aus_server.sh $MAR && \
+  B2G_UPDATER_PREFS=$DOTFILES/mozilla/b2g_updater.prefs b2g_force_update_check.sh
+}
+
 b2g_push_busybox() {
   adb $@ shell 'mkdir -p /data/busybox/busybox'
   adb $@ push $B2G_DEV_DIR/gaia/build/busybox-armv6l /data/busybox/busybox-bin
