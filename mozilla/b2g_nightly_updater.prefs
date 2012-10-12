@@ -1,0 +1,1 @@
+user_pref("app.update.url.override", "http://update.boot2gecko.org/nightly/update.xml");
