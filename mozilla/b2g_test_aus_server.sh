@@ -16,14 +16,15 @@ if [ -z "$B2G_DIR" ]; then
   exit 1
 fi
 
-if [ -z "$($ADB shell ls /data/local/bin/busybox)" ]; then
+if [ "$($ADB shell ls /data/local/bin/busybox; echo \$?)" != "0" ]; then
   echo "Pushing busybox"
   $ADB shell mkdir -p /data/local/bin
   $ADB push $B2G_DIR/gaia/build/busybox-armv6l $BUSYBOX
   $ADB shell chmod 755 $BUSYBOX
 fi
 
-VERSION="99.0" # TODO make this changeable
+VERSION=${VERSION:-"99.0"} # TODO make this changeable
+APP_VERSION=${APP_VERSION:-$VERSION}
 STAGE_PATH=/tmp/b2g-updates
 
 [[ -f "$STAGE_PATH" ]] && rm -rf $STAGE_PATH
@@ -31,13 +32,13 @@ mkdir -p $STAGE_PATH
 
 cp $MAR_PATH $STAGE_PATH/b2g-gecko-update.mar
 SHA512=$(shasum -a 512 $MAR_PATH | sed 's/ .*//')
-BUILD_ID=$(date +%Y%m%d%H%M%S)
+BUILD_ID=${BUILD_ID:-$(date +%Y%m%d%H%M%S)}
 eval $(stat -s $MAR_PATH)
 
 cat > $STAGE_PATH/update.xml <<UPDATE_TEMPLATE
 <?xml version="1.0"?>
 <updates>
-  <update type="minor" appVersion="$VERSION" version="$VERSION" extensionVersion="$VERSION" buildID="$BUILD_ID" licenseURL="http://www.mozilla.com/test/sample-eula.html" detailsURL="http://www.mozilla.com/test/sample-details.html">
+  <update type="minor" appVersion="$APP_VERSION" version="$VERSION" extensionVersion="$VERSION" buildID="$BUILD_ID" licenseURL="http://www.mozilla.com/test/sample-eula.html" detailsURL="http://www.mozilla.com/test/sample-details.html">
     <patch type="complete" URL="http://localhost/b2g-gecko-update.mar" hashFunction="SHA512" hashValue="$SHA512" size="$st_size"/>
   </update>
 </updates>
