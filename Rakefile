@@ -1,6 +1,11 @@
 require 'rake'
 
 desc "Hook our dotfiles into system-standard positions."
+
+task :bootstrap do
+  system('bootstrap/bootstrap.sh')
+end
+
 task :install do
   linkables = Dir.glob('*/**{.symlink}')
 
