@@ -83,6 +83,9 @@ au BufNewFile,BufRead gdbinit.symlink set filetype=gdb
 " Rust
 au BufNewFile,BufRead *.rs setfiletype rust
 
+" Go
+au BufNewFile,BufRead *.go set filetype=go
+
 " disable audio / visual bell
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
