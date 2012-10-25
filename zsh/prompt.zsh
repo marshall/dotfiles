@@ -47,6 +47,7 @@ prompt_chars() {
 }
 
 export PROMPT=$'$(user_at_host) $(current_time) $(current_dir) $(git_dirty)$(hg_prompt_info)\n$(prompt_chars) '
+export RPROMPT='$(vi_mode_prompt_info)'
 
 precmd() {
   title "zsh" "%m" "%55<...<%~"
