@@ -1,23 +1,43 @@
 
 # Path to adb
-adb = "/Users/mculpepper/Code/B2G/out/host/darwin-x86/bin/adb"
+adb = "/Users/mculpepper/Code/B2G-dev/out/host/darwin-x86/bin/adb"
 
 # Width of the TAG column
-tag_width = 10
+tag_width = 12
 
 # Whether or not to wrap the message width inside a column
 wrap = False
 
 # Custom Logcat profiles
-
-def negatedRegex(regex):
+def negated_regex(regex):
   return r"^(?!.*" + regex + ").*$"
 
-# JS GC debug messages
-jsGcFilter = negatedRegex(r"(GC\(T\+|Totals: Purge: |Totals: Begin Callback: |CC\(T\+|Slice: |ForgetSkippable)")
-formsFilter = negatedRegex(r"forms.js loaded")
+class B2GProfile(Profile):
+    IGNORE_TAGS = ("IdleService", "ONCRPC", "memalloc", "CALCFPS", \
+                   "AudioPolicyManager", "AudioFlinger")
 
-Profile(name = "ril",
+    def __init__(self, **kwargs):
+        filters = self.get_b2g_filters()
+        if "filters" in kwargs:
+            filters += kwargs["filters"]
+
+        if "format" not in kwargs:
+            kwargs["format"] = "threadtime"
+
+        kwargs["filters"] = filters
+        Profile.__init__(self, **kwargs)
+
+    def get_b2g_filters(self):
+        return (
+            # javascript gc messages
+            negated_regex(r"([CG]C\(T\+|Totals: (Mark|Purge|Begin Callback): |Slice: |ForgetSkippable)"),
+            # forms.js loaded
+            negated_regex(r"forms.js loaded"),
+            # tags we don't care about
+            lambda data: data.get("tag") not in self.IGNORE_TAGS
+        )
+
+B2GProfile(name = "ril",
     buffers = ("radio", "main"),
     tags = {
         "Gecko": BLUE,
@@ -27,9 +47,9 @@ Profile(name = "ril",
     }
 )
 
-dupUpdateMsgFilter = negatedRegex(r"\*\*\* (AUS|UTM)\:SVC")
+dupUpdateMsgFilter = negated_regex(r"\*\*\* (AUS|UTM)\:SVC")
 
-Profile(name = "updates",
+B2GProfile(name = "updates",
     tags = {
         "Gecko": BLUE,
         "GeckoConsole": GREEN,
@@ -37,19 +57,13 @@ Profile(name = "updates",
         "GeckoUpdater": RED,
         "GonkAutoMounter": WHITE
     },
-    filters =  (jsGcFilter, formsFilter, dupUpdateMsgFilter)
+    filters =  (dupUpdateMsgFilter, )
 )
-
-Profile(name = "sensor",
-  tags = ("GonkSensor")
-)
-
 
 def otoroFilter(data):
-    return data["tag"] not in ("ONCRPC", "memalloc")
+    tag = data.get("tag")
+    return not ("AudioHardware" in tag or "Adreno" in tag)
 
-Profile(name = "otoro",
-  device = "full_otoro",
-  format = "threadtime",
-  filters = (jsGcFilter, formsFilter, otoroFilter, dupUpdateMsgFilter)
-)
+B2GProfile(name = "otoro", device = "full_otoro", filters = (otoroFilter, ))
+B2GProfile(name = "unagi", device = "full_unagi", filters = (otoroFilter, ))
+B2GProfile(name = "nexus-s", device = "39318E867DC300EC")
