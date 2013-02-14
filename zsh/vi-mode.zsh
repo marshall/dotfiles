@@ -3,12 +3,18 @@ function zle-keymap-select {
 }
 
 function zle-line-init {
-  zle end-of-line
+  zle vi-end-of-line
   zle reset-prompt
+}
+
+function vi-up-line-or-history {
+  zle .vi-up-line-or-history
+  zle vi-end-of-line
 }
 
 zle -N zle-line-init
 zle -N zle-keymap-select
+zle -N vi-up-line-or-history
 
 bindkey -v
 
