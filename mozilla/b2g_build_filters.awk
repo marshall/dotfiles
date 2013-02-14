@@ -37,5 +37,5 @@ build_info == 3 { next }
 }
 {
   print
-  fflush
+  fflush()
 }

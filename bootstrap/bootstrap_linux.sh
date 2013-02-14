@@ -2,7 +2,7 @@
 # Bootstrap a clean Linux environment with dependencies
 set -e
 
-APT_PACKAGES=(zsh vim git-core grc)
+APT_PACKAGES=(zsh vim git-core grc ruby gem rake curl)
 
 install_ack() {
     run_cmd sudo apt-get install ack-grep
@@ -13,5 +13,5 @@ echo "apt-get requires sudo"
 run_cmd sudo apt-get install ${APT_PACKAGES[@]}
 
 echo "updating default shell to zsh"
-run_cmd sudo usermod --shell /usr/bin/zsh
+run_cmd sudo usermod --shell /usr/bin/zsh $USER
 install_ack
