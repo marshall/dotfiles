@@ -2,6 +2,10 @@
 --type-set
 idl=.idl
 
+# IPDL file
+--type-set
+ipdl=.ipdl
+
 # JSM (javascript module) files
 --type-set
 jsm=.jsm
@@ -18,8 +22,13 @@ webapp=.webapp
 --type-set
 manifest=.manifest
 
+# SASS scss
+--type-set
+scss=.scss
+
 # Ignore dirs
 --ignore-dir=objdir-b2g_desktop
 --ignore-dir=objdir-otoro
 --ignore-dir=objdir-generic
 --ignore-dir=objdir-crespo
+--ignore-dir=xulrunner-sdk

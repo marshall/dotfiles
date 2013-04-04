@@ -30,6 +30,14 @@ hg_prompt_info() {
     hg prompt --angle-brackets "%{$fg_bold[green]%}[<branch>@<tags|,>]%{$reset_color%}" 2>/dev/null
 }
 
+venv_info() {
+    if [ -n "$VIRTUAL_ENV" ]; then
+        echo -n "%{$fg_bold[green]%}[venv:%{$reset_color%}"
+        echo -n "%{$fg[white]%}`basename "$VIRTUAL_ENV"`%{$reset_color%}"
+        echo "%{$fg_bold[green]%}] "
+    fi
+}
+
 current_dir() {
   echo "%{$fg[white]%}[%~]%{$reset_color%}"
 }
@@ -46,7 +54,7 @@ prompt_chars() {
   echo "%{$fg[blue]%}->%{$fg_bold[blue]%} %#%{$reset_color%}"
 }
 
-export PROMPT=$'$(user_at_host) $(current_time) $(current_dir) $(git_dirty)$(hg_prompt_info)\n$(prompt_chars) '
+export PROMPT=$'$(user_at_host) $(current_time) $(current_dir) $(git_dirty)$(hg_prompt_info)\n$(venv_info)$(prompt_chars) '
 export RPROMPT='$(vi_mode_prompt_info)'
 
 precmd() {
