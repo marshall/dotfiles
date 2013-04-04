@@ -20,6 +20,13 @@ esac
 
 run_cmd git submodule update --init
 
+echo "pip requires sudo"
+run_cmd curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py -o /tmp/get-pip.py
+run_cmd sudo python /tmp/get-pip.py
+
+echo "virtualenv and virtualenvwrapper require sudo"
+run_cmd sudo pip install virtualenv virtualenvwrapper
+
 echo "gem requires sudo"
 run_cmd sudo gem install rake
 run_cmd rake
