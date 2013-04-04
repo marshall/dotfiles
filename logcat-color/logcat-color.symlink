@@ -34,7 +34,8 @@ class B2GProfile(Profile):
             # forms.js loaded
             negated_regex(r"forms.js loaded"),
             # tags we don't care about
-            lambda data: data.get("tag") not in self.IGNORE_TAGS
+            lambda data: data.get("tag") not in self.IGNORE_TAGS,
+            lambda data: "-*- SettingsManager" not in data.get("message")
         )
 
 B2GProfile(name = "ril",
@@ -67,3 +68,12 @@ def otoroFilter(data):
 B2GProfile(name = "otoro", device = "full_otoro", filters = (otoroFilter, ))
 B2GProfile(name = "unagi", device = "full_unagi", filters = (otoroFilter, ))
 B2GProfile(name = "nexus-s", device = "39318E867DC300EC")
+
+def settingsFilter(data):
+    message = data.get("message")
+    if not message:
+        return False
+
+    return message.startswith("-*- Settings")
+
+B2GProfile(name = "settings", filters = (otoroFilter, settingsFilter))

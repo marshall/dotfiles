@@ -21,9 +21,14 @@ b2g_test_local_update() {
 }
 
 b2g_push_busybox() {
-  adb $@ shell 'mkdir -p /data/busybox/busybox'
-  adb $@ push $B2G_DEV_DIR/gaia/build/busybox-armv6l /data/busybox/busybox-bin
-  adb $@ shell 'chmod 755 /data/busybox/busybox-bin'
+  adb $@ remount
+  adb $@ push $B2G_DEV_DIR/gaia/build/busybox-armv6l /system/bin/busybox
+
+  adb $@ shell 'cd /system/bin; chmod 555 busybox; for x in `./busybox --list`; do ln -s ./busybox $x; done'
+  #adb $@ shell 'mkdir -p /data/busybox/busybox'
+  #adb $@ push $B2G_DEV_DIR/gaia/build/busybox-armv6l /data/busybox/busybox-bin
+  #adb $@ shell 'chmod 755 /data/busybox/busybox-bin'
+  #adb $@ remount
 }
 
 adb_busybox() {
@@ -108,7 +113,7 @@ b2g_repo_sync_manifest() {
   ./repo sync
 }
 
-b2g_nserror() {
+moz_nserror() {
   # find an error name based on it's code, or vice-versa using xpcshell
   XPCSHELL=$B2G_DEV_DIR/gaia/xulrunner-sdk/bin/xpcshell
   if [[ -z $1 ]]; then
@@ -122,4 +127,9 @@ b2g_nserror() {
   else
     $XPCSHELL -e "for (var err in Components.results) { var code = Components.results[err]; if (code === $ERR) { print(err + \" = \" + code); } }"
   fi
+}
+
+moz_compare_versions() {
+  XPCSHELL=$B2G_DEV_DIR/gaia/xulrunner-sdk/bin/xpcshell
+  $XPCSHELL $DOTFILES/mozilla/compare_versions.js $@
 }
