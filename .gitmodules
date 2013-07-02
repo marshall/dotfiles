@@ -37,3 +37,9 @@
 [submodule "vim/vim.symlink/bundle/vim-gitgutter"]
 	path = vim/vim.symlink/bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
+[submodule "vim/vim.symlink/bundle/conque-term"]
+	path = vim/vim.symlink/bundle/conque-term
+	url = git://github.com/dhazel/conque-term.git
+[submodule "vim/vim.symlink/bundle/taglist.vim"]
+	path = vim/vim.symlink/bundle/taglist.vim
+	url = git://github.com/vim-scripts/taglist.vim.git

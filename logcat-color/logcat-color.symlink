@@ -67,6 +67,7 @@ def otoroFilter(data):
 
 B2GProfile(name = "otoro", device = "full_otoro", filters = (otoroFilter, ))
 B2GProfile(name = "unagi", device = "full_unagi", filters = (otoroFilter, ))
+B2GProfile(name = "inari", filters = (otoroFilter, ))
 B2GProfile(name = "nexus-s", device = "39318E867DC300EC")
 
 def settingsFilter(data):
