@@ -25,7 +25,7 @@ function! TabCodeFormat ()
 endfunction
 
 " Default code format
-call TwoSpaceCodeFormat()
+call FourSpaceCodeFormat()
 
 " Other mappings
 map <leader>4s :call FourSpaceCodeFormat()<cr>
