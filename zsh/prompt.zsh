@@ -13,7 +13,8 @@ git_dirty() {
     echo ""
   else
     echo -n "%{$fg_bold[green]%}[$(git_prompt_info)%{$reset_color%}"
-    if [[ $st != "nothing to commit (working directory clean)" ]]
+    echo $st | grep "nothing to commit" 1>/dev/null 2>/dev/null
+    if [[ "$?" != "0" ]]
     then
       echo -n "%{$fg_bold[red]%} *%{$reset_color%}"
     fi

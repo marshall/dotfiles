@@ -2,7 +2,7 @@
 # Bootstrap a clean environment with dependencies
 set -e
 
-BREW_PACKAGES=(zsh vim git-core ack grc)
+BREW_PACKAGES=(zsh vim macvim git ack grc check the_silver_searcher)
 
 install_brew() {
     ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
