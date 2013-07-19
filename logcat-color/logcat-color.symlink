@@ -1,7 +1,4 @@
 
-# Path to adb
-adb = "/Users/mculpepper/Code/B2G-dev/out/host/darwin-x86/bin/adb"
-
 # Width of the TAG column
 tag_width = 12
 
@@ -78,3 +75,6 @@ def settingsFilter(data):
     return message.startswith("-*- Settings")
 
 B2GProfile(name = "settings", filters = (otoroFilter, settingsFilter))
+
+Profile(name="pepper2",
+        tags={"PEPPER-2": BLUE})
