@@ -43,3 +43,6 @@
 [submodule "vim/vim.symlink/bundle/taglist.vim"]
 	path = vim/vim.symlink/bundle/taglist.vim
 	url = git://github.com/vim-scripts/taglist.vim.git
+[submodule "vim/vim.symlink/bundle/nerdtree-ack"]
+	path = vim/vim.symlink/bundle/nerdtree-ack
+	url = git://github.com/tyok/nerdtree-ack.git
