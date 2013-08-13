@@ -2,6 +2,10 @@
 # Bootstrap a clean environment with dependencies
 set -e
 
+PIP_PACKAGES=(virtualenv virtualenvwrapper)
+RUBY_GEMS=(rake redcarpet pygments.rb)
+NPM_PACKAGES=(instant-markdown-d)
+
 THIS_DIR=$(cd `dirname "$0"`; pwd)
 OS=`uname`
 
@@ -25,10 +29,13 @@ run_cmd curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py -o /tmp/g
 run_cmd sudo python /tmp/get-pip.py
 
 echo "virtualenv and virtualenvwrapper require sudo"
-run_cmd sudo pip install virtualenv virtualenvwrapper
+run_cmd sudo pip install ${PIP_PACKAGES[@]}
+
+echo "npm requires sudo"
+run_cmd sudo npm -g install ${NPM_PACKAGES[@]}
 
 echo "gem requires sudo"
-run_cmd sudo gem install rake
+run_cmd sudo gem install ${RUBY_GEMS[@]}
 run_cmd rake
 
 echo "############################################################"

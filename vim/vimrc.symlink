@@ -54,7 +54,9 @@ colorscheme solarized
 set background=dark
 
 " Forces use of the system clipboard in OS X
-set clipboard=unnamed
+if $TMUX == ''
+    set clipboard+=unnamed
+endif
 
 set tabpagemax=15
 set showmode

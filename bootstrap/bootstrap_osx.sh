@@ -2,7 +2,7 @@
 # Bootstrap a clean environment with dependencies
 set -e
 
-BREW_PACKAGES=(zsh vim macvim git ack grc check the_silver_searcher)
+BREW_PACKAGES=(zsh vim macvim git ack grc check the_silver_searcher node)
 
 install_brew() {
     ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
@@ -14,3 +14,6 @@ install_packages() {
 }
 
 install_packages
+
+echo "fixing path ordering in OS X requires sudo"
+sudo chmod ugo-x /usr/libexec/path_helper
