@@ -1,0 +1,28 @@
+[ui]
+username = Marshall Culpepper <marshall@mozilla.com>
+
+[diff]
+git = 1
+showfunc = 1
+unified = 8
+
+[extensions]
+progress = 
+color = 
+rebase = 
+mq = 
+bzexport = $HOME/.mozbuild/version-control-tools/hgext/bzexport
+mqext = $HOME/.mozbuild/mercurial/extensions/mqext
+qimportbz = $HOME/.mozbuild/version-control-tools/hgext/qimportbz
+trychooser = $DOTFILES/mozilla/trychooser
+
+[mqext]
+mqcommit = auto
+
+[defaults]
+qnew = -U
+
+[hostfingerprints]
+bugzilla.mozilla.org = 47:13:a2:14:0c:46:45:53:12:0d:e5:36:16:a5:60:26:3e:da:3a:60
+bitbucket.org = 67:b3:bf:9f:c5:38:0e:4c:dd:4e:8a:da:3d:11:1b:c2:a5:d1:6c:6b
+hg.mozilla.org = af:27:b9:34:47:4e:e5:98:01:f6:83:2b:51:c9:aa:d8:df:fb:1a:27
