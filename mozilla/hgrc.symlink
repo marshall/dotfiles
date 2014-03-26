@@ -14,7 +14,7 @@ mq =
 bzexport = $HOME/.mozbuild/version-control-tools/hgext/bzexport
 mqext = $HOME/.mozbuild/mercurial/extensions/mqext
 qimportbz = $HOME/.mozbuild/version-control-tools/hgext/qimportbz
-trychooser = $DOTFILES/mozilla/trychooser
+trychooser = $DOTFILES/mozilla/trychooser/trychooser
 
 [mqext]
 mqcommit = auto
