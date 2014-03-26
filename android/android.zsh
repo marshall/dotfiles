@@ -1,4 +1,5 @@
 export ANDROID_SDK=$HOME/Applications/android-sdk-macosx
+export ANDROID_HOME=$ANDROID_SDK
 export ANDROID_SOURCE=$HOME/Source/android
 export NDK_CCACHE=/usr/local/bin/ccache
 

@@ -9,6 +9,9 @@ export IPYTHON_DIR=$ZSH/python
 export WORKON_HOME=$HOME/.virtualenvs
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+if [[ -e /usr/local/bin/python ]]; then
+    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+fi
 
 if [[ -f /usr/local/bin/virtualenvwrapper.sh ]]; then
   source /usr/local/bin/virtualenvwrapper.sh

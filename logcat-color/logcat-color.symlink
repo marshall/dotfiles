@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 # Width of the TAG column
 tag_width = 12
 
@@ -66,6 +66,18 @@ B2GProfile(name = "otoro", device = "full_otoro", filters = (otoroFilter, ))
 B2GProfile(name = "unagi", device = "full_unagi", filters = (otoroFilter, ))
 B2GProfile(name = "inari", filters = (otoroFilter, ))
 B2GProfile(name = "nexus-s", device = "39318E867DC300EC")
+
+hamachiMsgFilter = negated_regex(
+    r"(BMASensor|rpc_handle_rpc_call|Unexpected netlink message|"
+    r"nl80211: survey|RX ctrl_iface)")
+
+def hamachiTagFilter(data):
+    tag = data.get("tag")
+    if tag:
+        return tag not in ("wpa_supplicant", "Sensors")
+
+B2GProfile(name = "hamachi", device = "MSM7627A",
+           filters = (hamachiMsgFilter, hamachiTagFilter))
 
 def settingsFilter(data):
     message = data.get("message")
