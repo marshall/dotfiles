@@ -74,7 +74,7 @@ hamachiMsgFilter = negated_regex(
 def hamachiTagFilter(data):
     tag = data.get("tag")
     if tag:
-        return tag not in ("wpa_supplicant", "Sensors")
+        return tag not in ("wpa_supplicant", "Sensors", "AudioTrack")
 
 B2GProfile(name = "hamachi", device = "MSM7627A",
            filters = (hamachiMsgFilter, hamachiTagFilter))
