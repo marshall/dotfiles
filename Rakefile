@@ -1,3 +1,4 @@
+require 'erb'
 require 'rake'
 
 desc "Hook our dotfiles into system-standard positions."
@@ -6,7 +7,28 @@ task :bootstrap do
   system('bootstrap/bootstrap.sh')
 end
 
-task :install do
+task :generate do
+  templates = Dir.glob('*/**{.template}')
+  gen_dir = '_gen'
+
+  templates.each do |template|
+    if not File.exists?(gen_dir)
+      Dir.mkdir(gen_dir)
+    end
+
+    filename = template.split('/').last.split('.template').last
+    target = File.join(gen_dir, filename)
+    File.open(template, 'r') do |template_file|
+      erb = ERB.new(template_file.read())
+      erb.filename = template
+      File.open(target, 'w+') do |out|
+        out.write(erb.result)
+      end
+    end
+  end
+end
+
+task :install => [:generate] do
   linkables = Dir.glob('*/**{.symlink}')
 
   skip_all = false
