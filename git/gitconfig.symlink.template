@@ -30,3 +30,5 @@
     branchlog = !sh -c "git log `git oldest-ancestor`.."
 [push]
     default = upstream
+[credential "https://github.com"]
+    username = marshall
