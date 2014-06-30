@@ -65,7 +65,7 @@ def otoroFilter(data):
 def flameFilter(data):
     tag = data.get('tag')
     message = data.get('message')
-    return not ("HwcUtils" in tag) and not ('WLOG: ' in message or 'LOG: ' in message)# or 'RIL[1]:' in message or 'WARNING: \'NS_FAILED(rv)\'' in message)
+    return not ("HwcUtils" in tag) and not ('WLOG: ' in message or 'LOG: ' in message)
 
 B2GProfile(name = "otoro", device = "full_otoro", filters = (otoroFilter, ))
 B2GProfile(name = "unagi", device = "full_unagi", filters = (otoroFilter, ))
