@@ -62,9 +62,15 @@ def otoroFilter(data):
     tag = data.get("tag")
     return not ("AudioHardware" in tag or "Adreno" in tag)
 
+def flameFilter(data):
+    tag = data.get('tag')
+    message = data.get('message')
+    return not ("HwcUtils" in tag) and not ('WLOG: ' in message or 'LOG: ' in message)# or 'RIL[1]:' in message or 'WARNING: \'NS_FAILED(rv)\'' in message)
+
 B2GProfile(name = "otoro", device = "full_otoro", filters = (otoroFilter, ))
 B2GProfile(name = "unagi", device = "full_unagi", filters = (otoroFilter, ))
 B2GProfile(name = "inari", filters = (otoroFilter, ))
+B2GProfile(name = "flame", filters = (flameFilter, ))
 B2GProfile(name = "nexus-s", device = "39318E867DC300EC")
 
 hamachiMsgFilter = negated_regex(
@@ -78,6 +84,11 @@ def hamachiTagFilter(data):
 
 B2GProfile(name = "hamachi", device = "MSM7627A",
            filters = (hamachiMsgFilter, hamachiTagFilter))
+
+tarakoMsgFilter = negated_regex(
+    r"(/dev/input/event[01] got:|check_available_volume:)")
+
+B2GProfile(name = "tarako", filters = (tarakoMsgFilter, ))
 
 def settingsFilter(data):
     message = data.get("message")
