@@ -8,13 +8,13 @@ if [[ ( "$OS_NAME" = "Darwin" ) && ( -f $B2G_IMAGE ) ]]; then
 fi
 
 # Some useful mozilla-central environment shortcuts
-export MOZILLA_CENTRAL=~/Code/mozilla-central
-export MC_DOM=$MOZILLA_CENTRAL/dom
-export TEST_MOBILE_NETWORKS=$MC_DOM/network/tests/marionette/test_mobile_networks.js
+export MOZILLA_CENTRAL=$HOME/Code/mozilla-central
+export B2G_DEV_DIR=$HOME/Code/B2G
+export GAIA_DEV_DIR=$B2G_DEV_DIR/gaia
 
+export MC_DOM=$MOZILLA_CENTRAL/dom
 export MARIONETTE_CLIENT=$MOZILLA_CENTRAL/testing/marionette/client/marionette
 export MARIONETTE_LOGCAT=$MARIONETTE_CLIENT/logcat
-export B2G_DEV_DIR=~/Code/B2G-dev
 
 b2g_test_local_update() {
   MAR=$1
@@ -27,10 +27,6 @@ b2g_push_busybox() {
   adb $@ push $B2G_DEV_DIR/gaia/build/busybox-armv6l /system/bin/busybox
 
   adb $@ shell 'cd /system/bin; chmod 555 busybox; for x in `./busybox --list`; do ln -s ./busybox $x; done'
-  #adb $@ shell 'mkdir -p /data/busybox/busybox'
-  #adb $@ push $B2G_DEV_DIR/gaia/build/busybox-armv6l /data/busybox/busybox-bin
-  #adb $@ shell 'chmod 755 /data/busybox/busybox-bin'
-  #adb $@ remount
 }
 
 adb_busybox() {
@@ -113,6 +109,18 @@ b2g_repo_sync_manifest() {
   rm -rf .repo/manifest* &&
   ./repo init -u git://github.com/mozilla-b2g/b2g-manifest.git -b $DEVICE &&
   ./repo sync
+}
+
+gaia_unit_test() {
+  make test-agent-test TEST_ARGS="$@"
+}
+
+gaia_marionette_test() {
+  VERBOSE=1 TEST_FILES="$@" xvfb-run make test-integration
+}
+
+gaia_screenshots() {
+  python $DOTFILES/mozilla/gaia_screenshots.py
 }
 
 moz_nserror() {
