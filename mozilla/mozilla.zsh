@@ -4,7 +4,7 @@ export MOZILLA_CENTRAL_HG=~/Code/mozilla-central-hg
 
 alias xpcom_uuidgen="uuidgen | tr '[[:upper:]]' '[[:lower:]]'"
 
-MOZ_GIT_TOOLS=~/Source/moz-git-tools
+MOZ_GIT_TOOLS=$DOTFILES/mozilla/moz-git-tools
 export PATH=$PATH:$MOZ_GIT_TOOLS:$DOTFILES/mozilla
 
 bz_format_patch() {

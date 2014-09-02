@@ -22,7 +22,7 @@ case "$OS" in
     *) echo "Unknown OS: $OS"; exit 1;;
 esac
 
-run_cmd git submodule update --init
+run_cmd git submodule update --init --recursive
 
 echo "pip requires sudo"
 run_cmd curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py -o /tmp/get-pip.py
