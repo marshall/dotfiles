@@ -58,6 +58,18 @@ B2GProfile(name = "updates",
     filters =  (dupUpdateMsgFilter, )
 )
 
+def geckoTags(data):
+    tag = data.get('tag')
+    return tag and (tag.startswith('Gecko') or tag.startswith('Gonk'))
+
+def geckoMessages(data):
+    msg = data.get('message')
+    return msg and 'SharedSurface_Gralloc' not in msg
+
+B2GProfile(name = "gecko",
+    filters = (geckoTags, geckoMessages)
+)
+
 def otoroFilter(data):
     tag = data.get("tag")
     return not ("AudioHardware" in tag or "Adreno" in tag)
