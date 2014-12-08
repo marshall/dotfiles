@@ -116,7 +116,7 @@ gaia_unit_test() {
 }
 
 gaia_marionette_test() {
-  VERBOSE=1 TEST_FILES="$@" xvfb-run make test-integration
+  VERBOSE=1 TEST_FILES="$@" make test-integration
 }
 
 gaia_screenshots() {
@@ -125,7 +125,13 @@ gaia_screenshots() {
 
 moz_nserror() {
   # find an error name based on it's code, or vice-versa using xpcshell
-  XPCSHELL=$B2G_DEV_DIR/gaia/xulrunner-sdk/bin/xpcshell
+  XULRUNNER_BIN=$B2G_DEV_DIR/gaia/xulrunner-sdk-33/xulrunner-sdk/bin
+  if [[ "$OS_NAME" = "Darwin" ]]; then
+    XPCSHELL=$XULRUNNER_BIN/XUL.framework/Versions/Current/xpcshell
+  else
+    XPCSHELL=$XULRUNNER_BIN/xpcshell
+  fi
+
   if [[ -z $1 ]]; then
     echo "Error: required error code or name missing"
     return 1
