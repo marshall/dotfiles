@@ -58,9 +58,12 @@ B2GProfile(name = "updates",
     filters =  (dupUpdateMsgFilter, )
 )
 
+def isGaiaApp(tag):
+    return tag in ('Settings', 'FTU')
+
 def geckoTags(data):
     tag = data.get('tag')
-    return tag and (tag.startswith('Gecko') or tag.startswith('Gonk'))
+    return tag and (tag.startswith(('Gecko', 'Gonk')) or isGaiaApp(tag))
 
 def geckoMessages(data):
     msg = data.get('message')
