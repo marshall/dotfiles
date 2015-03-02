@@ -1,5 +1,9 @@
 if [ "$OS_NAME" = "Darwin" ]; then
-    export ANDROID_SDK=$HOME/Applications/android-sdk-macosx
+    if [[ -d $HOME/Library/Android/sdk ]]; then
+        export ANDROID_SDK=$HOME/Library/Android/sdk
+    else
+        export ANDROID_SDK=$HOME/Applications/android-sdk-macosx
+    fi
 elif [ "$OS_NAME" = "Linux" ]; then
     export ANDROID_SDK=$HOME/Apps/android-sdk-linux
 fi
