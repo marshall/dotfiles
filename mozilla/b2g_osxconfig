@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# OSX specific config
+
+# .userconfig for flame build 14.08.2014
+# osx repo change
+# Bug 1039223 - Build for flame fails complaining of missing dt.img
+# https://bugzilla.mozilla.org/show_bug.cgi?id=1039223
+pushd device/qcom/common/dtbtool
+patch -N << EOF
+--- a/dtbtool/dtbtool.c
++++ b/dtbtool/dtbtool.c
+@@ -616,7 +616,7 @@ int main(int argc, char **argv)
+        extract "qcom,msm-id" parameter
+      */
+     while ((dp = readdir(dir)) != NULL) {
+-        if ((dp->d_type == DT_REG)) {
++        if ((dp->d_type == DT_REG||dp->d_type == DT_UNKNOWN)) {
+             flen = strlen(dp->d_name);
+             if ((flen > 4) &&
+                 (strncmp(&dp->d_name[flen-4], ".dtb", 4) == 0)) {
+EOF
+
+popd
+
+# Bug 1027682 - [Flame][Build] Failed to build on Mac OS X 10.9, elf.h file not found
+# https://bugzilla.mozilla.org/show_bug.cgi?id=1027682
+if [[ ! -e /usr/local/include/elf.h ]]; then
+  cp "${B2G_DIR}/external/elfutils/libelf/elf.h" /usr/local/include
+  echo "Bug 1027682: elf.h copied into /usr/local/include"
+fi

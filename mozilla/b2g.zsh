@@ -8,6 +8,7 @@ if [[ ( "$OS_NAME" = "Darwin" ) && ( -f $MAC_FXOS_IMAGE ) ]]; then
     fi
 fi
 
+
 # Some useful mozilla-central environment shortcuts
 export MOZILLA_CENTRAL=$HOME/Code/mozilla-central
 export B2G_DEV_DIR=$HOME/Code/B2G
@@ -16,6 +17,11 @@ export GAIA_DEV_DIR=$B2G_DEV_DIR/gaia
 export MC_DOM=$MOZILLA_CENTRAL/dom
 export MARIONETTE_CLIENT=$MOZILLA_CENTRAL/testing/marionette/client/marionette
 export MARIONETTE_LOGCAT=$MARIONETTE_CLIENT/logcat
+
+# Symlink in the .userconfig if it doesn't exist
+if [[ ( ! -e "$B2G_DEV_DIR/.userconfig" ) ]]; then
+  ln -s "$DOTFILES/mozilla/b2g_userconfig" "$B2G_DEV_DIR/.userconfig"
+fi
 
 b2g_test_local_update() {
   MAR=$1
