@@ -1,9 +1,10 @@
-B2G_IMAGE=$HOME/Documents/Boot2Gecko.dmg.sparseimage
 
-if [[ ( "$OS_NAME" = "Darwin" ) && ( -f $B2G_IMAGE ) ]]; then
+MAC_FXOS_IMAGE=$HOME/FxOS.sparseimage
+MAC_FXOS_MOUNT=/Volumes/FxOS
+if [[ ( "$OS_NAME" = "Darwin" ) && ( -f $MAC_FXOS_IMAGE ) ]]; then
     # Mounts the case-sensitive Boot2Gecko volume if it isn't already mounted
-    if [ ( ! -d "/Volumes/Boot2Gecko" ) ]; then
-        hdiutil attach $B2G_IMAGE -mountpoint /Volumes/Boot2Gecko;
+    if [[ ( ! -d "$MAC_FXOS_MOUNT" ) ]]; then
+        hdiutil attach "$MAC_FXOS_IMAGE" -mountpoint "$MAC_FXOS_MOUNT"
     fi
 fi
 
