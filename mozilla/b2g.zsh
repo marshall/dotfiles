@@ -23,6 +23,11 @@ if [[ ( ! -e "$B2G_DEV_DIR/.userconfig" ) ]]; then
   ln -s "$DOTFILES/mozilla/b2g_userconfig" "$B2G_DEV_DIR/.userconfig"
 fi
 
+if [[ "$OS_NAME" = "Darwin" ]]; then
+  # Used for Gaia unit test runner
+  export FIREFOX=/Applications/Firefox.app/Contents/MacOS/firefox
+fi
+
 b2g_test_local_update() {
   MAR=$1
   B2G_DIR=$B2G_DEV_DIR b2g_test_aus_server.sh $MAR && \
@@ -116,6 +121,12 @@ b2g_repo_sync_manifest() {
   rm -rf .repo/manifest* &&
   ./repo init -u git://github.com/mozilla-b2g/b2g-manifest.git -b $DEVICE &&
   ./repo sync
+}
+
+gaia_test() {
+  pushd $GAIA_DEV_DIR
+  ./bin/gaia-test .
+  popd
 }
 
 gaia_unit_test() {
