@@ -25,7 +25,7 @@ esac
 run_cmd git submodule update --init --recursive
 
 echo "pip requires sudo"
-run_cmd curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py -o /tmp/get-pip.py
+run_cmd curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
 run_cmd sudo python /tmp/get-pip.py
 
 echo "virtualenv and virtualenvwrapper require sudo"

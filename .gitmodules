@@ -61,3 +61,6 @@
 [submodule "mozilla/moz-git-tools"]
 	path = mozilla/moz-git-tools
 	url = https://github.com/mozilla/moz-git-tools
+[submodule "vim/vim.symlink/bundle/vim-tmux-navigator"]
+	path = vim/vim.symlink/bundle/vim-tmux-navigator
+	url = https://github.com/christoomey/vim-tmux-navigator
