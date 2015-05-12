@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # Width of the TAG column
-tag_width = 12
+import re
+
+tag_width = 20
 
 # Whether or not to wrap the message width inside a column
 wrap = False
@@ -59,7 +61,7 @@ B2GProfile(name = "updates",
 )
 
 def isGaiaApp(tag):
-    return tag in ('Settings', 'FTU')
+    return tag in ('Settings', 'System', 'FTU')
 
 def geckoTags(data):
     tag = data.get('tag')
@@ -69,6 +71,9 @@ def geckoMessages(data):
     msg = data.get('message')
     return msg and 'SharedSurface_Gralloc' not in msg
 
+
+xpcomWarnings = negated_regex(r"^\[((Parent|Child) )?\d+\] WARNING:")
+
 B2GProfile(name = "gecko",
     filters = (geckoTags, geckoMessages)
 )
@@ -77,15 +82,28 @@ def otoroFilter(data):
     tag = data.get("tag")
     return not ("AudioHardware" in tag or "Adreno" in tag)
 
+def flameTags(data):
+    tag = data.get('tag')
+    return tag not in ("wpa_supplicant", "HWComposer", "QC-time-services",
+                       "qdhwcomposer", "BandwidthController", "QCOM PowerHAL",
+                       "SocketClient", "Vold", "EventHub", "Adreno-EGL",
+                       "libEGL", "libsuspend", "Sensors", "rmt_storage", "skia",
+                       "WifiHW", "AutoMounter", "NetworkUtils", "qdutils",
+                       "ACDB-LOADER", "platform_parser", "audio_hw_ssr",
+                       "audio_hw_primary", "audio_hw_extn", "audio_a2dp_hw",
+                       "r_submix", "AudioPolicyService", "VolumeManager",
+                       "nfcd", "WLAN_PSA", "Diag_Lib", "Profiler",
+                       "ServiceManager")
+
 def flameFilter(data):
     tag = data.get('tag')
     message = data.get('message')
-    return not ("HwcUtils" in tag) and not ('WLOG: ' in message or 'LOG: ' in message)
+    return not ("HwcUtils" in tag)
 
 B2GProfile(name = "otoro", device = "full_otoro", filters = (otoroFilter, ))
 B2GProfile(name = "unagi", device = "full_unagi", filters = (otoroFilter, ))
 B2GProfile(name = "inari", filters = (otoroFilter, ))
-B2GProfile(name = "flame", filters = (flameFilter, ))
+B2GProfile(name = "flame", filters = (flameTags, flameFilter, xpcomWarnings))
 B2GProfile(name = "nexus-s", device = "39318E867DC300EC")
 
 hamachiMsgFilter = negated_regex(
