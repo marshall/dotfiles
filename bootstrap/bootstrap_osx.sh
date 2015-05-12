@@ -2,10 +2,10 @@
 # Bootstrap a clean environment with dependencies
 set -e
 
-BREW_PACKAGES=(zsh vim macvim git ack grc check the_silver_searcher node)
+BREW_PACKAGES=(zsh vim macvim git ack grc check the_silver_searcher node reattach-to-user-namespace tmux)
 
 install_brew() {
-    ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 }
 
 install_packages() {
