@@ -170,4 +170,4 @@ let g:ctrlp_custom_ignore = {
   \ }
 
 " ConqueTerm settings
-let g:ConqueTerm_TERM = 'xterm'
+let g:ConqueTerm_TERM = 'xterm-256'
