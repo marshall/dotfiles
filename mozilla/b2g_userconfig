@@ -11,7 +11,7 @@ if [[ "`uname`" = "DARWIN" ]]; then
   . "$DOTFILES/b2g_osxconfig"
 fi
 
-export DEVICE_DEBUG=1
+# export DEVICE_DEBUG=1
 
 # Keeping both debug and non-debug objects
 # export GECKO_PATH=${B2G_DIR}/mozilla-inbound
@@ -19,7 +19,7 @@ if [[ "$GECKO_PATH" = "" ]]; then
   export GECKO_PATH="$B2G_DIR/gecko"
 fi
 
-export B2G_DEBUG=1
+# export B2G_DEBUG=1
 
 export GECKO_OBJDIR=${GECKO_PATH}/objdir-${DEVICE_NAME}
 if [[ "${B2G_DEBUG}" != "0" ]]; then

@@ -1,9 +1,9 @@
 
 MAC_FXOS_IMAGE=$HOME/FxOS.sparseimage
-MAC_FXOS_MOUNT=/Volumes/FxOS
+MAC_FXOS_MOUNT=$HOME/FxOS
 if [[ ( "$OS_NAME" = "Darwin" ) && ( -f $MAC_FXOS_IMAGE ) ]]; then
     # Mounts the case-sensitive Boot2Gecko volume if it isn't already mounted
-    if [[ ( ! -d "$MAC_FXOS_MOUNT" ) ]]; then
+    if [[ ( ! -d "$MAC_FXOS_MOUNT/B2G" ) ]]; then
         hdiutil attach "$MAC_FXOS_IMAGE" -mountpoint "$MAC_FXOS_MOUNT"
     fi
 fi
@@ -11,7 +11,7 @@ fi
 
 # Some useful mozilla-central environment shortcuts
 export MOZILLA_CENTRAL=$HOME/Code/mozilla-central
-export B2G_DEV_DIR=$HOME/Code/B2G
+export B2G_DEV_DIR=$HOME/FxOS/B2G
 export GAIA_DEV_DIR=$B2G_DEV_DIR/gaia
 
 export MC_DOM=$MOZILLA_CENTRAL/dom
