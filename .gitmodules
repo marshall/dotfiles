@@ -67,3 +67,24 @@
 [submodule "vim/vim.symlink/bundle/vim-less"]
 	path = vim/vim.symlink/bundle/vim-less
 	url = https://github.com/groenewege/vim-less
+[submodule "tmux/tmux.symlink/plugins/tpm"]
+	path = tmux/tmux.symlink/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
+[submodule "vim/vim.symlink/bundle/vim-obsession"]
+	path = vim/vim.symlink/bundle/vim-obsession
+	url = https://github.com/tpope/vim-obsession
+[submodule "tmux/tmux.symlink/plugins/tmux-yank"]
+	path = tmux/tmux.symlink/plugins/tmux-yank
+	url = https://github.com/tmux-plugins/tmux-yank
+[submodule "tmux/tmux.symlink/plugins/tmux-resurrect"]
+	path = tmux/tmux.symlink/plugins/tmux-resurrect
+	url = https://github.com/tmux-plugins/tmux-resurrect
+[submodule "tmux/tmux.symlink/plugins/tmux-continuum"]
+	path = tmux/tmux.symlink/plugins/tmux-continuum
+	url = https://github.com/tmux-plugins/tmux-continuum
+[submodule "tmux/tmux.symlink/plugins/tmux-copycat"]
+	path = tmux/tmux.symlink/plugins/tmux-copycat
+	url = https://github.com/tmux-plugins/tmux-copycat
+[submodule "tmux/tmux.symlink/plugins/tmux-open"]
+	path = tmux/tmux.symlink/plugins/tmux-open
+	url = https://github.com/tmux-plugins/tmux-open

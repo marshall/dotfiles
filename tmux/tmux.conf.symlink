@@ -30,7 +30,9 @@ bind-key > swap-window -t :+
 bind-key n command-prompt 'rename-window %%'
 bind-key N command-prompt 'rename-session %%'
 bind-key Escape copy-mode
+bind-key Space copy-mode
 bind-key Up copy-mode
+bind-key p paste-buffer
 bind-key r source-file ~/.tmux.conf; display-message " ~/.tmux.conf has been reloaded"
 bind-key R refresh-client
 bind-key a send-key C-a
@@ -39,65 +41,20 @@ bind-key C-l resize-pane -R 5
 bind-key C-j resize-pane -D 5
 bind-key C-k resize-pane -U 5
 
-## Copy / Paste
-bind-key p paste-buffer
-
-# Remove the default binding for copy-selection
-unbind -t vi-copy Enter
-unbind -t vi-copy Space
+## Load platform specific configuration files
+#if-shell 'uname | grep -q Darwin' \
+#         'source-file $DOTFILES/tmux/tmux-osx.conf' \
+#         'source-file $DOTFILES/tmux/tmux-linux.conf'
 
 # Use "v" (like visual mode) for beginning selection
-bind-key -t vi-copy 'v' begin-selection
-
-# Use "y" (link yank) for copying
-bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
-
-unbind -t vi-copy Enter
-bind-key -t vi-copy Enter copy-pipe "reattach-to-user-namespace pbcopy"
-
-## End Copy / Paste
+#unbind -t vi-copy 'v'
+#bind-key -t vi-copy 'v' begin-selection
 
 # -r: can be repeated without pressing prefix# again (500ms after last '-r' action or prefix)
 bind-key -r h select-pane -t :.-
 bind-key -r l select-pane -t :.+
 
 #bind-key u select-window -t :1
-
-## Solarized Colors for tmux
-## Copied from https://github.com/seebi/tmux-colors-solarized/blob/master/tmuxcolors.conf
-
-# default statusbar colors
-set-option -g status-bg colour235 #base02
-set-option -g status-fg colour136 #yellow
-set-option -g status-attr default
-
-# default window title colors
-set-window-option -g window-status-fg colour244
-set-window-option -g window-status-bg default
-#set-window-option -g window-status-attr dim
-
-# active window title colors
-set-window-option -g window-status-current-fg colour166 #orange
-set-window-option -g window-status-current-bg default
-#set-window-option -g window-status-current-attr bright
-
-# pane border
-set-option -g pane-border-fg colour235 #base02
-set-option -g pane-active-border-fg colour240 #base01
-
-# message text
-set-option -g message-bg colour235 #base02
-set-option -g message-fg colour166 #orange
-
-# pane number display
-set-option -g display-panes-active-colour colour33 #blue
-set-option -g display-panes-colour colour166 #orange
-
-# clock
-set-window-option -g clock-mode-colour colour64 #green
-
-# window activity colors
-set-window-option -g window-status-activity-fg colour160 #red
 
 ## messages
 set-option -g display-time 1500
@@ -120,7 +77,7 @@ set-option -g status-interval 1
 #  ##                A literal `#'
 # Where appropriate, special character sequences may be prefixed with a
 # number to specify the maximum length, in this line "#10W'.
-set-option -g status-left '#[fg=green]#(whoami)@#h'
+set-option -g status-left '#[fg=green]#(whoami)@#h '
 set-option -g status-right '#[fg=yellow]#S#[fg=default] // %Y-%m-%d %H:%M'
 
 set-option -g status-right-length 100
@@ -141,10 +98,7 @@ set-window-option -g monitor-activity off
 
 # this only works for paying attention to tmux internal rename attempts
 # you also need the new-to-tmux-1.6 allow-rename off below
-set-window-option -g automatic-rename off
-
-# don't let ZSH override the window title
-set-window-option -g allow-rename off
+# set-window-option -g automatic-rename off
 
 ## tmux window titling for X
 set-option -g set-titles on
@@ -161,13 +115,7 @@ set-option -g mouse-select-window on
 set-window-option -g mode-keys vi
 set-window-option -g mode-mouse on
 
-# set-window-option -g monitor-activity off
-# set-window-option -g monitor-content off
-# set-option -g status-keys vi
-# set-option -g history-limit 4096
-
-## Copy/paste
-set-option -g default-command "reattach-to-user-namespace -l zsh"
+set-option -g history-limit 10000
 
 # ZSH
 set-environment -g INSCREEN yes
@@ -180,3 +128,21 @@ bind -n C-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
 bind -n C-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
 bind -n C-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
 bind -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
+
+# tmux plugin manager
+
+set -g @resurrect-save 'S'
+set -g @resurrect-restore 'R'
+set -g @resurrect-strategy-vim 'session'
+set -g @resurrect-dir '$HOME/.tmux-resurrect'
+
+set -g @tpm_plugins ' \
+  tmux-plugins/tpm \
+  tmux-plugins/tmux-yank \
+  tmux-plugins/tmux-resurrect \
+  tmux-plugins/tmux-continuum \
+  tmux-plugins/tmux-copycat \
+  tmux-plugins/tmux-open \
+'
+run-shell '~/.tmux/plugins/tpm/tpm'
+
