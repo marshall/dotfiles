@@ -88,3 +88,6 @@
 [submodule "tmux/tmux.symlink/plugins/tmux-open"]
 	path = tmux/tmux.symlink/plugins/tmux-open
 	url = https://github.com/tmux-plugins/tmux-open
+[submodule "vim/vim.symlink/bundle/Vundle.vim"]
+	path = vim/vim.symlink/bundle/Vundle.vim
+	url = https://github.com/gmarik/Vundle.vim.git

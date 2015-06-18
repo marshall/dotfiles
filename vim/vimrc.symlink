@@ -1,6 +1,26 @@
 " Must be first line -- use vim settings
 set nocompatible
 
+" --- Vundle ---
+filetype off
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin('~/.vundle')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+if has("gui_mac") || has("gui_macvim")
+    Plugin 'rizzatti/dash.vim'
+endif
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" --- END Vundle ---
+
 " clear all autocmds
 autocmd!
 
