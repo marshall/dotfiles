@@ -11,6 +11,7 @@ install_brew() {
 install_packages() {
     which brew 2>/dev/null || install_brew
     run_cmd brew install ${BREW_PACKAGES[@]}
+    run_cmd brew install lastpass-cli --with-pinentry --with-doc
 }
 
 install_packages
