@@ -42,13 +42,13 @@ bind-key C-j resize-pane -D 5
 bind-key C-k resize-pane -U 5
 
 ## Load platform specific configuration files
-#if-shell 'uname | grep -q Darwin' \
-#         'source-file $DOTFILES/tmux/tmux-osx.conf' \
-#         'source-file $DOTFILES/tmux/tmux-linux.conf'
+if-shell 'uname | grep -q Darwin' \
+         'source-file $DOTFILES/tmux/tmux-osx.conf' \
+         'source-file $DOTFILES/tmux/tmux-linux.conf'
 
 # Use "v" (like visual mode) for beginning selection
-#unbind -t vi-copy 'v'
-#bind-key -t vi-copy 'v' begin-selection
+unbind -t vi-copy 'v'
+bind-key -t vi-copy 'v' begin-selection
 
 # -r: can be repeated without pressing prefix# again (500ms after last '-r' action or prefix)
 bind-key -r h select-pane -t :.-
