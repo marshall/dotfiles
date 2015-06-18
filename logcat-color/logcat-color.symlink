@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-# Width of the TAG column
 import re
 
-tag_width = 20
+# Width of the TAG column
+tag_width = 12
 
 # Whether or not to wrap the message width inside a column
 wrap = False
