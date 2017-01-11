@@ -33,11 +33,11 @@ call pathogen#infect()
 call pathogen#helptags()
 
 " Misc config
+syntax on
+syntax enable
 filetype plugin indent on
 filetype on
 scriptencoding utf-8
-syntax on
-syntax enable
 
 set list
 set listchars=tab:>-,trail:-
