@@ -57,6 +57,10 @@ prompt_chars() {
 export PROMPT=$'$(user_at_host) $(current_time) $(current_dir) $(git_dirty)$(hg_prompt_info)\n$(venv_info)$(prompt_chars) '
 export RPROMPT='$(vi_mode_prompt_info)'
 
-precmd() {
+marshall_precmd() {
     title "zsh" "%m" "%55<...<%~"
 }
+
+
+typeset -a precmd_functions
+precmd_functions+=marshall_precmd
