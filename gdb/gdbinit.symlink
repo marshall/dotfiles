@@ -65,6 +65,11 @@ define ptarray
         end
 end
 
+define xxd
+    dump binary memory dump.bin $arg0 $arg0+$arg1
+    shell xxd dump.bin
+end
+
 document ptarray
         Prints nsTArray<T> information.
         Syntax: ptarray <tarray> <idx1> <idx2>
