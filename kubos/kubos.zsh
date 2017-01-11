@@ -70,7 +70,7 @@ kubos_console_linux_dev() {
             echo /dev/ttyACM1 ;;
         esac
         ;;
-    stm32f4*)
+    stm32f4*|*)
         echo /dev/ttyUSB0 ;;
     esac
 }
