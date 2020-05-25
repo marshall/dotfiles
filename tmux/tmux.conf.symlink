@@ -46,15 +46,11 @@ if-shell 'uname | grep -q Darwin' \
          'source-file $DOTFILES/tmux/tmux-osx.conf' \
          'source-file $DOTFILES/tmux/tmux-linux.conf'
 
+# unbind-key [-an] [-T key-table] key
+# bind-key [-cnr] [-T key-table] key command [arguments]
 # Use "v" (like visual mode) for beginning selection
-unbind -t vi-copy 'v'
-bind-key -t vi-copy 'v' begin-selection
-
-# -r: can be repeated without pressing prefix# again (500ms after last '-r' action or prefix)
-bind-key -r h select-pane -t :.-
-bind-key -r l select-pane -t :.+
-
-#bind-key u select-window -t :1
+unbind -Tcopy-mode-vi 'v'
+bind -Tcopy-mode-vi 'v' send -X begin-selection
 
 ## messages
 set-option -g display-time 1500

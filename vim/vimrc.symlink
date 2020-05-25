@@ -15,6 +15,8 @@ if has("gui_mac") || has("gui_macvim")
     Plugin 'rizzatti/dash.vim'
 endif
 
+Plugin 'nathanaelkane/vim-indent-guides'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -39,9 +41,16 @@ filetype plugin indent on
 filetype on
 scriptencoding utf-8
 
+" trying to speed up ruby
+set ttyfast
+set lazyredraw
+autocmd FileType ruby setlocal ts=2 sts=2 sw=2 norelativenumber nocursorline
+
+
 set list
 set listchars=tab:>-,trail:-
 set mouse=a
+set ttymouse=xterm2
 set shortmess+=filmnrxoOtT
 set viewoptions=folds,options,cursor,unix,slash
 set history=1000
@@ -92,8 +101,8 @@ inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
 nnoremap <leader>a :Ack
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
-" Highlight the 80 char column
-set colorcolumn=80
+" Highlight the 100 char column
+set colorcolumn=100
 
 " Highlight .jsm files as Javascript
 au BufNewFile,BufRead *.jsm set filetype=javascript
@@ -109,6 +118,10 @@ au BufNewFile,BufRead *.go set filetype=go
 
 " Arduino
 au BufNewFile,BufRead *.ino set filetype=cpp
+
+au BufNewFile,BufRead *.jinja set filetype=jinja
+
+au BufNewFile,BufRead *.lic set filetype=ruby
 
 " disable audio / visual bell
 set noerrorbells visualbell t_vb=
@@ -168,8 +181,11 @@ nnoremap <c-l> <c-w>l
 
 " Tlist settings
 let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
-map <F4> :TlistToggle<cr>
-map <F5> :!/usr/local/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+"map <F4> :TlistToggle<cr>
+"map <F5> :!/usr/local/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+"tagbar settings
+nmap <F4> :TagbarToggle<CR>
 
 " NERDTree settings
 map <F2> :NERDTreeToggle \| :silent NERDTreeMirror<CR>
@@ -177,6 +193,8 @@ map <leader>r :NERDTreeFind<cr>
 
 let g:NERDTreeIgnore = ['\.pyc$', '\.egg-info$', 'objdir-.*$[[dir]]', '_virtualenv[[dir]]']
 let g:NERDTreeMapOpenVSplit = "v"
+let g:NERDTreeWinSize = 60
+let g:NERDTreeShowBookmarks = 1
 
 " CtrlP settings
 set wildignore+=*/objdir-*/*,*/.git/*,*/.hg/*,*/_virtualenv/*
@@ -189,3 +207,33 @@ let g:ctrlp_custom_ignore = {
 
 " ConqueTerm settings
 let g:ConqueTerm_TERM = 'xterm-256'
+
+" Syntastic settings
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+" deal with redraw bug in Syntastic
+"autocmd VimEnter * nnoremap <silent> <c-j> :TmuxNavigateDown<cr>:redraw!<cr>
+
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+
+let g:instant_markdown_autostart = 0
+
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=8
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
+"hi IndentGuidesOdd ctermbg=black
+"hi IndentGuidesEven ctermbg=black
+
+set foldcolumn=1
+set foldlevel=20
+
+" yaml
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab

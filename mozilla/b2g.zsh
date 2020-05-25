@@ -19,7 +19,7 @@ export MARIONETTE_CLIENT=$MOZILLA_CENTRAL/testing/marionette/client/marionette
 export MARIONETTE_LOGCAT=$MARIONETTE_CLIENT/logcat
 
 # Symlink in the .userconfig if it doesn't exist
-if [[ ( ! -e "$B2G_DEV_DIR/.userconfig" ) ]]; then
+if [[ ( -d "$B2G_DEV_DIR" ) && ( ! -e "$B2G_DEV_DIR/.userconfig" ) ]]; then
   ln -s "$DOTFILES/mozilla/b2g_userconfig" "$B2G_DEV_DIR/.userconfig"
 fi
 
