@@ -29,7 +29,11 @@ run_cmd curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
 run_cmd sudo python /tmp/get-pip.py
 
 echo "virtualenv and virtualenvwrapper require sudo"
-run_cmd sudo pip install ${PIP_PACKAGES[@]}
+PIP_ARGS=
+if [[ "$OS" = "Darwin" ]]; then
+    PIP_ARGS="--ignore-installed six"
+fi
+run_cmd sudo pip install $PIP_ARGS ${PIP_PACKAGES[@]}
 
 echo "npm requires sudo"
 run_cmd sudo npm -g install ${NPM_PACKAGES[@]}

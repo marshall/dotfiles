@@ -15,6 +15,3 @@ install_packages() {
 }
 
 install_packages
-
-echo "fixing path ordering in OS X requires sudo"
-sudo chmod ugo-x /usr/libexec/path_helper
