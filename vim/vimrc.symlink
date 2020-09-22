@@ -201,9 +201,13 @@ set wildignore+=*/objdir-*/*,*/.git/*,*/.hg/*,*/_virtualenv/*
 set wildignore+=*.pyc
 
 let g:ctrlp_max_files = 50000
-let g:ctrlp_custom_ignore = {
-  \ 'dir': '\.git$|\.hg$|objdir-.*$|_virtualenv',
-  \ }
+
+if executable("ag")
+    set grepprg=ag\ --nogroup\ --nocolor\ --hidden
+    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+endif
+
+let g:ctrlp_show_hidden = 1
 
 " ConqueTerm settings
 let g:ConqueTerm_TERM = 'xterm-256'
