@@ -15,7 +15,11 @@ if has("gui_mac") || has("gui_macvim")
     Plugin 'rizzatti/dash.vim'
 endif
 
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'ryanoasis/vim-devicons'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -40,6 +44,7 @@ syntax enable
 filetype plugin indent on
 filetype on
 scriptencoding utf-8
+set encoding=UTF-8
 
 " trying to speed up ruby
 set ttyfast
@@ -154,6 +159,9 @@ set scrolloff=5
 set sidescrolloff=5
 set sidescroll=1
 
+" how often vim writes to swap, updates UI plugins, etc
+set updatetime=100
+
 " Status Line
 " ===========
 
@@ -208,6 +216,9 @@ if executable("ag")
 endif
 
 let g:ctrlp_show_hidden = 1
+
+" vim-airline
+let g:airline_theme='tomorrow'
 
 " ConqueTerm settings
 let g:ConqueTerm_TERM = 'xterm-256'

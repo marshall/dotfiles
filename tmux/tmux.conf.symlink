@@ -42,6 +42,8 @@ bind-key C-j resize-pane -D 5
 bind-key C-k resize-pane -U 5
 
 ## Load platform specific configuration files
+set -g default-terminal "screen-256color"
+
 if-shell 'uname | grep -q Darwin' \
          'source-file $DOTFILES/tmux/tmux-osx.conf' \
          'source-file $DOTFILES/tmux/tmux-linux.conf'
