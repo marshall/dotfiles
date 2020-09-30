@@ -1,3 +1,6 @@
 [user]
     name = Marshall Culpepper
     email = mcu@brave.com
+
+[url "ssh://git@github.com/"]
+    pushInsteadOf = https://github.com/

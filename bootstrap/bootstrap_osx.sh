@@ -2,7 +2,8 @@
 # Bootstrap a clean environment with dependencies
 set -e
 
-BREW_PACKAGES=(zsh vim macvim git ack grc check the_silver_searcher node tmux lastpass-cli)
+BREW_PACKAGES=(zsh vim macvim git ack grc check the_silver_searcher node tmux lastpass-cli \
+               romkatv/powerlevel10k/powerlevel10k)
 
 install_brew() {
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"

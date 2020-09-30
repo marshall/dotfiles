@@ -20,6 +20,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'ryanoasis/vim-devicons'
+Plugin 'https://gn.googlesource.com/gn', { 'rtp': 'misc/vim' }
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
