@@ -1,4 +1,4 @@
-BRAVE_RAMDISK_ENABLED=$((`hostinfo | grep 'Primary memory available' | sed 's/[a-zA-Z ]*: //' | sed 's/ gigabytes//'` > 128))
+BRAVE_RAMDISK_ENABLED=0
 BRAVE_RAMDISK_SIZE_GB=256
 BRAVE_RAMDISK_VOLUME_NAME=RamDisk
 BRAVE_RAMDISK=/Volumes/$BRAVE_RAMDISK_VOLUME_NAME
@@ -7,6 +7,7 @@ export SCCACHE_CACHE_SIZE=100G
 export SCCACHE_DIR=$HOME/sccache
 
 if [[ "$OS_NAME" = "Darwin" ]]; then
+    BRAVE_RAMDISK_ENABLED=$((`hostinfo | grep 'Primary memory available' | sed 's/[a-zA-Z ]*: //' | sed 's/ gigabytes//'` > 128))
     export BRAVE_NIGHTLY="/Applications/Brave Browser Nightly.app/Contents/MacOS/Brave Browser Nightly"
     if [[ $BRAVE_RAMDISK_ENABLED ]]; then
         export SCCACHE_DIR=$BRAVE_RAMDISK/sccache

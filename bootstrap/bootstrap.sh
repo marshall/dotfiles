@@ -19,6 +19,9 @@ run_cmd() {
 case "$OS" in
     Linux) . $THIS_DIR/bootstrap_linux.sh;;
     Darwin) . $THIS_DIR/bootstrap_osx.sh;;
+    MINGW64*)
+        # wholesale environment switch for MINGW64
+        exec $THIS_DIR/bootstrap_mingw.sh;;
     *) echo "Unknown OS: $OS"; exit 1;;
 esac
 
