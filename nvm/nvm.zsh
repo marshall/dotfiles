@@ -1,6 +1,9 @@
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+for dir in "/usr/local/opt/nvm" "$NVM_DIR"; do
+    [ -s "$dir/nvm.sh" ] && . "$dir/nvm.sh"  # This loads nvm
+    [ -s "$dir/etc/bash_completion.d/nvm" ] && . "$dir/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+    [ -s "$dir/nvm.sh" ] && break
+done
 
 autoload -U add-zsh-hook
 load-nvmrc() {
