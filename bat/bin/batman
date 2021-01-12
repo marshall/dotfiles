@@ -1,0 +1,470 @@
+#!/usr/bin/env bash
+# -----------------------------------------------------------------------------
+# bat-extras | Copyright (C) 2019 eth-p | MIT License
+#
+# Repository: https://github.com/eth-p/bat-extras
+# Issues:     https://github.com/eth-p/bat-extras/issues
+# -----------------------------------------------------------------------------
+# shellcheck disable=SC1090 disable=SC2155
+if [[ -n "${MANPAGER}" ]]; then BAT_PAGER="$MANPAGER"; fi
+# --- BEGIN LIBRARY FILE: pager.sh ---
+
+# Returns 0 (true) if the current pager is less, otherwise 1 (false).
+is_pager_less() {
+	[[ "$(pager_name)" = "less" ]]
+	return $?
+}
+
+# Returns 0 (true) if the current pager is disabled, otherwise 1 (false).
+is_pager_disabled() {
+	[[ -z "$(pager_name)" ]]
+	return $?
+}
+
+# Prints the detected pager name.
+pager_name() {
+	_detect_pager 1>&2
+	echo "$_SCRIPT_PAGER_NAME"
+}
+
+# Prints the detected pager version.
+pager_version() {
+	_detect_pager 1>&2
+	echo "$_SCRIPT_PAGER_VERSION"
+}
+
+# Executes a command or function, and pipes its output to the pager (if it exists).
+#
+# Returns: The exit code of the command.
+# Example:
+#     pager_exec echo hi
+pager_exec() {
+	if [[ -n "$SCRIPT_PAGER_CMD" ]]; then
+		"$@" | pager_display
+		return $?
+	else
+		"$@"
+		return $?
+	fi
+}
+
+# Displays the output of a command or function inside the pager (if it exists).
+#
+# Example:
+#     bat | pager_display
+pager_display() {
+	if [[ -n "$SCRIPT_PAGER_CMD" ]]; then
+		if [[ -n "$SCRIPT_PAGER_ARGS" ]]; then
+			"${SCRIPT_PAGER_CMD[@]}" "${SCRIPT_PAGER_ARGS[@]}"
+			return $?
+		else
+			"${SCRIPT_PAGER_CMD[@]}"
+			return $?
+		fi
+	else
+		cat
+		return $?
+	fi
+}
+
+
+# Detect the pager information.
+# shellcheck disable=SC2120
+_detect_pager() {
+	if [[ "$_SCRIPT_PAGER_DETECTED" = "true" ]]; then return; fi
+	_SCRIPT_PAGER_DETECTED=true
+
+	# If the pager command is empty, the pager is disabled.
+	if [[ -z "${SCRIPT_PAGER_CMD[0]}" ]]; then
+		_SCRIPT_PAGER_VERSION=0
+		_SCRIPT_PAGER_NAME=""
+		return;
+	fi
+
+	# Determine the pager name and version.
+	local output
+	local output1
+	output="$("${SCRIPT_PAGER_CMD[0]}" --version 2>&1)"
+	output1="$(head -n 1 <<<"$output")"
+
+	if [[ "$output1" =~ ^less[[:blank:]]([[:digit:]]+) ]]; then
+		# shellcheck disable=SC2001
+		_SCRIPT_PAGER_VERSION="${BASH_REMATCH[1]}"
+		_SCRIPT_PAGER_NAME="less"
+	else
+		_SCRIPT_PAGER_VERSION=0
+		_SCRIPT_PAGER_NAME="$(basename "${SCRIPT_PAGER_CMD[0]}")"
+	fi
+}
+
+# Configure the script pager.
+# This attempts to mimic how bat determines the pager and pager arguments.
+#
+# 1. Use BAT_PAGER
+# 2. Use PAGER with special arguments for less
+# 3. Use PAGER
+_configure_pager() {
+	# shellcheck disable=SC2206
+	SCRIPT_PAGER_CMD=($PAGER)
+	SCRIPT_PAGER_ARGS=()
+
+	# Prefer the bat pager.
+	if [[ -n "${BAT_PAGER+x}" ]]; then
+		# [note]: This is intentional.
+		# shellcheck disable=SC2206
+		SCRIPT_PAGER_CMD=($BAT_PAGER)
+		SCRIPT_PAGER_ARGS=()
+		return
+	fi
+
+	# Add arguments for the less pager.
+	if is_pager_less; then
+		SCRIPT_PAGER_CMD=("${SCRIPT_PAGER_CMD[0]}" -R --quit-if-one-screen)
+		if [[ "$(pager_version)" -lt 500 ]]; then
+			SCRIPT_PAGER_CMD+=(--no-init)
+		fi
+	fi
+}
+
+
+if [[ -t 1 ]]; then
+	# Detect and choose the arguments for the pager.
+	_configure_pager
+else
+	# Prefer no pager if not a tty.
+	SCRIPT_PAGER_CMD=()
+	SCRIPT_PAGER_ARGS=()
+fi
+# --- END LIBRARY FILE ---
+# --- BEGIN LIBRARY FILE: print.sh ---
+
+# Printf, but with optional colors.
+# This uses the same syntax and arguments as printf.
+#
+# Example:
+#     printc "%{RED}This is red %s.%{CLEAR}\n" "text"
+#
+printc() {
+	printf "$(sed "$_PRINTC_PATTERN" <<<"$1")" "${@:2}"
+}
+
+# Initializes the color tags for printc.
+#
+# Arguments:
+#     true  -- Turns on color output.
+#     false -- Turns off color output.
+printc_init() {
+	case "$1" in
+	true)  _PRINTC_PATTERN="$_PRINTC_PATTERN_ANSI" ;;
+	false) _PRINTC_PATTERN="$_PRINTC_PATTERN_PLAIN" ;;
+
+	"[DEFINE]") {
+		_PRINTC_PATTERN_ANSI=""
+		_PRINTC_PATTERN_PLAIN=""
+
+		local name
+		local ansi
+		while read -r name ansi; do
+			if [[ -z "${name}" && -z "${ansi}" ]] || [[ "${name:0:1}" = "#" ]]; then
+				continue
+			fi
+
+			ansi="${ansi/\\/\\\\}"
+
+			_PRINTC_PATTERN_PLAIN="${_PRINTC_PATTERN_PLAIN}s/%{${name}}//g;"
+			_PRINTC_PATTERN_ANSI="${_PRINTC_PATTERN_ANSI}s/%{${name}}/${ansi}/g;"
+		done
+
+		if [ -t 1 ]; then
+			_PRINTC_PATTERN="$_PRINTC_PATTERN_ANSI"
+		else
+			_PRINTC_PATTERN="$_PRINTC_PATTERN_PLAIN"
+		fi
+	} ;;
+	esac
+}
+
+# Print a warning message to stderr.
+# Arguments:
+#     1   -- The printc formatting string.
+#     ... -- The printc formatting arguments.
+print_warning() {
+	printc "%{YELLOW}[%s warning]%{CLEAR}: $1%{CLEAR}\n" "batman" "${@:2}" 1>&2
+}
+
+# Print an error message to stderr.
+# Arguments:
+#     1   -- The printc formatting string.
+#     ... -- The printc formatting arguments.
+print_error() {
+	printc "%{RED}[%s error]%{CLEAR}: $1%{CLEAR}\n" "batman" "${@:2}" 1>&2
+}
+
+# Initialization:
+printc_init "[DEFINE]" <<END
+	CLEAR	\x1B[0m
+	RED		\x1B[31m
+	GREEN	\x1B[32m
+	YELLOW	\x1B[33m
+	BLUE	\x1B[34m
+	MAGENTA	\x1B[35m
+	CYAN	\x1B[36m
+
+	DEFAULT \x1B[39m
+	DIM		\x1B[2m
+END
+# --- END LIBRARY FILE ---
+# --- BEGIN LIBRARY FILE: opt.sh ---
+
+# An array of functions to call before returning from `shiftopt`.
+#
+# If one of these functions returns a successful exit code, the
+# option will be transparently skipped instead of handled.
+SHIFTOPT_HOOKS=()
+
+# A setting to change how `shiftopt` will interpret short options that consist
+# of more than one character.
+#
+# Values:
+#
+#     SPLIT  -- Splits the option into multiple single-character short options.
+#               "-abc" -> ("-a" "-b" "-c")
+#     
+#     VALUE  -- Uses the remaining characters as the value for the short option.
+#               "-abc" -> ("-a=bc")
+#
+#     CONV   -- Converts the argument to a long option.
+#               "-abc" -> ("--abc")
+#
+#     PASS   -- Pass the argument along as-is.
+#               "-abc" -> ("-abc")
+#
+SHIFTOPT_SHORT_OPTIONS="VALUE"
+
+# Sets the internal _ARGV, _ARGV_INDEX, and _ARGV_LAST variables used when
+# parsing options with the shiftopt and shiftval functions.
+#
+# Arguments:
+#     ... -- The program arguments.
+# 
+# Example:
+#     setargs "--long=3" "file.txt"
+setargs() {
+	_ARGV=("$@")
+	_ARGV_LAST="$((${#_ARGV[@]} - 1))"
+	_ARGV_INDEX=0
+	_ARGV_SUBINDEX=1
+}
+
+# Resets the internal _ARGV* variables to the original script arguments.
+# This is the equivalent of storing the top-level $@ and using setargs with it.
+resetargs() {
+	setargs "${_ARGV_ORIGINAL[@]}"
+}
+
+# INTERNAL.
+#
+# Increments the argv index pointer used by `shiftopt`.  
+_shiftopt_next() {
+	_ARGV_SUBINDEX=1
+	((_ARGV_INDEX++)) || true
+}
+
+# Gets the next option passed to the script.
+#
+# Variables:
+#     OPT  -- The option name.
+#
+# Returns:
+#     0  -- An option was read.
+#     1  -- No more options were read.
+#
+# Example:
+#     while shiftopt; do
+#         shiftval
+#         echo "$OPT = $OPT_VAL"
+#     done
+shiftopt() {
+	# Read the top of _ARGV.
+	[[ "$_ARGV_INDEX" -gt "$_ARGV_LAST" ]] && return 1
+	OPT="${_ARGV[$_ARGV_INDEX]}"
+	unset OPT_VAL
+
+	if [[ "$OPT" =~ ^-[a-zA-Z0-9_-]+=.* ]]; then
+		OPT_VAL="${OPT#*=}"
+		OPT="${OPT%%=*}"
+	fi
+	
+	# Handle short options.
+	if [[ "$OPT" =~ ^-[^-]{2,} ]]; then
+		case "$SHIFTOPT_SHORT_OPTIONS" in
+		 	# PASS mode: "-abc=0" -> ("-abc=0")
+			PASS) _shiftopt_next ;;
+
+			# CONV mode: "-abc=0" -> ("--abc=0")
+			CONV) OPT="-${OPT}"; _shiftopt_next ;; 
+
+			# VALUE mode: "-abc=0" -> ("-a=bc=0")
+			VALUE) {
+				OPT="${_ARGV[$_ARGV_INDEX]}"
+				OPT_VAL="${OPT:2}"
+				OPT="${OPT:0:2}"
+				_shiftopt_next
+			} ;; 
+
+			# SPLIT mode: "-abc=0" -> ("-a=0" "-b=0" "-c=0")
+			SPLIT) {
+				OPT="-${OPT:$_ARGV_SUBINDEX:1}"
+				((_ARGV_SUBINDEX++)) || true
+				if [[ "$_ARGV_SUBINDEX" -gt "${#OPT}" ]]; then
+					_shiftopt_next
+				fi
+			} ;;
+
+			# ????? mode: Treat it as pass.
+			*)
+				printf "shiftopt: unknown SHIFTOPT_SHORT_OPTIONS mode '%s'" \
+					"$SHIFTOPT_SHORT_OPTIONS" 1>&2
+				_shiftopt_next
+				;;
+		esac
+	else
+		_shiftopt_next
+	fi
+
+	# Handle hooks.
+	local hook
+	for hook in "${SHIFTOPT_HOOKS[@]}"; do
+		if "$hook"; then
+			shiftopt
+			return $?
+		fi
+	done
+
+	return 0
+}
+
+# Gets the value for the current option.
+#
+# Variables:
+#     OPT_VAL  -- The option value.
+#
+# Returns:
+#     0       -- An option value was read.
+#     EXIT 1  -- No option value was available.
+shiftval() {
+	# Skip if a value was already provided.
+	if [[ -n "${OPT_VAL+x}" ]]; then
+		return 0
+	fi
+	
+	if [[ "$_ARGV_SUBINDEX" -gt 1 && "$SHIFTOPT_SHORT_OPTIONS" = "SPLIT" ]]; then
+		# If it's a short group argument in SPLIT mode, we grab the next argument.
+		OPT_VAL="${_ARGV[$((_ARGV_INDEX+1))]}"
+	else
+		# Otherwise, we can handle it normally.
+		OPT_VAL="${_ARGV[$_ARGV_INDEX]}"
+		_shiftopt_next
+	fi
+
+	# Error if no value is provided.
+	if [[ "$OPT_VAL" =~ -.* ]]; then
+		printc "%{RED}%s: '%s' requires a value%{CLEAR}\n" "batman" "$ARG"
+		exit 1
+	fi
+}
+
+setargs "$@"
+_ARGV_ORIGINAL=("$@")
+# --- END LIBRARY FILE ---
+# --- BEGIN LIBRARY FILE: opt_hook_color.sh ---
+
+# Option parser hook: color support.
+# This will accept --no-color or --color.
+# It will also try to accept --color=never|always|auto.
+#
+# The variable OPT_COLOR will be set depending on whether or not a TTY is
+# detected and whether or not --color/--no-color is specified.
+hook_color() {
+	SHIFTOPT_HOOKS+=("__shiftopt_hook__color")
+	__shiftopt_hook__color() {
+		case "$OPT" in
+
+		--no-color) OPT_COLOR=false ;;
+		--color) {
+			case "$OPT_VAL" in
+			"")            OPT_COLOR=true ;;
+			always | true) OPT_COLOR=true  ;;
+			never | false) OPT_COLOR=false ;;
+			auto) return 0 ;;
+			*)
+				printc "%{RED}%s: '--color' expects value of 'auto', 'always', or 'never'%{CLEAR}\n" "batman"
+				exit 1
+				;;
+			esac
+		} ;;
+
+		*) return 1 ;;
+		esac
+
+		printc_init "$OPT_COLOR"
+		return 0
+	}
+
+	# Default color support.
+	if [[ -z "$OPT_COLOR" ]]; then
+		if [[ -t 1 ]]; then
+			OPT_COLOR=true
+		else
+			OPT_COLOR=false
+		fi
+		printc_init "$OPT_COLOR"
+	fi
+}
+# --- END LIBRARY FILE ---
+# --- BEGIN LIBRARY FILE: opt_hook_version.sh ---
+
+# Option parser hook: --version support.
+# This will accept --version, which prints the version information and exits.
+hook_version() {
+	SHIFTOPT_HOOKS+=("__shiftopt_hook__version")
+	__shiftopt_hook__version() {
+		if [[ "$OPT" = "--version" ]]; then
+			printf "%s %s\n\n%s\n%s\n" \
+				"batman" \
+				"2020.10.05" \
+				"Copyright (C) 2019-2020 eth-p | MIT License" \
+				"https://github.com/eth-p/bat-extras"
+			exit 0
+		fi
+
+		return 1
+	}
+}
+# --- END LIBRARY FILE ---
+# -----------------------------------------------------------------------------
+hook_color
+hook_version
+# -----------------------------------------------------------------------------
+MAN_ARGS=()
+BAT_ARGS=()
+
+while shiftopt; do
+	case "$OPT" in
+		--paging|--pager) shiftval; BAT_ARGS+=("${OPT}=${OPT_VAL}") ;;
+		*)                          MAN_ARGS+=("$OPT") ;;
+	esac
+done
+
+if "$OPT_COLOR"; then
+	BAT_ARGS+=("--color=always" "--decorations=always")
+else
+	BAT_ARGS+=("--color=never" "--decorations=never")
+fi
+
+# -----------------------------------------------------------------------------
+export MANPAGER='sh -c "col -bx | '"$(printf "%q" "/usr/bin/bat")"' --language=man --style=grid '$(printf "%q " "${BAT_ARGS[@]}")'"'
+export MANROFFOPT='-c'
+
+command man "${MAN_ARGS[@]}"
+exit $?
