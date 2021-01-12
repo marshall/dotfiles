@@ -21,6 +21,10 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'https://gn.googlesource.com/gn', { 'rtp': 'misc/vim' }
+Plugin 'mhinz/vim-startify'
+Plugin 'dracula/vim', { 'name': 'dracula' }
+Plugin 'pangloss/vim-javascript'
+Plugin 'evanleck/vim-svelte', {'branch': 'main'}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -56,7 +60,11 @@ autocmd FileType ruby setlocal ts=2 sts=2 sw=2 norelativenumber nocursorline
 set list
 set listchars=tab:>-,trail:-
 set mouse=a
-set ttymouse=xterm2
+
+if !has('nvim')
+  set ttymouse=xterm2
+endif
+
 set shortmess+=filmnrxoOtT
 set viewoptions=folds,options,cursor,unix,slash
 set history=1000
