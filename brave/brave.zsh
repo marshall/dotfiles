@@ -12,6 +12,8 @@ if [[ "$OS_NAME" = "Darwin" ]]; then
     if [[ "$BRAVE_RAMDISK_ENABLED" = "1" ]]; then
         export SCCACHE_DIR=$BRAVE_RAMDISK/sccache
     fi
+elif [[ "$OS_NAME" = "Linux" ]]; then
+    export BRAVE_NIGHTLY=/usr/bin/brave-browser-nightly
 fi
 
 brave_profile() {
@@ -109,4 +111,22 @@ brave_ramdisk_create() {
 brave_ramdisk_init() {
     brave_ramdisk_create
     rsync -a --info=progress2 $HOME/Code/brave/brave-browser $BRAVE_RAMDISK
+}
+
+brave_browser_tests() {
+    npm run test -- brave_browser_tests "$@"
+}
+
+alias brave_browser_tests="noglob brave_browser_tests"
+
+extract_json() {
+    i=0
+    while read line; do
+        json_pre=${line%*\{}
+        json=${line#*\{}
+        json=${json%\}\"*}
+        formatted=$(echo "{$json}" | jq -c . 2>/dev/null || echo "$line")
+        printf "%s\n" "$formatted"
+        i=$(( i + 1 ))
+    done
 }
