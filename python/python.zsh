@@ -14,6 +14,9 @@ if [[ -e /usr/local/bin/python3 ]]; then
     export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
 fi
 
+if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+fi
 #if [[ -f /usr/local/bin/virtualenvwrapper.sh ]]; then
 #  source /usr/local/bin/virtualenvwrapper.sh
 #elif [[ -f /etc/bash_completion.d/virtualenvwrapper ]]; then
