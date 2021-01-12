@@ -13,6 +13,9 @@
 [includeIf "gitdir:~/Code/brave/"]
     path = ~/.gitconfig_brave
 
+[includeIf "gitdir:~/Release/crypto-wallets/"]
+    path = ~/.gitconfig_brave
+
 [core]
     excludesfile = ~/.gitignore
 
