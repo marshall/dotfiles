@@ -1,0 +1,187 @@
+" " A vimrc well suited for plopping into remote boxes without carrying all of
+" dotfiles and my plugins along with it
+"
+
+" Must be first line -- use vim settings
+set nocompatible
+
+" clear all autocmds
+autocmd!
+
+" 4 space tab code format
+
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+
+" lazy-bootstrap VimPlug so this can be self contained
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" VimPlug plugins
+call plug#begin('~/.vim/plugged')
+
+Plug 'altercation/vim-colors-solarized'
+Plug 'kien/ctrlp.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-surround'
+Plug 'vim-scripts/nginx.vim'
+
+" Initialize plugin system
+call plug#end()
+
+
+" Automatically reload vimrc when it's saved
+autocmd! BufWritePost ~/.vimrc so ~/.vimrc
+
+" Misc config
+syntax on
+syntax enable
+filetype plugin indent on
+filetype on
+scriptencoding utf-8
+set encoding=UTF-8
+
+" trying to speed up ruby
+set ttyfast
+set lazyredraw
+autocmd FileType ruby setlocal ts=2 sts=2 sw=2 norelativenumber nocursorline
+
+set list
+set listchars=tab:>-,trail:-
+set mouse=a
+set ttymouse=xterm2
+set shortmess+=filmnrxoOtT
+set viewoptions=folds,options,cursor,unix,slash
+set history=1000
+set background=dark
+set nu
+set showmatch
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set wildmenu
+set wildmode=list:longest,full
+set whichwrap=b,s,h,l
+set foldenable
+set nowrap
+set autoindent
+set pastetoggle=<F12>
+set t_Co=256
+set exrc
+
+" Tell vim to remember certain things when we exit
+" "  '10  :  marks will be remembered for up to 10 previously edited files
+" "  "100 :  will save up to 100 lines for each register
+" "  :20  :  up to 20 lines of command-line history will be remembered
+" "  %    :  saves and restores the buffer list
+set viminfo='10,\"100,:20,%
+
+set tabpagemax=15
+set showmode
+set cursorline
+
+nnoremap Y y$
+cmap cwd lcd %:p:h
+
+" Remap pop-up menu up/down -> j/k
+inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
+inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
+
+" Highlight the 100 char column
+set colorcolumn=100
+colorscheme solarized
+
+" Highlight .jsm files as Javascript
+au BufNewFile,BufRead *.jsm set filetype=javascript
+
+" gdbinit.symlink -> gdb
+au BufNewFile,BufRead gdbinit.symlink set filetype=gdb
+
+" Rust
+au BufNewFile,BufRead *.rs setfiletype rust
+
+" Go
+au BufNewFile,BufRead *.go set filetype=go
+
+au BufNewFile,BufRead *.lic set filetype=ruby
+
+" disable audio / visual bell
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
+
+" Completion
+" ==========
+
+set wildmode=list:longest
+set wildmenu " Enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~ " Stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+
+" Scrolling
+" =========
+
+" Start scrolling when we're getting close to margins
+set scrolloff=5
+set sidescrolloff=5
+set sidescroll=1
+
+" how often vim writes to swap, updates UI plugins, etc
+set updatetime=100
+
+" Status Line
+" ===========
+
+set statusline= " Override default
+set statusline+=\ %f\ %m\ %r " Show filename/path
+set statusline+=%= " Set right-side status info after this line
+set statusline+=%l/%L:%v " Set <line number>/<total lines>:<column>
+set statusline+=\ " Set ending space
+
+" Windows
+" ==========
+" make all windows the same size when adding/removing windows
+set equalalways
+" always vertical-split to the right
+set splitright
+" always horizontal-split to the bottom
+set splitbelow
+
+" easier navigation between split windows
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+if executable("ag")
+    set grepprg=ag\ --nogroup\ --nocolor\ --hidden
+    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+endif
+
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=8
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
+"hi IndentGuidesOdd ctermbg=black
+"hi IndentGuidesEven ctermbg=black
+
+set foldcolumn=1
+set foldlevel=20
+
+" yaml
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" NERDTree settings
+map <F2> :NERDTreeToggle \| :silent NERDTreeMirror<CR>
+map <leader>r :NERDTreeFind<cr>
+
+" CtrlP settings
+set wildignore+=*/objdir-*/*,*/.git/*,*/.hg/*,*/_virtualenv/*
+set wildignore+=*.pyc
