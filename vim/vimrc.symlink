@@ -25,6 +25,9 @@ Plugin 'mhinz/vim-startify'
 Plugin 'dracula/vim', { 'name': 'dracula' }
 Plugin 'pangloss/vim-javascript'
 Plugin 'evanleck/vim-svelte', {'branch': 'main'}
+Plugin 'leafgarland/typescript-vim'
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plugin 'junegunn/fzf.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -252,6 +255,7 @@ let g:instant_markdown_autostart = 0
 
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=8
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
+hi Terminal ctermbg=0
 "hi IndentGuidesOdd ctermbg=black
 "hi IndentGuidesEven ctermbg=black
 
