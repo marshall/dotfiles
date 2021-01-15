@@ -97,3 +97,10 @@
 [submodule "vim/vim.symlink/bundle/vim-surround"]
 	path = vim/vim.symlink/bundle/vim-surround
 	url = https://github.com/tpope/vim-surround
+[submodule "tmux/tmux.symlink/plugins/tmux"]
+	path = tmux/tmux.symlink/plugins/tmux
+	url = https://github.com/dracula/tmux
+[submodule "powerlevel10k/powerlevel10k"]
+	path = powerlevel10k/powerlevel10k
+	url = https://gitee.com/romkatv/powerlevel10k.git
+	branch = v1.14.5
