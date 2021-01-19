@@ -1,5 +1,5 @@
-export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
+export DISABLE_AUTO_TITLE=true
 
 fpath=($ZSH/zsh/functions $fpath)
 

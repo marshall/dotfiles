@@ -8,17 +8,18 @@ windows:
   - code:
       layout: main-vertical
       panes:
-        - vim
+        - code:
+          - vim
   - shells:
-      layout: main-vertical
+      layout: 5fa0,226x76,0,0{121x76,0,0,11,104x76,122,0[104x37,122,0,12,104x38,122,38,13]}
       panes:
         - dev:brave:
           - cd ethereum-remote-client
           - yarn && yarn dev:brave
         - eth-keyring-controller:
           - cd KeyringController
-          - ls
+          - yarn
         - brave-nightly:
           - cd ethereum-remote-client
-          - echo 'to start brave, run brave_nightly_dev_wallet [profile]'
+          - echo "###\n# to start brave, run brave_nightly_dev_wallet [profile]\n###"
 

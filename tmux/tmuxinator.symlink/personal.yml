@@ -1,0 +1,15 @@
+name: personal
+root: ~/Code
+
+pre_window: nvm use 10
+startup_window: code
+
+windows:
+  - dotfiles:
+      layout: 83cb,226x76,0,0[226x58,0,0,6,226x17,0,59,7]
+      panes:
+        - code:
+          - cd dotfiles
+          - vim vim/vimrc.symlink
+        - shell:
+          - cd dotfiles

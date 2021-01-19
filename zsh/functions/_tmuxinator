@@ -1,4 +1,4 @@
-#compdef _tmuxinator tmuxinator
+#compdef _tmuxinator tmuxinator mux
 
 _tmuxinator() {
   local commands projects

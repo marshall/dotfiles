@@ -1,0 +1,21 @@
+name: brave-browser
+root: ~/Code/brave/brave-browser
+
+pre_window: nvm use 10
+startup_window: code
+
+windows:
+  - code:
+      layout: main-vertical
+      panes:
+        - code:
+          - cd src/brave
+          - vim
+  - shells:
+      layout: main-vertical
+      panes:
+        - build:
+          - npm run build
+        - test:
+          - echo "###\n# to start tests, run brave_browser_tests [args..]\n###"
+
