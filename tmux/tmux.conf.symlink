@@ -113,19 +113,8 @@ bind -n C-\\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
 
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-yank'
-set -g @plugin 'tmux-plugins/tmux-resurrect'
-set -g @plugin 'tmux-plugins/tmux-continuum'
 set -g @plugin 'dracula/tmux'
 set -g @plugin 'marshall/settings'
-
-# resurrect settings
-set -g @resurrect-save 'S'
-set -g @resurrect-restore 'R'
-set -g @resurrect-strategy-vim 'session'
-set -g @resurrect-dir "$HOME/.tmux-resurrect"
-
-# continuum settings
-set -g @continuum-restore 'on'
 
 # dracula settings
 set -g @dracula-show-weather false

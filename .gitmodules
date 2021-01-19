@@ -70,12 +70,6 @@
 [submodule "tmux/tmux.symlink/plugins/tmux-yank"]
 	path = tmux/tmux.symlink/plugins/tmux-yank
 	url = https://github.com/tmux-plugins/tmux-yank
-[submodule "tmux/tmux.symlink/plugins/tmux-resurrect"]
-	path = tmux/tmux.symlink/plugins/tmux-resurrect
-	url = https://github.com/tmux-plugins/tmux-resurrect
-[submodule "tmux/tmux.symlink/plugins/tmux-continuum"]
-	path = tmux/tmux.symlink/plugins/tmux-continuum
-	url = https://github.com/tmux-plugins/tmux-continuum
 [submodule "tmux/tmux.symlink/plugins/tmux-copycat"]
 	path = tmux/tmux.symlink/plugins/tmux-copycat
 	url = https://github.com/tmux-plugins/tmux-copycat
