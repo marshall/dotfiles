@@ -2,6 +2,8 @@ BRAVE_RAMDISK_ENABLED=0
 BRAVE_RAMDISK_SIZE_GB=256
 BRAVE_RAMDISK_VOLUME_NAME=RamDisk
 BRAVE_RAMDISK=/Volumes/$BRAVE_RAMDISK_VOLUME_NAME
+BRAVE_DEV_DIR=$HOME/Code/brave
+BRAVE_PROFILES_DIR=$HOME/Test/profiles
 
 export SCCACHE_CACHE_SIZE=100G
 export SCCACHE_DIR=$HOME/sccache
@@ -15,6 +17,19 @@ if [[ "$OS_NAME" = "Darwin" ]]; then
 elif [[ "$OS_NAME" = "Linux" ]]; then
     export BRAVE_NIGHTLY=/usr/bin/brave-browser-nightly
 fi
+
+brave_dev_bin() {
+    brave_repo=${BRAVE_REPO:-$BRAVE_DEV_DIR/brave-browser}
+    brave_build_type=${1:-${BRAVE_BUILD_TYPE:-Component}}
+
+    build_dir=$brave_repo/src/out/$brave_build_type
+
+    if [[ "$OS_NAME" = "Darwin" ]]; then
+        echo "$build_dir/Brave Browser Development.app/Contents/MacOS/Brave Browser Development"
+    elif [[ "$OS_NAME" = "Linux" ]]; then
+        echo "$build_dir/brave"
+    fi
+}
 
 brave_profile() {
     brave_bin=$1
@@ -62,20 +77,20 @@ brave_dev_clean() {
 }
 
 brave_dev_dev_wallet() {
-    brave_bin="$PWD/src/out/Component/Brave Browser Development.app/Contents/MacOS/Brave Browser Development"
+    brave_bin=$(brave_dev_bin)
     if [[ ! -x "$brave_bin" ]]; then
         echo "No build of brave found at $brave_bin"
         return 1
     fi
 
-    wallet=${1:-$HOME/Code/brave/ethereum-remote-client}
-    profile=${2:-$HOME/Test/profiles/dev-wallet}
-    if [[ ! -d "$wallet/dist/brave" ]]; then
-        echo "No unpacked extension found in $wallet/dist/brave, did you run yarn dev:brave?"
+    erc=${1:-$BRAVE_DEV_DIR/ethereum-remote-client}
+    profile=${2:-$BRAVE_PROFILES_DIR/dev-wallet}
+    if [[ ! -d "$erc/dist/brave" ]]; then
+        echo "No unpacked extension found in $erc/dist/brave, did you run yarn dev:brave?"
         return 1
     fi
 
-    brave_profile "$brave_bin" "$profile" --load-extension="$wallet/dist/brave" -- chrome://extensions chrome://wallet
+    brave_profile "$brave_bin" "$profile" --load-extension="$erc/dist/brave"
 }
 
 brave_nightly() {
@@ -83,17 +98,22 @@ brave_nightly() {
 }
 
 brave_nightly_clean() {
-    brave_tmp_profile "$BRAVE_NIGHTLY"
+    brave_tmp_profile "$BRAVE_NIGHTLY" "$@"
 }
 
 brave_nightly_dev_wallet() {
-    profile=${1:-$HOME/Test/profiles/dev-wallet}
-    if [[ ! -d dist/brave ]]; then
-        echo "No unpacked extension found in $PWD/dist/brave, did you run yarn dev:brave?"
-        return 1
+    profile=${1:-$BRAVE_PROFILES_DIR/dev-wallet}
+    erc=$PWD
+
+    if [[ ! -d "$erc/dist/brave" ]]; then
+        erc=$BRAVE_DEV_DIR/ethereum-remote-client
+        if [[ ! -d "$erc/dist/brave" ]]; then
+            echo "No unpacked extension found in $erc/dist/brave, did you run yarn dev:brave?"
+            return 1
+        fi
     fi
 
-    brave_profile "$BRAVE_NIGHTLY" "$profile" --load-extension=dist/brave -- chrome://extensions chrome://wallet
+    brave_profile "$BRAVE_NIGHTLY" "$profile" --load-extension="$erc/dist/brave"
 }
 
 brave_ramdisk_create() {
@@ -113,11 +133,11 @@ brave_ramdisk_init() {
     rsync -a --info=progress2 $HOME/Code/brave/brave-browser $BRAVE_RAMDISK
 }
 
-brave_browser_tests() {
+brave_browser_tests_impl() {
     npm run test -- brave_browser_tests "$@"
 }
 
-alias brave_browser_tests="noglob brave_browser_tests"
+alias brave_browser_tests="noglob brave_browser_tests_impl"
 
 extract_json() {
     i=0

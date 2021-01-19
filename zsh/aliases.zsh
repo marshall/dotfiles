@@ -2,7 +2,7 @@ alias reload!='. ~/.zshrc'
 alias ack='nocorrect ack'
 alias adb='nocorrect adb'
 alias repo='nocorrect repo'
-alias mux='nocorrect mux'
+alias mux='nocorrect tmuxinator'
 
 alias vi='vim'
 

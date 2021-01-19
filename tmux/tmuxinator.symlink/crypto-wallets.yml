@@ -1,0 +1,24 @@
+name: crypto-wallets
+root: ~/Code/brave
+
+pre_window: nvm use 10
+startup_window: code
+
+windows:
+  - code:
+      layout: main-vertical
+      panes:
+        - vim
+  - shells:
+      layout: main-vertical
+      panes:
+        - dev:brave:
+          - cd ethereum-remote-client
+          - yarn && yarn dev:brave
+        - eth-keyring-controller:
+          - cd KeyringController
+          - ls
+        - brave-nightly:
+          - cd ethereum-remote-client
+          - echo 'to start brave, run brave_nightly_dev_wallet [profile]'
+

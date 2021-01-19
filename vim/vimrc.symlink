@@ -28,6 +28,8 @@ Plugin 'evanleck/vim-svelte', {'branch': 'main'}
 Plugin 'leafgarland/typescript-vim'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
+Plugin 'voldikss/vim-floaterm'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -204,9 +206,6 @@ let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
 "map <F4> :TlistToggle<cr>
 "map <F5> :!/usr/local/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
-"tagbar settings
-nmap <F4> :TagbarToggle<CR>
-
 " NERDTree settings
 map <F2> :NERDTreeToggle \| :silent NERDTreeMirror<CR>
 map <leader>r :NERDTreeFind<cr>
@@ -236,13 +235,6 @@ let g:airline_theme='tomorrow'
 let g:ConqueTerm_TERM = 'xterm-256'
 
 " Syntastic settings
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-
-" deal with redraw bug in Syntastic
-"autocmd VimEnter * nnoremap <silent> <c-j> :TmuxNavigateDown<cr>:redraw!<cr>
-
 let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
@@ -256,8 +248,6 @@ let g:instant_markdown_autostart = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=8
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
 hi Terminal ctermbg=0
-"hi IndentGuidesOdd ctermbg=black
-"hi IndentGuidesEven ctermbg=black
 
 set foldcolumn=1
 set foldlevel=20
@@ -265,3 +255,22 @@ set foldlevel=20
 " yaml
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" FZF
+" [Buffers] Jump to the existing window if possible
+map <c-p> :FZF<cr>
+map <leader>f :Files<cr>
+map <leader>b :Buffers<cr>
+
+let g:fzf_buffers_jump = 1
+let g:fzf_colors =
+\ { 'gutter': ['bg', 'LineNr'],
+\   'bg+': ['bg', 'IncSearch'],
+\   'fg+': ['fg', 'IncSearch']
+\ }
+
+" Floaterm
+let g:floaterm_keymap_new    = '<F7>'
+let g:floaterm_keymap_prev   = '<F8>'
+let g:floaterm_keymap_next   = '<F9>'
+let g:floaterm_keymap_toggle = '<F12>'

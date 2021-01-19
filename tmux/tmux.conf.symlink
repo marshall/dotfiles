@@ -42,8 +42,8 @@ bind-key C-j resize-pane -D 5
 bind-key C-k resize-pane -U 5
 
 ## Load platform specific configuration files
-set -g default-terminal "screen-256color"
-set-option -ga terminal-overrides ",screen-256color:Tc"
+
+set-option -g default-command "zsh"
 
 if-shell 'uname | grep -q Darwin' \
          'source-file $DOTFILES/tmux/tmux-osx.conf' \
@@ -76,37 +76,14 @@ set-option -g status-interval 1
 # Where appropriate, special character sequences may be prefixed with a
 # number to specify the maximum length, in this line "#10W'.
 
-#set-option -g status-style bg=colour253
-#set-option -g status-left '#[bold]#(whoami)@#h '
-#set-option -g status-right '#[fg=yellow]#S#[fg=default] // %Y-%m-%d %H:%M'
-
-#set-option -g status-right-length 100
-#set-option -g status-left-length 120
-
-## active window
-#set-window-option -g window-status-current-format '[#I: #W]'
-# set-window-option -g window-status-format ' #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F '
-
 ## set window notifications
 set-option -g visual-activity on
-
-# Alerts broken with 1.6
-#set-window-option -g window-status-current-style bg=colour23
-#set-window-option -g window-status-current-style fg=colour226
-#set-window-option -g window-status-bell-fg colour226
-#set-window-option -g window-status-bell-bg colour23
-
 set-window-option -g monitor-activity off
-
-# this only works for paying attention to tmux internal rename attempts
-# you also need the new-to-tmux-1.6 allow-rename off below
-# set-window-option -g automatic-rename off
 
 ## tmux window titling for X
 set-option -g set-titles on
 set-option -g set-titles-string '[#I] #W'
-# set-window-option -g window-status-format '[#I: #W]'
-# set-window-option -g window-status-attr bold
+
 # starts windows at 1 not 0
 set-option -g base-index 1
 
@@ -122,10 +99,10 @@ set-option -g history-limit 10000
 
 # ZSH
 set-environment -g INSCREEN yes
-# set-environment -g TMUX_TITLE yes
 
 # vim-tmux-navigator setup
-is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
+is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
+    | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
 bind -n C-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
 bind -n C-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
 bind -n C-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
@@ -139,6 +116,7 @@ set -g @plugin 'tmux-plugins/tmux-yank'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @plugin 'tmux-plugins/tmux-continuum'
 set -g @plugin 'dracula/tmux'
+set -g @plugin 'marshall/settings'
 
 # resurrect settings
 set -g @resurrect-save 'S'
@@ -156,5 +134,6 @@ set -g @dracula-show-network false
 set -g @dracula-show-timezone false
 set -g @dracula-show-battery false
 set -g @dracula-military-time true
+set -g @dracula-show-left-icon session
 
 run '~/.tmux/plugins/tpm/tpm'

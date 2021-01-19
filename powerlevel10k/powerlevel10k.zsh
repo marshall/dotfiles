@@ -1,5 +1,9 @@
-theme=/usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 
-if [[ -f "$theme" ]]; then
-    source "$theme"
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+P10K_THEME=$DOTFILES/powerlevel10k/powerlevel10k/powerlevel10k.zsh-theme
+
+if [[ -f "$P10K_THEME" ]]; then
+    source "$P10K_THEME"
 fi
