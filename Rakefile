@@ -1,7 +1,10 @@
 require 'erb'
 require 'rake'
+require 'pathname'
 
 desc "Hook our dotfiles into system-standard positions."
+
+DOTFILES_DIR = File.dirname(__FILE__)
 
 task :bootstrap do
   system('bootstrap/bootstrap.sh')
@@ -34,38 +37,68 @@ task :install => [:generate] do
   $backup_all = false
 
   def make_link(file, target)
-    if File.exists?(target) || File.symlink?(target)
-      overwrite = false
-      backup = false
-      unless $skip_all || $overwrite_all || $backup_all
-        puts "File already exists: #{target}, what do you want to do? [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all"
-        case STDIN.gets.chomp
-        when 'o' then overwrite = true
-        when 'b' then backup = true
-        when 'O' then $overwrite_all = true
-        when 'B' then $backup_all = true
-        when 'S' then $skip_all = true
-        when 's' then return
+    relpath = Pathname.new(file).relative_path_from(DOTFILES_DIR)
+    print "link #{relpath.to_s} => #{target}"
+    status = "created"
+    if File.symlink?(target) && File.readlink(target) == file
+      status = "already linked"
+    else
+      if File.exists?(target) || File.symlink?(target)
+        overwrite = false
+        backup = false
+        skip = false
+        unless $skip_all || $overwrite_all || $backup_all
+          puts "File already exists: #{target}, what do you want to do? [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all"
+          case STDIN.gets.chomp
+          when 'o'
+            overwrite = true
+          when 'b'
+            backup = true
+          when 'O'
+            $overwrite_all = true
+          when 'B'
+            $backup_all = true
+          when 'S'
+            $skip_all = true
+          when 's'
+            skip = true
+          end
+        end
+        if !skip && !$skip_all
+          if overwrite || $overwrite_all
+            FileUtils.rm_rf(target)
+            status = "overwrite"
+          end
+          if backup || $backup_all
+            `mv "#{target}" "#{target}.backup"`
+            status = "backup"
+          end
         end
       end
-      FileUtils.rm_rf(target) if overwrite || $overwrite_all
-      `mv "#{target}" "#{target}.backup"` if backup || $backup_all
+
+      if !skip && !$skip_all
+        `ln -s "#{file}" "#{target}"`
+      else
+        status = "skipped"
+      end
     end
-    `ln -s "#{file}" "#{target}"`
+
+    puts " [#{status}]"
   end
 
   linkables = Dir.glob('*/**{.symlink}')
+  root = "#{ENV["PWD"]}"
   linkables.each do |linkable|
     file = linkable.split('/').last.split('.symlink').last
     target = "#{ENV["HOME"]}/.#{file}"
-    make_link("$PWD/#{linkable}", target)
+    make_link("#{root}/#{linkable}", target)
   end
 
   dot_configs = Dir.glob('*/**{.config}')
   dot_configs.each do |dot_config|
     file = dot_config.split('/').last.split('.config').last
     target = "#{ENV["HOME"]}/.config/#{file}"
-    make_link("$PWD/#{dot_config}", target)
+    make_link("#{root}/#{dot_config}", target)
   end
 
 end
