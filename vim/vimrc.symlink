@@ -4,6 +4,16 @@ set nocompatible
 " --- Vundle ---
 filetype off
 
+if has('unix')
+    if has('mac') || has('gui_mac') || has('gui_macvim')
+        let g:vimrc_os = 'mac'
+    else
+        let g:vimrc_os = 'linux'
+    end
+else
+    let g:vimrc_os = 'windows'
+end
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin('~/.vundle')
@@ -11,7 +21,7 @@ call vundle#begin('~/.vundle')
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-if has("gui_mac") || has("gui_macvim")
+if g:vimrc_os == 'mac'
     Plugin 'rizzatti/dash.vim'
 endif
 
@@ -29,7 +39,7 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
 Plugin 'voldikss/vim-floaterm'
-
+Plugin 'cespare/vim-toml'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -131,6 +141,13 @@ au BufNewFile,BufRead gdbinit.symlink set filetype=gdb
 
 " Rust
 au BufNewFile,BufRead *.rs setfiletype rust
+if g:vimrc_os == 'mac'
+    let g:rust_clip_command = 'pbcopy'
+elseif g:vimrc_os == 'linux'
+    let g:rust_clip_command = 'xclip -selection clipboard'
+end
+
+let g:rustfmt_autosave = 1
 
 " Go
 au BufNewFile,BufRead *.go set filetype=go
