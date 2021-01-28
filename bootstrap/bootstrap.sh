@@ -2,7 +2,7 @@
 # Bootstrap a clean environment with dependencies
 set -e
 
-RUBY_GEMS=(rake redcarpet pygments.rb)
+RUBY_GEMS=(rake redcarpet pygments.rb tty-progressbar pastel)
 
 THIS_DIR=$(cd `dirname "$0"`; pwd)
 OS=`uname`
