@@ -40,6 +40,8 @@ Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
 Plugin 'voldikss/vim-floaterm'
 Plugin 'cespare/vim-toml'
+Plugin 'pest-parser/pest.vim'
+Plugin 'earthly/earthly.vim', {'branch': 'main'}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
