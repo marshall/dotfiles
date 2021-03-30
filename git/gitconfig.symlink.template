@@ -10,11 +10,8 @@
     name = Marshall Culpepper
     email = mcu@hey.com
 
-[includeIf "gitdir:~/Code/brave/"]
-    path = ~/.gitconfig_brave
-
-[includeIf "gitdir:~/Release/crypto-wallets/"]
-    path = ~/.gitconfig_brave
+[includeIf "gitdir:~/Code/abstract/"]
+    path = ~/.gitconfig_abstract
 
 [core]
     excludesfile = ~/.gitignore
