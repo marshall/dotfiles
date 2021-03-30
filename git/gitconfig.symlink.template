@@ -42,3 +42,6 @@
 
 [credential "https://github.com"]
     username = marshall
+
+[url "ssh://git@github.com/"]
+    pushInsteadOf = https://github.com/
