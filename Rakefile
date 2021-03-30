@@ -8,7 +8,7 @@ require_relative 'lib/progress'
 desc "Hook our dotfiles into system-standard positions."
 
 TEMPLATES = Dir.glob('*/**{.template}')
-LINKABLES = Dir.glob('*/**{.symlink}')
+LINKABLES = Dir.glob('*/**{.symlink}') + Dir.glob('.gen/**{.symlink}')
 DOT_CONFIGS = Dir.glob('*/**{.config}')
 PROGRESS = Progress.new(total: [TEMPLATES, LINKABLES, DOT_CONFIGS].map(&:size).reduce(:+))
 STYLES = Styles.new
