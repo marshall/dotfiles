@@ -1,0 +1,31 @@
+name: abstract
+root: ~/Code/abstract
+
+startup_window: projects
+
+windows:
+  - projects:
+      layout: main-vertical
+      panes:
+        - code:
+          - cd projects
+          - vim
+  - ui:
+      layout: main-vertical
+      panes:
+        - code:
+          - cd ui
+          - vim
+  - shells:
+      layout: 5fa0,226x76,0,0{121x76,0,0,11,104x76,122,0[104x37,122,0,12,104x38,122,38,13]}
+      panes:
+        - notebooks:dev:
+          - cd projects
+          - rake notebooks:start
+        - ui:dev:
+          - cd ui
+          - yarn web start:dev
+        - notebooks:logs:
+          - cd projects
+          - docker-compose -f logs
+
