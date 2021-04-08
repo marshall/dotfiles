@@ -11,4 +11,7 @@ if [ "$OS_NAME" = "Darwin" ]; then
     alias vim='mvim -v'
 elif [ "$OS_NAME" = "Linux" ]; then
     alias ls='ls --color'
+
+    alias xcopy='xclip -selection clipboard'
+    alias xpaste='xclip -selection clipboard -o'
 fi

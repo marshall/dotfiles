@@ -26,7 +26,7 @@ esac
 run_cmd git submodule update --init --recursive
 
 echo "gem requires sudo"
-run_cmd sudo gem install ${RUBY_GEMS[@]}
+run_cmd gem install ${RUBY_GEMS[@]}
 run_cmd rake
 
 echo "############################################################"
