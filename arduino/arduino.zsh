@@ -5,4 +5,4 @@ fi
 export ARDUINO_TOOLS_AVR=$ARDUINO_ROOT/hardware/tools/avr
 export ARDUINO_TOOLS_ARM=$ARDUINO_ROOT/hardware/tools/g++_arm_none_eabi
 
-export PATH=$PATH:$ARDUINO_TOOLS_AVR/bin:$ARDUINO_TOOLS_ARM/bin
+_path_append "$ARDUINO_TOOLS_AVR/bin" "$ARDUINO_TOOLS_ARM/bin"

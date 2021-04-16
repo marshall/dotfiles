@@ -1,4 +1,4 @@
 # Hand built wrappers built from ethp/bat-extras (./build.sh --minify=none)
-export PATH="$PATH:$DOTFILES/bat/bin"
+_path_append "$DOTFILES/bat/bin"
 
 alias cat="bat --plain"

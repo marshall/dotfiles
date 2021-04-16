@@ -1,1 +1,1 @@
-export PATH=$PATH:$HOME/.dotnet/tools
+_path_append "$HOME/.dotnet/tools"

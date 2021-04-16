@@ -1,4 +1,4 @@
-export PATH=$PATH:$HOME/.cargo/bin
+_path_append "$HOME/.cargo/bin"
 
 cargo_target() {
     # set the default target at the project level

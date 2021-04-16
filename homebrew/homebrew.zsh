@@ -1,5 +1,5 @@
 
-if [[ "$OS_NAME" = "Linux" ]]; then
+if ( ! which brew >/dev/null ) && [[ "$OS_NAME" = "Linux" ]]; then
     LINUX_BREW=/home/linuxbrew/.linuxbrew
     LINUX_BREW_USER=$HOME/.linuxbrew
 

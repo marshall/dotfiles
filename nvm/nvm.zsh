@@ -1,5 +1,5 @@
-export NVM_DIR="$HOME/.nvm"
-for dir in "/usr/local/opt/nvm" "$NVM_DIR"; do
+# load the first found installation of nvm
+for dir in "$HOMEBREW_PREFIX/opt/nvm" "$HOME/.nvm"; do
     [ -s "$dir/nvm.sh" ] && . "$dir/nvm.sh"  # This loads nvm
     [ -s "$dir/etc/bash_completion.d/nvm" ] && . "$dir/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
     [ -s "$dir/nvm.sh" ] && break

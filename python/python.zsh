@@ -1,4 +1,4 @@
-export PATH=$HOME/.poetry/bin:$PATH
+_path_prepend "$HOME/.poetry/bin"
 
 # Loads at startup for the python REPL
 export PYTHONSTARTUP=$ZSH/python/pythonrc.py

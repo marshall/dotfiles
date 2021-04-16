@@ -3,7 +3,7 @@
 set -e
 
 BREW_PACKAGES=(zsh vim macvim git ack grc check the_silver_searcher node tmux lastpass-cli \
-               coreutils tmuxinator romkatv/powerlevel10k/powerlevel10k ripgrep fzf)
+               coreutils tmuxinator romkatv/powerlevel10k/powerlevel10k ripgrep fzf nvm)
 
 install_brew() {
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"

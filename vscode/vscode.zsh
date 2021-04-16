@@ -3,7 +3,7 @@
 VSCODE_APP="/Applications/Visual Studio Code.app"
 VSCODE_BIN="$VSCODE_APP/Content/Resources/app/bin"
 
-export PATH="$PATH:$VSCODE_BIN"
+_path_append "$VSCODE_BIN"
 
 if [[ -x "$VSCODE_BIN/code" ]]; then
     export VISUAL="code --wait --reuse-window"

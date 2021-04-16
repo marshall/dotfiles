@@ -3,7 +3,7 @@
 set -e
 
 APT_PACKAGES=(zsh vim git-core grc ruby gem rake curl silversearcher-ag ruby-dev build-essential)
-BREW_PACKAGES=(fzf ripgrep tmux tmuxinator bat)
+BREW_PACKAGES=(fzf ripgrep tmux tmuxinator bat nvm)
 
 echo "apt-get requires sudo"
 run_cmd sudo apt-get install ${APT_PACKAGES[@]}

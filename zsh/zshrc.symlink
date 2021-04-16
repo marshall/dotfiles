@@ -21,6 +21,9 @@ export ZSH=$DOTFILES
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Code
 
+# first load common functions
+source "$ZSH/zsh/_lib.zsh"
+
 # source every 1-deep .zsh file in this repo
 for config_file ($ZSH/*/*.zsh) source $config_file
 
@@ -39,4 +42,5 @@ compinit
 for config_file ($ZSH/**/completion.sh) source $config_file
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+_path_append "$HOME/.rvm/bin"
+export PATH
