@@ -1,7 +1,10 @@
 require 'erb'
 require 'rake'
 require 'pathname'
+require 'pry'
+require 'sudo'
 
+require_relative 'lib/link'
 require_relative 'lib/prompt'
 require_relative 'lib/progress'
 
@@ -21,7 +24,13 @@ def relpath(path, relative_from)
 end
 
 def pretty_target(target)
-  STYLES.target("~/" + relpath(target, ENV["HOME"]))
+  pretty_path = if target.to_s.start_with?(ENV["HOME"])
+    "~/" + relpath(target, ENV["HOME"])
+  else
+    target
+  end
+
+  STYLES.target(pretty_path)
 end
 
 def pretty_dotfile(file)
@@ -59,14 +68,16 @@ task :install => [:generate] do
   $prompt = Prompt.new(PROGRESS)
   $skipped = 0
 
-  def make_link(file, target)
-    type = File.exists?(target) && File.ftype(target)
-    if type == "link" && File.readlink(target) == file
+  def make_link(file, target, use_sudo: false)
+    link = Link.new(file, target)
+    if link.installed
       PROGRESS.log("installed #{pretty_target(target)}")
       return
     end
 
-    action = type && $prompt.prompt(file, target)
+    action = File.exists?(target) && $prompt.prompt(file, target)
+    overwrite = false
+    backup = false
     case action
       when :skip
         $skipped += 1
@@ -74,14 +85,21 @@ task :install => [:generate] do
         return
       when :overwrite
         PROGRESS.log("remove #{pretty_target(target)}")
-        FileUtils.rm_rf(target)
+        overwrite = true
       when :backup
         PROGRESS.log("backup #{pretty_target(target)}")
-        `mv "#{target}" "#{target}.backup"`
+        backup = true
     end
 
     PROGRESS.log("symlink #{pretty_target(target)} to #{pretty_dotfile(file)} ")
-    `ln -s "#{file}" "#{target}"`
+    if use_sudo
+      PROGRESS.log("sudo required for #{pretty_target(target)}")
+      Sudo::Wrapper.run(ruby_opts: "-r#{ENV['PWD']}/lib/link.rb") do |su|
+        su[link].link(overwrite: overwrite, backup: backup)
+      end
+    else
+      link.link(overwrite: overwrite, backup: backup)
+    end
   end
 
   root = "#{ENV["PWD"]}"
@@ -97,7 +115,22 @@ task :install => [:generate] do
     make_link("#{root}/#{dot_config}", target)
   end
 
+  # copy udev rules for QMK in Linux
+  rules_dir = "/etc/udev/rules.d"
+  if Dir.exists?(rules_dir)
+    Dir.glob('**/*.udev.rules').each do |linkable|
+      target_name = linkable.split('/').last.sub('.udev', '')
+      target = File.join(rules_dir, target_name)
+
+      make_link(File.absolute_path(File.join(ENV['PWD'], linkable)), target, use_sudo: true)
+    end
+  end
+
   PROGRESS.log("Finished." + ($skipped > 0 ? " Skipped #{$skipped} symlink(s)." : ""))
+end
+
+task :install_linux do
+
 end
 
 task :uninstall do
