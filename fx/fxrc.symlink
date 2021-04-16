@@ -1,0 +1,2 @@
+// vim:ft=javascript
+Object.assign(global, require('lodash/fp'))
