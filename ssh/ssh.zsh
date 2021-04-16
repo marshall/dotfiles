@@ -14,12 +14,18 @@ setup_ssh_agent() {
   fi
 
   known_keys=$(ssh-add -l | awk '{print $3}')
-  cat ~/.ssh/config | grep IdentityFile | awk '{print $2}' | while read key; do
-    # Only ssh-add unknown identity files
-    (echo $known_keys | grep $key > /dev/null) && continue
+  "$DOTFILES/ssh/identity_files.awk" "$HOME/.ssh/config" | sort -u | while read key; do
+    case "$key" in
+        "~/"*) key="${HOME}/${key#"~/"}";;
+    esac
 
-    echo "$fg[white]Adding ssh key $reset_color$fg[blue]$key$reset_color"
-    ssh-add $key
+    if [[ -f "$key" ]]; then
+        # Only ssh-add unknown identity files
+        (echo $known_keys | grep $key > /dev/null) && continue
+
+        echo "$fg[white]Adding ssh key $reset_color$fg[blue]$key$reset_color"
+        ssh-add $key
+    fi
   done
 }
 
