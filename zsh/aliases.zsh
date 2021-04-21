@@ -7,7 +7,7 @@ alias mux='nocorrect tmuxinator'
 alias vi='vim'
 
 if [ "$OS_NAME" = "Darwin" ]; then
-    alias ls='ls -G'
+    alias ls='gls --color'
     alias vim='mvim -v'
 elif [ "$OS_NAME" = "Linux" ]; then
     alias ls='ls --color'

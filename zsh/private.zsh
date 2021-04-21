@@ -1,6 +1,6 @@
-DOTFILES_PRIVATE=$(cd "$DOTFILES"/../dotfiles-private; pwd)
+dotfiles_private_rel="$DOTFILES/../dotfiles-private"
 
-if [[ -d "$DOTFILES_PRIVATE" ]]; then
-    export DOTFILES_PRIVATE
+if [[ -d "$dotfiles_private_rel" ]]; then
+    export DOTFILES_PRIVATE=$(cd "$dotfiles_private_rel"; pwd)
     for config_file ($DOTFILES_PRIVATE/*/*.zsh) source $config_file
 fi

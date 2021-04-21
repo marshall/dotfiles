@@ -2,7 +2,7 @@
 if $(grc &>/dev/null)
 then
   if [[ "`uname`" = "Darwin" ]]; then
-    source `brew --prefix`/etc/grc.bashrc
+    source `brew --prefix`/etc/grc.(zsh|bashrc)
   fi
 
   # grc overides for ls
