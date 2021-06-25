@@ -5,27 +5,40 @@ startup_window: projects
 
 windows:
   - projects:
-      layout: main-vertical
+      layout: 83cb,226x76,0,0[226x58,0,0,6,226x17,0,59,7]
       panes:
         - code:
           - cd projects
           - vim
+        - shell:
+          - cd projects
   - ui:
-      layout: main-vertical
+      layout: 83cb,226x76,0,0[226x58,0,0,6,226x17,0,59,7]
       panes:
         - code:
           - cd ui
           - vim
-  - shells:
-      layout: 5fa0,226x76,0,0{121x76,0,0,11,104x76,122,0[104x37,122,0,12,104x38,122,38,13]}
-      panes:
-        - notebooks:dev:
-          - cd projects
-          - rake notebooks:start
-        - ui:dev:
+        - shell:
           - cd ui
-          - yarn web start:dev
-        - notebooks:logs:
-          - cd projects
-          - docker-compose -f logs
+          - source desktop/.env.local
+  - support:
+      layout: 83cb,226x76,0,0[226x58,0,0,6,226x17,0,59,7]
+      root: ~/Support
+      panes:
+        - code:
+          - vim
+        - shell:
+          - echo
+  - logs:
+      layout: even-horizontal
+      panes:
+        - desktop:
+          - cd ui/desktop
+          - tail -f ~/Library/Application\ Support/Abstract/logs/application.log
+        - plugin:
+          - cd batbelt
+          - tail -f ~/Library/Application\ Support/Abstract/logs/sketch-plugin.log
+        - cli:
+          - cd projects/stable/abstract-cli
+          - tail -f ~/Library/Application\ Support/Abstract/logs/cli.log
 
