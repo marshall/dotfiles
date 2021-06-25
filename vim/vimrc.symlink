@@ -76,8 +76,10 @@ autocmd FileType ruby setlocal ts=2 sts=2 sw=2 norelativenumber nocursorline
 
 
 set list
-set listchars=tab:>-,trail:-
+set listchars=tab:»·,trail:·
 set mouse=a
+
+autocmd FileType go set nolist
 
 if !has('nvim')
   set ttymouse=xterm2
