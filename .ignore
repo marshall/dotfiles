@@ -1,0 +1,6 @@
+/android/logcat-color
+/mozilla/trychooser
+/vim/vim.symlink/bundle/*
+!/vim/vim.symlink/bundle/settings
+/tmux/tmux.symlink/plugins/*
+/zsh/plugins/*
