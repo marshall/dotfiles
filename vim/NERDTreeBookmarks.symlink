@@ -1,7 +1,7 @@
-brave-helper ~/Code/brave/brave-helper
-brave-src ~/Code/brave/brave-browser/src/brave
-brave-versions ~/Code/brave/brave-versions
+batbelt ~/Code/abstract/batbelt
 dotfiles ~/Code/dotfiles
-ethereum-remote-client ~/Code/brave/ethereum-remote-client
-KeyringController ~/Code/brave/KeyringController
+dotfiles-private ~/Code/dotfiles-private
+projects ~/Code/abstract/projects
+ui ~/Code/abstract/ui
+zero_v ~/Code/zero_v
 
