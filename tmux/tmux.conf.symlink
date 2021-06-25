@@ -82,7 +82,7 @@ set-window-option -g monitor-activity off
 
 ## tmux window titling for X
 set-option -g set-titles on
-set-option -g set-titles-string '[#I] #W'
+set-option -g set-titles-string '[#h] #S/#W'
 
 # starts windows at 1 not 0
 set-option -g base-index 1
