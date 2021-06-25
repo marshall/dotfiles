@@ -42,6 +42,7 @@ Plugin 'voldikss/vim-floaterm'
 Plugin 'cespare/vim-toml'
 Plugin 'pest-parser/pest.vim'
 Plugin 'earthly/earthly.vim', {'branch': 'main'}
+Plugin 'tpope/vim-rhubarb'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -233,6 +234,13 @@ let g:NERDTreeIgnore = ['\.pyc$', '\.egg-info$', 'objdir-.*$[[dir]]', '_virtuale
 let g:NERDTreeMapOpenVSplit = "v"
 let g:NERDTreeWinSize = 60
 let g:NERDTreeShowBookmarks = 1
+
+" gitgutter settings
+let g:gitgutter_sign_added = '▎'
+let g:gitgutter_sign_modified = '▎'
+let g:gitgutter_sign_removed = '▎'
+let g:gitgutter_sign_removed_first_line = '▎'
+let g:gitgutter_sign_modified_removed = '▎'
 
 " CtrlP settings
 set wildignore+=*/objdir-*/*,*/.git/*,*/.hg/*,*/_virtualenv/*
