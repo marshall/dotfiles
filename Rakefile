@@ -2,30 +2,36 @@ require 'erb'
 require 'rake'
 require 'pathname'
 require 'pry'
+require 'require_all'
 require 'sudo'
 
-require_relative 'lib/link'
-require_relative 'lib/prompt'
-require_relative 'lib/progress'
+require_all 'lib'
 
 desc "Hook our dotfiles into system-standard positions."
+
+DOTFILES_DIR = File.absolute_path(File.dirname(__FILE__))
+DOTFILES_PRIVATE_DIR = File.join(File.dirname(DOTFILES_DIR), "dotfiles-private")
+
+RAKEFILES = Dir.glob("#{DOTFILES_DIR}/*/Rakefile") + Dir.glob("#{DOTFILES_PRIVATE_DIR}/Rakefile")
+RAKEFILES.each do |rakefile|
+  import rakefile
+end
 
 TEMPLATES = Dir.glob('*/**{.template}')
 LINKABLES = Dir.glob('*/**{.symlink}') + Dir.glob('.gen/**{.symlink}')
 DOT_CONFIGS = Dir.glob('*/**{.config}')
 PROGRESS = Progress.new(total: [TEMPLATES, LINKABLES, DOT_CONFIGS].map(&:size).reduce(:+))
+PROMPT = Prompt.new(PROGRESS)
 STYLES = Styles.new
 
-# PROGRESS.start
-
-def relpath(path, relative_from)
+def relpath_from(path, relative_from)
   path = Pathname.new(File.absolute_path(path)).relative_path_from(relative_from)
   "#{path}"
 end
 
 def pretty_target(target)
   pretty_path = if target.to_s.start_with?(ENV["HOME"])
-    "~/" + relpath(target, ENV["HOME"])
+    "~/" + relpath_from(target, ENV["HOME"])
   else
     target
   end
@@ -34,7 +40,15 @@ def pretty_target(target)
 end
 
 def pretty_dotfile(file)
-  STYLES.relpath(relpath(file, DOTFILES_DIR))
+  STYLES.relpath(relpath_from(file, DOTFILES_DIR))
+end
+
+def prompt_install_link(file, target, use_sudo: false)
+  PROMPT.install_link(file, target, use_sudo: use_sudo)
+end
+
+def uninstall_link(file, target)
+  Link.new(file, target).uninstall
 end
 
 task :bootstrap do
@@ -51,9 +65,8 @@ task :generate do
 
     filename = template.split('/').last.split('.template').last
     target = File.join(gen_dir, filename)
-    target_rel = Pathname.new(File.absolute_path(template)).relative_path_from(DOTFILES_DIR)
 
-    PROGRESS.log("generating #{pretty_target(target_rel)}")
+    PROGRESS.log("generating #{pretty_target(relpath_from(template, DOTFILES_DIR))}")
     File.open(template, 'r') do |template_file|
       erb = ERB.new(template_file.read())
       erb.filename = template
@@ -65,72 +78,20 @@ task :generate do
 end
 
 task :install => [:generate] do
-  $prompt = Prompt.new(PROGRESS)
-  $skipped = 0
-
-  def make_link(file, target, use_sudo: false)
-    link = Link.new(file, target)
-    if link.installed
-      PROGRESS.log("installed #{pretty_target(target)}")
-      return
-    end
-
-    action = File.exists?(target) && $prompt.prompt(file, target)
-    overwrite = false
-    backup = false
-    case action
-      when :skip
-        $skipped += 1
-        PROGRESS.log("skipped #{pretty_target(target)}")
-        return
-      when :overwrite
-        PROGRESS.log("remove #{pretty_target(target)}")
-        overwrite = true
-      when :backup
-        PROGRESS.log("backup #{pretty_target(target)}")
-        backup = true
-    end
-
-    PROGRESS.log("symlink #{pretty_target(target)} to #{pretty_dotfile(file)} ")
-    if use_sudo
-      PROGRESS.log("sudo required for #{pretty_target(target)}")
-      Sudo::Wrapper.run(ruby_opts: "-r#{ENV['PWD']}/lib/link.rb") do |su|
-        su[link].link(overwrite: overwrite, backup: backup)
-      end
-    else
-      link.link(overwrite: overwrite, backup: backup)
-    end
-  end
-
   root = "#{ENV["PWD"]}"
   PROGRESS.iterate(LINKABLES) do |linkable|
     file = linkable.split('/').last.split('.symlink').last
     target = "#{ENV["HOME"]}/.#{file}"
-    make_link("#{root}/#{linkable}", target)
+    prompt_install_link("#{root}/#{linkable}", target)
   end
 
   PROGRESS.iterate(DOT_CONFIGS) do |dot_config|
     file = dot_config.split('/').last.split('.config').last
     target = "#{ENV["HOME"]}/.config/#{file}"
-    make_link("#{root}/#{dot_config}", target)
+    prompt_install_link("#{root}/#{dot_config}", target)
   end
 
-  # copy udev rules for QMK in Linux
-  rules_dir = "/etc/udev/rules.d"
-  if Dir.exists?(rules_dir)
-    Dir.glob('**/*.udev.rules').each do |linkable|
-      target_name = linkable.split('/').last.sub('.udev', '')
-      target = File.join(rules_dir, target_name)
-
-      make_link(File.absolute_path(File.join(ENV['PWD'], linkable)), target, use_sudo: true)
-    end
-  end
-
-  PROGRESS.log("Finished." + ($skipped > 0 ? " Skipped #{$skipped} symlink(s)." : ""))
-end
-
-task :install_linux do
-
+  PROGRESS.log("Finished." + (PROMPT.skipped > 0 ? " Skipped #{PROMPT.skipped} symlink(s)." : ""))
 end
 
 task :uninstall do

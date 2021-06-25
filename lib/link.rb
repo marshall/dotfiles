@@ -11,7 +11,7 @@ class Link
     type == "link" && File.readlink(@target) == @file
   end
 
-  def link(overwrite: false, backup: false)
+  def install(overwrite: false, backup: false)
     if overwrite
       FileUtils.rm_rf(@target)
     end
@@ -21,5 +21,11 @@ class Link
     end
 
     FileUtils.ln_s(@file, @target, force: true)
+  end
+
+  def uninstall
+    if File.symlink?(@target) && File.readlink(@target) == @file
+      FileUtils.rm(@target)
+    end
   end
 end

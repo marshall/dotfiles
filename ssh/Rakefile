@@ -1,0 +1,18 @@
+DOT_SSH = "#{ENV["HOME"]}/.ssh"
+SSH_CONFIG = "#{DOT_SSH}/config"
+DOTFILES_SSH_CONFIG = "#{DOTFILES_DIR}/ssh/config"
+
+task :install_ssh_config do
+  if !Dir.exists?(DOT_SSH)
+    Dir.mkdir(DOT_SSH)
+  end
+
+  prompt_install_link(DOTFILES_SSH_CONFIG, SSH_CONFIG)
+end
+
+task :uninstall_ssh_config do
+  uninstall_link(DOTFILES_SSH_CONFIG, SSH_CONFIG)
+end
+
+task :install => :install_ssh_config
+task :uninstall => :uninstall_ssh_config
