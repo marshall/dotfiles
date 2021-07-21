@@ -25,24 +25,34 @@ if g:vimrc_os == 'mac'
     Plugin 'rizzatti/dash.vim'
 endif
 
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'https://gn.googlesource.com/gn', { 'rtp': 'misc/vim' }
-Plugin 'mhinz/vim-startify'
-Plugin 'dracula/vim', { 'name': 'dracula' }
-Plugin 'pangloss/vim-javascript'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'cespare/vim-toml'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'earthly/earthly.vim', {'branch': 'main'}
 Plugin 'evanleck/vim-svelte', {'branch': 'main'}
-Plugin 'leafgarland/typescript-vim'
+Plugin 'dracula/vim', { 'name': 'dracula' }
+Plugin 'https://gn.googlesource.com/gn', { 'rtp': 'misc/vim' }
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
-Plugin 'voldikss/vim-floaterm'
-Plugin 'cespare/vim-toml'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'mattn/gist-vim'
+Plugin 'mhinz/vim-startify'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'pangloss/vim-javascript'
 Plugin 'pest-parser/pest.vim'
-Plugin 'earthly/earthly.vim', {'branch': 'main'}
+Plugin 'plasticboy/vim-markdown'
+Plugin 'rust-lang/rust.vim'
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'preservim/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'suan/vim-instant-markdown'
+Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rhubarb'
+Plugin 'tpope/vim-surround'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'voldikss/vim-floaterm'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -236,6 +246,12 @@ let g:NERDTreeIgnore = ['\.pyc$', '\.egg-info$', 'objdir-.*$[[dir]]', '_virtuale
 let g:NERDTreeMapOpenVSplit = "v"
 let g:NERDTreeWinSize = 60
 let g:NERDTreeShowBookmarks = 1
+let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
+let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
+
+" NERDCommenter settings
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
 
 " gitgutter settings
 let g:gitgutter_sign_added = '▎'
@@ -247,15 +263,6 @@ let g:gitgutter_sign_modified_removed = '▎'
 " CtrlP settings
 set wildignore+=*/objdir-*/*,*/.git/*,*/.hg/*,*/_virtualenv/*
 set wildignore+=*.pyc
-
-let g:ctrlp_max_files = 50000
-
-if executable("ag")
-    set grepprg=ag\ --nogroup\ --nocolor\ --hidden
-    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-endif
-
-let g:ctrlp_show_hidden = 1
 
 " vim-airline
 let g:airline_theme='tomorrow'

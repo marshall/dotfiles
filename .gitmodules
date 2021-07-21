@@ -1,72 +1,27 @@
-[submodule "vim/vim.symlink/bundle/ctrlp.vim"]
-	path = vim/vim.symlink/bundle/ctrlp.vim
-	url = git://github.com/kien/ctrlp.vim.git
-[submodule "vim/vim.symlink/bundle/nerdtree"]
-	path = vim/vim.symlink/bundle/nerdtree
-	url = git://github.com/scrooloose/nerdtree.git
 [submodule "vim/vim.symlink/bundle/vim-colors-solarized"]
 	path = vim/vim.symlink/bundle/vim-colors-solarized
 	url = https://github.com/marshall/vim-colors-solarized
-[submodule "vim/vim.symlink/bundle/ack.vim"]
-	path = vim/vim.symlink/bundle/ack.vim
-	url = git://github.com/mileszs/ack.vim.git
 [submodule "vim/vim.symlink/bundle/vim-pathogen"]
 	path = vim/vim.symlink/bundle/vim-pathogen
 	url = git://github.com/tpope/vim-pathogen.git
-[submodule "vim/vim.symlink/bundle/vim-fugitive"]
-	path = vim/vim.symlink/bundle/vim-fugitive
-	url = git://github.com/tpope/vim-fugitive.git
 [submodule "zsh/plugins/history-substring-search"]
 	path = zsh/plugins/history-substring-search
 	url = git://github.com/zsh-users/zsh-history-substring-search.git
-[submodule "vim/vim.symlink/bundle/gist-vim"]
-	path = vim/vim.symlink/bundle/gist-vim
-	url = git://github.com/mattn/gist-vim.git
 [submodule "vim/vim.symlink/bundle/supertab"]
 	path = vim/vim.symlink/bundle/supertab
 	url = git://github.com/ervandew/supertab.git
-[submodule "vim/vim.symlink/bundle/nerdcommenter"]
-	path = vim/vim.symlink/bundle/nerdcommenter
-	url = git://github.com/scrooloose/nerdcommenter.git
 [submodule "android/logcat-color"]
 	path = android/logcat-color
 	url = git://github.com/marshall/logcat-color.git
-[submodule "vim/vim.symlink/bundle/vim-markdown"]
-	path = vim/vim.symlink/bundle/vim-markdown
-	url = git://github.com/tpope/vim-markdown.git
-[submodule "vim/vim.symlink/bundle/vim-gitgutter"]
-	path = vim/vim.symlink/bundle/vim-gitgutter
-	url = https://github.com/airblade/vim-gitgutter
-[submodule "vim/vim.symlink/bundle/nerdtree-ack"]
-	path = vim/vim.symlink/bundle/nerdtree-ack
-	url = git://github.com/tyok/nerdtree-ack.git
-[submodule "vim/vim.symlink/bundle/vim-instant-markdown"]
-	path = vim/vim.symlink/bundle/vim-instant-markdown
-	url = https://github.com/suan/vim-instant-markdown
-[submodule "vim/vim.symlink/bundle/vim-dispatch"]
-	path = vim/vim.symlink/bundle/vim-dispatch
-	url = https://github.com/tpope/vim-dispatch
 [submodule "mozilla/trychooser"]
 	path = mozilla/trychooser
 	url = https://github.com/pbiggar/trychooser
-[submodule "vim/vim.symlink/bundle/vim-jade"]
-	path = vim/vim.symlink/bundle/vim-jade
-	url = https://github.com/digitaltoad/vim-jade
 [submodule "mozilla/moz-git-tools"]
 	path = mozilla/moz-git-tools
 	url = https://github.com/mozilla/moz-git-tools
-[submodule "vim/vim.symlink/bundle/vim-tmux-navigator"]
-	path = vim/vim.symlink/bundle/vim-tmux-navigator
-	url = https://github.com/christoomey/vim-tmux-navigator
-[submodule "vim/vim.symlink/bundle/vim-less"]
-	path = vim/vim.symlink/bundle/vim-less
-	url = https://github.com/groenewege/vim-less
 [submodule "tmux/tmux.symlink/plugins/tpm"]
 	path = tmux/tmux.symlink/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
-[submodule "vim/vim.symlink/bundle/vim-obsession"]
-	path = vim/vim.symlink/bundle/vim-obsession
-	url = https://github.com/tpope/vim-obsession
 [submodule "tmux/tmux.symlink/plugins/tmux-yank"]
 	path = tmux/tmux.symlink/plugins/tmux-yank
 	url = https://github.com/tmux-plugins/tmux-yank
@@ -79,15 +34,6 @@
 [submodule "vim/vim.symlink/bundle/Vundle.vim"]
 	path = vim/vim.symlink/bundle/Vundle.vim
 	url = https://github.com/gmarik/Vundle.vim.git
-[submodule "vim/vim.symlink/bundle/vim-coffee-script"]
-	path = vim/vim.symlink/bundle/vim-coffee-script
-	url = https://github.com/kchmck/vim-coffee-script.git
-[submodule "vim/vim.symlink/bundle/rust.vim"]
-	path = vim/vim.symlink/bundle/rust.vim
-	url = https://github.com/rust-lang/rust.vim.git
-[submodule "vim/vim.symlink/bundle/vim-surround"]
-	path = vim/vim.symlink/bundle/vim-surround
-	url = https://github.com/tpope/vim-surround
 [submodule "tmux/tmux.symlink/plugins/tmux"]
 	path = tmux/tmux.symlink/plugins/tmux
 	url = https://github.com/dracula/tmux
