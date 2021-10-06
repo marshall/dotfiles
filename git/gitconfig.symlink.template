@@ -10,8 +10,8 @@
     name = Marshall Culpepper
     email = mcu@hey.com
 
-[includeIf "gitdir:~/Code/abstract/"]
-    path = ~/.gitconfig_abstract
+[includeIf "gitdir:~/Code/filecoin/"]
+    path = ~/.gitconfig_filecoin
 
 [core]
     excludesfile = ~/.gitignore
