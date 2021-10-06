@@ -1,0 +1,54 @@
+name: filecoin
+root: ~/Code/filecoin
+
+startup_window: lotus
+pre_window:
+  - export CC=gcc
+
+windows:
+  - lotus:
+      layout: 83cb,226x76,0,0[226x58,0,0,6,226x17,0,59,7]
+      panes:
+        - code:
+          - title "" code
+          - cd lotus
+          - /usr/bin/vim
+        - shell:
+          - title "" shell
+          - cd lotus
+  - estuary:
+      layout: 83cb,226x76,0,0[226x58,0,0,6,226x17,0,59,7]
+      panes:
+        - code:
+          - title "" code
+          - cd estuary
+          - /usr/bin/vim
+        - shell:
+          - title "" shell
+          - cd estuary
+  - nodes:
+      layout: ee01,429x72,0,0{142x72,0,0[142x61,0,0,3,142x10,0,62,7],142x72,143,0,4,143x72,286,0,5}
+      panes:
+        - lotus:
+          - title "" lotus$(_lotus_network_suffix)
+          - cd lotus
+          - ./lotus daemon
+        - lotus-sync:
+          - title "" lotus$(_lotus_network_suffix)-sync
+          - cd lotus
+          - sleep 5 && ./lotus sync wait
+        - estuary:
+          - title "" estuary$(_lotus_network_suffix)
+          - cd estuary
+          - source .env
+          - ulimit -n 10000
+          - sleep 5 && ./estuary
+        - shuttle0:
+          - title "" shuttle0$(_lotus_network_suffix)
+          - cd estuary
+          - source .env.shuttle0
+          - ulimit -n 10000
+          - sleep 5 && ./estuary-shuttle --estuary-api=localhost:3004 --handle=$SHUTTLE_HANDLE --auth-token=$SHUTTLE_TOKEN
+
+
+

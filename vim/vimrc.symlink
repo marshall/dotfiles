@@ -129,6 +129,10 @@ set background=dark
 " Forces use of the system clipboard in OS X
 set clipboard+=unnamed
 
+if g:vimrc_os == 'linux'
+    set clipboard=unnamedplus
+end
+
 set tabpagemax=15
 set showmode
 set cursorline

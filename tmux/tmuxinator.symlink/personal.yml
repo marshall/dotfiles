@@ -9,7 +9,9 @@ windows:
       layout: 83cb,226x76,0,0[226x58,0,0,6,226x17,0,59,7]
       panes:
         - code:
+          - title "" code
           - cd dotfiles
-          - vim vim/vimrc.symlink
+          - /usr/bin/vim vim/vimrc.symlink
         - shell:
+          - title "" shell
           - cd dotfiles

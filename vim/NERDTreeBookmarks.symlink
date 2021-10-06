@@ -1,7 +1,5 @@
-batbelt ~/Code/abstract/batbelt
 dotfiles ~/Code/dotfiles
 dotfiles-private ~/Code/dotfiles-private
-projects ~/Code/abstract/projects
-ui ~/Code/abstract/ui
+estuary ~/Code/filecoin/estuary
+lotus ~/Code/filecoin/lotus
 zero_v ~/Code/zero_v
-

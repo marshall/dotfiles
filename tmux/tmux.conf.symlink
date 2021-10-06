@@ -80,10 +80,6 @@ set-option -g status-interval 1
 set-option -g visual-activity on
 set-window-option -g monitor-activity off
 
-## tmux window titling for X
-set-option -g set-titles on
-set-option -g set-titles-string '[#h] #S/#W'
-
 # starts windows at 1 not 0
 set-option -g base-index 1
 
@@ -126,3 +122,10 @@ set -g @dracula-military-time true
 set -g @dracula-show-left-icon session
 
 run '~/.tmux/plugins/tpm/tpm'
+
+pane_title_bg="#6272a4"
+pane_title_fg="#f8f8f2"
+pane_title_left=""
+pane_title_right=""
+set-option -g pane-border-status top
+set-option -g pane-border-format "#[align=right,fg=$pane_title_bg]#{pane_title_left}#[bg=$pane_title_bg,fg=$pane_title_fg] #{pane_title} #[fg=$pane_title_bg,bg=default]#{pane_title_right}"
