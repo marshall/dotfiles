@@ -13,12 +13,6 @@
 [submodule "android/logcat-color"]
 	path = android/logcat-color
 	url = git://github.com/marshall/logcat-color.git
-[submodule "mozilla/trychooser"]
-	path = mozilla/trychooser
-	url = https://github.com/pbiggar/trychooser
-[submodule "mozilla/moz-git-tools"]
-	path = mozilla/moz-git-tools
-	url = https://github.com/mozilla/moz-git-tools
 [submodule "tmux/tmux.symlink/plugins/tpm"]
 	path = tmux/tmux.symlink/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
