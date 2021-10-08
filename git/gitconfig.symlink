@@ -1,10 +1,7 @@
+# vim: filetype=gitconfig
+#
 [include]
     path = .gitconfig_private
-<% if `uname`.include?('Darwin') %>
-    path = ~/.gitconfig_osx
-<% else %>
-    path = ~/.gitconfig_linux
-<% end %>
 
 [user]
     name = Marshall Culpepper
@@ -21,6 +18,9 @@
     status = auto
     branch = auto
     ui = auto
+
+[credential]
+    helper = ~/.git_credential
 
 [merge]
     tool = diffmerge

@@ -1,1 +1,1 @@
-Include ~/Code/dotfiles-private/ssh-config.d/*
+Include ~/Code/dotfiles-private/ssh-config.d/*.conf
