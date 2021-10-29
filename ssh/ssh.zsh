@@ -1,5 +1,5 @@
 # in minutes
-export KEYCHAIN_TIMEOUT=60
+export KEYCHAIN_TIMEOUT=120
 
 ssh_identity_files() {
     config_file=$HOME/.ssh/config
