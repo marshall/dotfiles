@@ -7,9 +7,6 @@
 [submodule "zsh/plugins/history-substring-search"]
 	path = zsh/plugins/history-substring-search
 	url = git://github.com/zsh-users/zsh-history-substring-search.git
-[submodule "vim/vim.symlink/bundle/supertab"]
-	path = vim/vim.symlink/bundle/supertab
-	url = git://github.com/ervandew/supertab.git
 [submodule "android/logcat-color"]
 	path = android/logcat-color
 	url = git://github.com/marshall/logcat-color.git
@@ -35,3 +32,6 @@
 	path = powerlevel10k/powerlevel10k
 	url = https://gitee.com/romkatv/powerlevel10k.git
 	branch = v1.14.5
+[submodule "vim/vim.symlink/bundle/vim-plug"]
+	path = vim/vim.symlink/bundle/vim-plug
+	url = https://github.com/junegunn/vim-plug
