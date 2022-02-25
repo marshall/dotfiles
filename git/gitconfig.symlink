@@ -20,7 +20,7 @@
     ui = auto
 
 [credential]
-    helper = ~/.git_credential
+    helper = "!f() { ~/.git_credential $@; }; f"
 
 [merge]
     tool = diffmerge
@@ -45,3 +45,5 @@
 
 [url "ssh://git@github.com/"]
     pushInsteadOf = https://github.com/
+[init]
+	defaultBranch = main

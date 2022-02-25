@@ -1,1 +1,4 @@
+Match exec "uname -s | grep Darwin"
+    UseKeychain yes
+
 Include ~/Code/dotfiles-private/ssh-config.d/*.conf
