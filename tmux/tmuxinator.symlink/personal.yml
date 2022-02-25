@@ -11,7 +11,7 @@ windows:
         - code:
           - title "" code
           - cd dotfiles
-          - /usr/bin/vim vim/vimrc.symlink
+          - vim vim/vimrc.symlink
         - shell:
           - title "" shell
           - cd dotfiles

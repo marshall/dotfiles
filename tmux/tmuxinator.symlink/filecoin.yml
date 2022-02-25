@@ -3,7 +3,7 @@ root: ~/Code/filecoin
 
 startup_window: lotus
 pre_window:
-  - export CC=gcc
+  - source $DOTFILES/filecoin/estuary.env
 
 windows:
   - lotus:
@@ -12,7 +12,7 @@ windows:
         - code:
           - title "" code
           - cd lotus
-          - /usr/bin/vim
+          - vim
         - shell:
           - title "" shell
           - cd lotus
@@ -22,7 +22,7 @@ windows:
         - code:
           - title "" code
           - cd estuary
-          - /usr/bin/vim
+          - vim
         - shell:
           - title "" shell
           - cd estuary
@@ -41,14 +41,13 @@ windows:
           - title "" estuary$(_lotus_network_suffix)
           - cd estuary
           - source .env
-          - ulimit -n 10000
-          - sleep 5 && ./estuary
+          - sleep 5 && bash -c '(ulimit -n 5000; ./estuary)'
         - shuttle0:
           - title "" shuttle0$(_lotus_network_suffix)
           - cd estuary
           - source .env.shuttle0
           - ulimit -n 10000
-          - sleep 5 && ./estuary-shuttle --estuary-api=localhost:3004 --handle=$SHUTTLE_HANDLE --auth-token=$SHUTTLE_TOKEN
+          - sleep 5 && bash -c '(ulimit -n 5000; ./estuary-shuttle --estuary-api=localhost:3004 --handle=$SHUTTLE_HANDLE --auth-token=$SHUTTLE_TOKEN)'
 
 
 
