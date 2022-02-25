@@ -8,7 +8,7 @@ UDEV_RULES = Hash[
   }
 ]
 
-if Dir.exists?(RULES_DIR)
+if Dir.exists?(RULES_DIR) && !ENV["WSL_DISTRO_NAME"]
   task :install_udev_rules do
     UDEV_RULES.each do |file, target|
       prompt_install_link(file, target, use_sudo: true)
