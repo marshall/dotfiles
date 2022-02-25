@@ -1,3 +1,4 @@
+# Install udev rules in Linux
 RULES_DIR = "/etc/udev/rules.d"
 
 UDEV_RULES = Hash[
@@ -22,4 +23,22 @@ if Dir.exists?(RULES_DIR)
 
   task :install => :install_udev_rules
   task :uninstall => :uninstall_udev_rules
+end
+
+# Symlink config to ~/Library/Application Support for macOS
+APP_SUPPORT_DIR = File.join(ENV["HOME"], "Library", "Application Support")
+QMK_CONFIG_DIR = File.join(DOTFILES_DIR, "qmk", "qmk.config")
+
+if Dir.exists?(APP_SUPPORT_DIR)
+
+  task :install_qmk_config do
+    prompt_install_link(QMK_CONFIG_DIR, File.join(APP_SUPPORT_DIR, "qmk"))
+  end
+
+  task :uninstall_qmk_config do
+    uninstall_link(QMK_CONFIG_DIR, File.join(APP_SUPPORT_DIR, "qmk"))
+  end
+
+  task :install => :install_qmk_config
+  task :uninstall => :uninstall_qmk_config
 end
