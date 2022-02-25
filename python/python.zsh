@@ -14,6 +14,10 @@ if [[ -e /usr/local/bin/python3 ]]; then
     export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
 fi
 
+if ( which python3 >/dev/null ); then
+    _path_prepend "`python3 -msite --user-base`/bin"
+fi
+
 if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
