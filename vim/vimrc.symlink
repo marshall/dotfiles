@@ -32,6 +32,7 @@ Plug 'https://gn.googlesource.com/gn', { 'rtp': 'misc/vim' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'leafgarland/typescript-vim'
+Plug 'lifepillar/vim-solarized8'
 Plug 'mattn/gist-vim'
 Plug 'mhinz/vim-startify'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -109,7 +110,7 @@ set foldenable
 set nowrap
 set autoindent
 set pastetoggle=<F12>
-set t_Co=256
+set termguicolors
 set exrc
 
 " Tell vim to remember certain things when we exit
@@ -119,9 +120,10 @@ set exrc
 " "  %    :  saves and restores the buffer list
 set viminfo='10,\"100,:20,%
 
-" Solarized color settings
-colorscheme solarized
 set background=dark
+set fillchars+=vert:\ 
+autocmd vimenter * ++nested colorscheme solarized8
+let g:solarized_extra_hi_groups=1
 
 " Forces use of the system clipboard in OS X
 set clipboard+=unnamed
@@ -137,10 +139,6 @@ set guifont=Monaco:h14
 
 nnoremap Y y$
 cmap cwd lcd %:p:h
-
-" Remap pop-up menu up/down -> j/k
-inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
-inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
 
 " Highlight the 100 char column
 set colorcolumn=100
@@ -205,16 +203,6 @@ set sidescroll=1
 " how often vim writes to swap, updates UI plugins, etc
 set updatetime=100
 
-" Status Line
-" ===========
-
-set statusline= " Override default
-set statusline+=%{fugitive#statusline()[4:-2]} " Show fugitive git info
-set statusline+=\ %f\ %m\ %r " Show filename/path
-set statusline+=%= " Set right-side status info after this line
-set statusline+=%l/%L:%v " Set <line number>/<total lines>:<column>
-set statusline+=\ " Set ending space
-
 " Windows
 " ==========
 " make all windows the same size when adding/removing windows
@@ -241,6 +229,8 @@ map <leader>r :NERDTreeFind<cr>
 
 let g:NERDTreeIgnore = ['\.pyc$', '\.egg-info$', 'objdir-.*$[[dir]]', '_virtualenv[[dir]]']
 let g:NERDTreeMapOpenVSplit = "v"
+let g:NERDTreeMapJumpNextSibling = ""
+let g:NERDTreeMapJumpPrevSibling = ""
 let g:NERDTreeWinSize = 60
 let g:NERDTreeShowBookmarks = 1
 let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
@@ -262,7 +252,8 @@ set wildignore+=*/objdir-*/*,*/.git/*,*/.hg/*,*/_virtualenv/*
 set wildignore+=*.pyc
 
 " vim-airline
-let g:airline_theme='tomorrow'
+let g:airline_theme='solarized_flood'
+let g:airline_powerline_fonts = 1
 
 " Syntastic settings
 let g:syntastic_always_populate_loc_list = 0
