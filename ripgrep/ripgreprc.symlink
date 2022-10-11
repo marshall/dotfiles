@@ -1,0 +1,9 @@
+# ripgrep config
+
+# solarized blue: 38,139,210
+# solarized dark bg: 0,43,54
+# solarized yellow: 181,137,0
+--colors=path:fg:181,137,0
+--colors=match:fg:0,43,54
+--colors=match:bg:181,137,0
+--colors=column:fg:0x58,0x6e,0x75

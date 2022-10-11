@@ -1,52 +1,65 @@
 local utils = require('utils')
 local cmd = vim.cmd
-local opt = utils.opt
+local bo = vim.bo
 
 require('plugins')
 require('keybindings')
 
-local buffer = { vim.o, vim.bo }
-local window = { vim.o, vim.wo }
+local opts = {
+  autoindent = true,
+  background = 'dark',
+  colorcolumn = '100',
+  completeopt = 'menuone,noselect',
+  cursorline = true,
+  display = 'msgsep',
+  encoding = 'UTF-8',
+  foldenable = true,
+  guicursor = 'n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50',
+  hidden = true,
+  joinspaces = false,
+  laststatus = 2,
+  lazyredraw = true,
+  list = true,
+  listchars = 'tab:»·,trail:·',
+  modeline = false,
+  mouse = 'nivh',
+  number = true,
+  previewheight = 5,
+  scrolloff = 5,
+  shada = [['20,<50,s10,h,/100]],
+  shortmess = vim.o.shortmess .. 'c',
+  showmatch = true,
+  showmode = true,
+  signcolumn = 'auto:1',
+  smartcase = true,
+  splitright = true,
+  splitbelow = true,
+  synmaxcol = 500,
+  termguicolors = true,
+  textwidth = 0,
+  title = false,
+  undofile = true,
+  updatetime = 100,
+  whichwrap = 'b,s,h,l',
+  wrap = false,
+}
 
-opt('textwidth', 100, buffer)
-opt('lazyredraw', true)
-opt('showmatch', true)
-opt('ignorecase', true)
-opt('smartcase', true)
-opt('number', true, window)
-opt('smartindent', true, buffer)
-opt('laststatus', 2)
-opt('showmode', false)
-opt('shada', [['20,<50,s10,h,/100]])
-opt('hidden', true)
-opt('shortmess', vim.o.shortmess .. 'c')
-opt('completeopt', 'menuone,noselect')
-opt('joinspaces', false)
-opt('guicursor', [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]])
-opt('updatetime', 500)
-opt('conceallevel', 2, window)
-opt('concealcursor', 'nc', window)
-opt('previewheight', 5)
-opt('undofile', true, buffer)
-opt('synmaxcol', 500, buffer)
-opt('display', 'msgsep')
-opt('cursorline', true, window)
-opt('modeline', false, buffer)
-opt('mouse', 'nivh')
-opt('signcolumn', 'yes:1', window)
+for key, val in pairs(opts) do
+  vim.opt[key] = val
+end
 
--- ?
-opt('completeopt', 'menuone,noselect')
+bo.undofile = true
 
--- default code format
-local codefmt = require('codefmt')
-codefmt.two_space()
-
--- color scheme config
-opt('termguicolors', true, utils.ALL_SCOPES)
-opt('background', 'dark', utils.ALL_SCOPES)
+-- setup code formats
+require('codefmt').setup()
 
 -- highlight on yank
 cmd 'au TextYankPost * lua vim.highlight.on_yank {on_visual = false}'
 
-cmd [[colorscheme NeoSolarized]]
+-- don't show tab characters in Go files
+cmd 'au FileType go set nolist'
+
+-- Textmate/sublime theme
+cmd 'au BufNewFile,BufRead *.tmTheme set filetype=xml'
+
+cmd [[colorscheme solarized]]
