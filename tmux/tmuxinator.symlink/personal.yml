@@ -11,7 +11,7 @@ windows:
         - code:
           - title "" code
           - cd dotfiles
-          - vim vim/vimrc.symlink
+          - nvim neovim/nvim.config/init.lua
         - shell:
           - title "" shell
           - cd dotfiles

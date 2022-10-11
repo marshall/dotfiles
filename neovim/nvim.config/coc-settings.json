@@ -1,0 +1,25 @@
+{
+  "outline": {
+    "splitCommand": "botright 50vs"
+  },
+  "diagnostic": {
+    "errorSign": "",
+    "warningSign": "",
+    "infoSign": "",
+    "hintSign": "",
+    "messageTarget": "",
+    "virtualText": true,
+    "virtualTextCurrentLineOnly": false
+  },
+  "rust-analyzer": {
+    "updates": {
+      "channel": "nightly"
+    },
+    "rustfmt": {
+      "enableRangeFormatting": true
+    },
+    "cargo": {
+      "runBuildScripts": true
+    }
+  }
+}

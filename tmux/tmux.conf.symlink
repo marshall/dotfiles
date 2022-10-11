@@ -58,6 +58,9 @@ bind -Tcopy-mode-vi 'v' send -X begin-selection
 ## messages
 set-option -g display-time 1500
 
+## escape timeout for vim
+set -sg escape-time 10
+
 ## set status bar
 set-option -g status-interval 1
 
@@ -88,8 +91,8 @@ set-option -g mouse on
 set-window-option -g mode-keys vi
 
 # fix up mouse wheel scrolling
-bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
-bind -n WheelDownPane select-pane -t= \; send-keys -M
+# bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
+# bind -n WheelDownPane select-pane -t= \; send-keys -M
 
 set-option -g history-limit 10000
 
@@ -109,23 +112,7 @@ bind -n C-\\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
 
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-yank'
-set -g @plugin 'dracula/tmux'
 set -g @plugin 'marshall/settings'
-
-# dracula settings
-set -g @dracula-show-weather false
-set -g @dracula-show-powerline true
-set -g @dracula-show-network false
-set -g @dracula-show-timezone false
-set -g @dracula-show-battery false
-set -g @dracula-military-time true
-set -g @dracula-show-left-icon session
+set -g @plugin 'nhdaly/tmux-better-mouse-mode'
 
 run '~/.tmux/plugins/tpm/tpm'
-
-pane_title_bg="#6272a4"
-pane_title_fg="#f8f8f2"
-pane_title_left=""
-pane_title_right=""
-set-option -g pane-border-status top
-set-option -g pane-border-format "#[align=right,fg=$pane_title_bg]#{pane_title_left}#[bg=$pane_title_bg,fg=$pane_title_fg] #{pane_title} #[fg=$pane_title_bg,bg=default]#{pane_title_right}"
