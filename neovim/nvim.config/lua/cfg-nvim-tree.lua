@@ -8,21 +8,7 @@ local exists = vim.fn.exists
 local wincmd = vim.fn.wincmd
 local winnr = vim.fn.winnr
 
-vim.g.nvim_tree_add_trailing = 1
-vim.g.nvim_tree_git_hl = 1
-vim.g.nvim_tree_show_icons = {
-  git = 1,
-  folders = 1,
-  files = 1,
-  folder_arrows = 1,
-}
-
 -- this re-enables icons for certain "special" files
-vim.g.nvim_tree_special_files = {}
-
-vim.g.nvim_tree_icons = {
-  default = "",
-}
 
 nvim_tree.setup {
   diagnostics = {
@@ -40,6 +26,23 @@ nvim_tree.setup {
   },
   open_on_setup = true,
   open_on_tab = true,
+  renderer = {
+    add_trailing = true,
+    highlight_git = true,
+    icons = {
+      show = {
+        git = true,
+        folder = true,
+        file = true,
+        folder_arrow = true,
+      },
+      glyphs = {
+        default = "",
+      }
+    },
+    special_files = {},
+
+  },
   update_focused_file = {
     enable = true,
     ignore_list = {
