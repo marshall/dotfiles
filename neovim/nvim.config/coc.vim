@@ -67,10 +67,6 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-autocmd CursorHold * silent let b:coc_current_function = CocAction('getCurrentFunctionSymbol')
-
 " Refresh NvimTree when diagnostics are updated
 autocmd User CocDiagnosticChange NvimTreeRefresh
 

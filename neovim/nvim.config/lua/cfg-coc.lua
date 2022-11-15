@@ -46,4 +46,12 @@ utils.map('n', '<F4>', [[:lua require'cfg-coc'.toggle_outline()<CR>]], { silent 
 
 vim.api.nvim_command('hi CocHintSign guifg='..colors.base01)
 
+-- Highlight the symbol and its references when holding the cursor.
+vim.api.nvim_create_augroup("CocGroup", {})
+vim.api.nvim_create_autocmd("CursorHold", {
+    group = "CocGroup",
+    command = "silent call CocActionAsync('highlight')",
+    desc = "Highlight symbol under cursor on CursorHold"
+})
+
 return M
