@@ -52,6 +52,7 @@ bo.undofile = true
 
 -- setup code formats
 require('codefmt').setup()
+require('clipboard')
 
 -- highlight on yank
 cmd 'au TextYankPost * lua vim.highlight.on_yank {on_visual = false}'
