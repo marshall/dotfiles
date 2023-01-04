@@ -1,4 +1,4 @@
-_path_prepend "$HOME/.poetry/bin"
+_path_prepend "$HOME/.local/bin"
 
 # Loads at startup for the python REPL
 export PYTHONSTARTUP=$ZSH/python/pythonrc.py
