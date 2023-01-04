@@ -9,23 +9,26 @@ vim.api.nvim_command('packadd packer.nvim')
 
 local no_errors, error_msg = pcall(function()
 
-  local time
-  local profile_info
-  local should_profile = false
-  if should_profile then
-    local hrtime = vim.loop.hrtime
-    profile_info = {}
-    time = function(chunk, start)
-      if start then
-        profile_info[chunk] = hrtime()
-      else
-        profile_info[chunk] = (hrtime() - profile_info[chunk]) / 1e6
-      end
+_G._packer = _G._packer or {}
+_G._packer.inside_compile = true
+
+local time
+local profile_info
+local should_profile = false
+if should_profile then
+  local hrtime = vim.loop.hrtime
+  profile_info = {}
+  time = function(chunk, start)
+    if start then
+      profile_info[chunk] = hrtime()
+    else
+      profile_info[chunk] = (hrtime() - profile_info[chunk]) / 1e6
     end
-  else
-    time = function(chunk, start) end
   end
-  
+else
+  time = function(chunk, start) end
+end
+
 local function save_profiles(threshold)
   local sorted_times = {}
   for chunk_name, time_taken in pairs(profile_info) do
@@ -38,8 +41,10 @@ local function save_profiles(threshold)
       results[i] = elem[1] .. ' took ' .. elem[2] .. 'ms'
     end
   end
+  if threshold then
+    table.insert(results, '(Only showing plugins that took longer than ' .. threshold .. ' ms ' .. 'to load)')
+  end
 
-  _G._packer = _G._packer or {}
   _G._packer.profile_output = results
 end
 
@@ -115,14 +120,18 @@ _G.packer_plugins = {
     url = "https://github.com/kyazdani42/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
+    config = { "require('cfg-treesitter')" },
     loaded = true,
     path = "/home/marshall/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
   },
   ["nvim-web-devicons"] = {
     after = { "nvim-tree.lua" },
+    config = { "require('cfg-devicons')" },
     loaded = true,
-    only_config = true
+    only_config = true,
+    path = "/home/marshall/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = true,
@@ -165,6 +174,22 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: vim-startify
+time([[Config for vim-startify]], true)
+require('cfg-startify')
+time([[Config for vim-startify]], false)
+-- Config for: nvim-web-devicons
+time([[Config for nvim-web-devicons]], true)
+require('cfg-devicons')
+time([[Config for nvim-web-devicons]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+require('cfg-treesitter')
+time([[Config for nvim-treesitter]], false)
+-- Config for: lualine.nvim
+time([[Config for lualine.nvim]], true)
+require('cfg-lualine')
+time([[Config for lualine.nvim]], false)
 -- Config for: fzf.vim
 time([[Config for fzf.vim]], true)
 require('cfg-fzf')
@@ -173,26 +198,14 @@ time([[Config for fzf.vim]], false)
 time([[Config for vim-gitgutter]], true)
 require('cfg-gitgutter')
 time([[Config for vim-gitgutter]], false)
--- Config for: tagbar
-time([[Config for tagbar]], true)
-require('cfg-tagbar')
-time([[Config for tagbar]], false)
--- Config for: lualine.nvim
-time([[Config for lualine.nvim]], true)
-require('cfg-lualine')
-time([[Config for lualine.nvim]], false)
--- Config for: nvim-web-devicons
-time([[Config for nvim-web-devicons]], true)
-require('cfg-devicons')
-time([[Config for nvim-web-devicons]], false)
--- Config for: vim-startify
-time([[Config for vim-startify]], true)
-require('cfg-startify')
-time([[Config for vim-startify]], false)
 -- Config for: neovim-colors-solarized-truecolor-only
 time([[Config for neovim-colors-solarized-truecolor-only]], true)
 require('cfg-solarized')
 time([[Config for neovim-colors-solarized-truecolor-only]], false)
+-- Config for: tagbar
+time([[Config for tagbar]], true)
+require('cfg-tagbar')
+time([[Config for tagbar]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd nvim-tree.lua ]]
@@ -206,6 +219,13 @@ vim.cmd [[ packadd coc.nvim ]]
 require('cfg-coc')
 
 time([[Sequenced loading]], false)
+
+_G._packer.inside_compile = false
+if _G._packer.needs_bufread == true then
+  vim.cmd("doautocmd BufRead")
+end
+_G._packer.needs_bufread = false
+
 if should_profile then save_profiles() end
 
 end)
