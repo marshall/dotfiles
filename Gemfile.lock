@@ -8,6 +8,7 @@ GEM
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
+    rake (13.0.6)
     require_all (3.0.0)
     strings-ansi (0.2.0)
     sudo (0.2.0)
@@ -27,6 +28,7 @@ PLATFORMS
 DEPENDENCIES
   pastel (~> 0.8.0)
   pry (~> 0.14.1)
+  rake (~> 13.0)
   require_all (~> 3.0)
   sudo (~> 0.2.0)
   tty-cursor (~> 0.7.1)
