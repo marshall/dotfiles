@@ -1,9 +1,14 @@
 #!/bin/bash
 
-FONT_NAME="Meslo LG M DZ Regular Nerd Font Complete"
-FONT_PATH="Meslo/M-DZ/Regular/complete/$FONT_NAME.ttf"
+FONT_FAMILY="Meslo"
+FONT_NAME="$FONT_FAMILY LG M DZ Regular Nerd Font Complete"
+FONT_PATH="$FONT_FAMILY/M-DZ/Regular/complete/$FONT_NAME.ttf"
 
 mkdir -p ~/.local/share/fonts
 cd ~/.local/share/fonts
 
-curl -fLo "$FONT_NAME.ttf" "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/$FONT_URL"
+curl -fL "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/$FONT_FAMILY.zip" -o $FONT_FAMILY.zip
+unzip $FONT_FAMILY.zip "$FONT_NAME.ttf"
+rm $FONT_FAMILY.zip
+
+fc-cache -f -v
