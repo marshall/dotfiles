@@ -174,14 +174,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: vim-startify
-time([[Config for vim-startify]], true)
-require('cfg-startify')
-time([[Config for vim-startify]], false)
--- Config for: nvim-web-devicons
-time([[Config for nvim-web-devicons]], true)
-require('cfg-devicons')
-time([[Config for nvim-web-devicons]], false)
+-- Config for: tagbar
+time([[Config for tagbar]], true)
+require('cfg-tagbar')
+time([[Config for tagbar]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
 require('cfg-treesitter')
@@ -190,22 +186,26 @@ time([[Config for nvim-treesitter]], false)
 time([[Config for lualine.nvim]], true)
 require('cfg-lualine')
 time([[Config for lualine.nvim]], false)
--- Config for: fzf.vim
-time([[Config for fzf.vim]], true)
-require('cfg-fzf')
-time([[Config for fzf.vim]], false)
 -- Config for: vim-gitgutter
 time([[Config for vim-gitgutter]], true)
 require('cfg-gitgutter')
 time([[Config for vim-gitgutter]], false)
+-- Config for: fzf.vim
+time([[Config for fzf.vim]], true)
+require('cfg-fzf')
+time([[Config for fzf.vim]], false)
 -- Config for: neovim-colors-solarized-truecolor-only
 time([[Config for neovim-colors-solarized-truecolor-only]], true)
 require('cfg-solarized')
 time([[Config for neovim-colors-solarized-truecolor-only]], false)
--- Config for: tagbar
-time([[Config for tagbar]], true)
-require('cfg-tagbar')
-time([[Config for tagbar]], false)
+-- Config for: vim-startify
+time([[Config for vim-startify]], true)
+require('cfg-startify')
+time([[Config for vim-startify]], false)
+-- Config for: nvim-web-devicons
+time([[Config for nvim-web-devicons]], true)
+require('cfg-devicons')
+time([[Config for nvim-web-devicons]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd nvim-tree.lua ]]
