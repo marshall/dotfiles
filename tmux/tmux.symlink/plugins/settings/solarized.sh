@@ -80,7 +80,7 @@ main() {
   # choose-tree decorations
   # modified from https://github.com/tmux/tmux/blob/1bf2f811ea8835dd24bdb773b5be4df517767d1f/window-tree.c#L39-L57
 
-  tree_fmt=$(cat <<-END
+  IFS='' read -r -d '' tree_fmt <<'END'
 		#{?pane_format,
 			#{?pane_marked,#[reverse],}
 			#{pane_current_command}#{?pane_active,*,}#{?pane_marked,M,}
@@ -100,7 +100,6 @@ main() {
 			}
 		}
 END
-)
 
   tmux bind-key w choose-tree -Zw -F "$tree_fmt"
 }
