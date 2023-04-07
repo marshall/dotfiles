@@ -1,4 +1,5 @@
 local nvim_tree = require('nvim-tree')
+local nvim_tree_api = require('nvim-tree.api')
 local utils = require('utils')
 local api = vim.api
 local bufname = vim.fn.bufname
@@ -35,7 +36,7 @@ local function open_nvim_tree(data)
 
   if no_name then
     -- preserve startify for [No Name]
-    require("nvim-tree.api").tree.toggle({ focus = false })
+    nvim_tree_api.tree.toggle({ focus = false })
     return
   end
 
@@ -50,17 +51,17 @@ local function open_nvim_tree(data)
 
   if directory then
     vim.cmd.cd(data.file)
-    require("nvim-tree.api").tree.open()
+    nvim_tree_api.tree.open()
   elseif real_file then
     if vim.tbl_contains(IGNORED_FT, filetype) then
       return
     end
-    require("nvim-tree.api").tree.toggle({ focus = false, find_file = true, })
+    nvim_tree_api.tree.toggle({ focus = false, find_file = true, })
   end
 end
 
 local function dir_label(path)
-  local relative_base = vim.fs.normalize(vim.env.RELATIVE_BASE)
+  local relative_base = vim.env.RELATIVE_BASE
   if relative_base then
     local relto = vim.fn.system {
       "realpath",
@@ -74,6 +75,12 @@ local function dir_label(path)
   end
 end
 
+local function on_attach(bufnr)
+  vim.keymap.set("n", "<C-c>", function()
+    nvim_tree_api.tree.change_root_to_node()
+  end, { buffer = bufnr, noremap = true, silent = true, nowait = true, desc = "change the root node" })
+end
+
 nvim_tree.setup {
   diagnostics = {
     -- this re-enables icons for certain "special" files
@@ -85,6 +92,7 @@ nvim_tree.setup {
       hint  = '',
     }
   },
+  on_attach = on_attach,
   renderer = {
     add_trailing = true,
     highlight_git = true,
