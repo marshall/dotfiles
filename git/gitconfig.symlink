@@ -1,15 +1,5 @@
 # vim: filetype=gitconfig
 #
-[include]
-    path = .gitconfig_private
-
-[user]
-    name = Marshall Culpepper
-    email = mcu@hey.com
-
-[includeIf "gitdir:~/Code/filecoin/"]
-    path = ~/.gitconfig_filecoin
-
 [core]
     excludesfile = ~/.gitignore
 
@@ -40,10 +30,17 @@
 [push]
     default = upstream
 
-[credential "https://github.com"]
-    username = marshall
-
 [url "ssh://git@github.com/"]
     pushInsteadOf = https://github.com/
+
 [init]
-	defaultBranch = main
+    defaultBranch = main
+
+[credential "https://gitlab.com"]
+    provider = generic
+
+[gpg]
+    format = ssh
+
+[include]
+    path = ~/.gitconfig_private
