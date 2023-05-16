@@ -8,10 +8,52 @@ local exists = vim.fn.exists
 local wincmd = vim.fn.wincmd
 local winnr = vim.fn.winnr
 
--- this re-enables icons for certain "special" files
+local function open_nvim_tree(data)
+  -- trying to replicate these legacy options:
+  --
+  -- ignore_buffer_on_setup = true,
+  -- ignore_ft_on_setup = {
+  --   'gitcommit'
+  -- },
+  -- open_on_setup = true,
+  -- open_on_tab = true,
+
+  local IGNORED_FT = {
+    'gitcommit',
+  }
+
+  -- buffer is a [No Name]
+  local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
+
+  if no_name then
+    -- preserve startify for [No Name]
+    require("nvim-tree.api").tree.toggle({ focus = false })
+    return
+  end
+
+  -- buffer is a directory
+  local directory = vim.fn.isdirectory(data.file) == 1
+
+   -- buffer is a real file on the disk
+  local real_file = vim.fn.filereadable(data.file) == 1
+
+  -- &ft
+  local filetype = vim.bo[data.buf].ft
+
+  if directory then
+    vim.cmd.cd(data.file)
+    require("nvim-tree.api").tree.open()
+  elseif real_file then
+    if vim.tbl_contains(IGNORED_FT, filetype) then
+      return
+    end
+    require("nvim-tree.api").tree.toggle({ focus = false, find_file = true, })
+  end
+end
 
 nvim_tree.setup {
   diagnostics = {
+    -- this re-enables icons for certain "special" files
     enable = true,
     icons = {
       error = '',
@@ -20,12 +62,6 @@ nvim_tree.setup {
       hint  = '',
     }
   },
-  ignore_buffer_on_setup = true,
-  ignore_ft_on_setup = {
-    'gitcommit'
-  },
-  open_on_setup = true,
-  open_on_tab = true,
   renderer = {
     add_trailing = true,
     highlight_git = true,
@@ -43,6 +79,9 @@ nvim_tree.setup {
     special_files = {},
 
   },
+  tab = {
+    sync = { open = true },
+  },
   update_focused_file = {
     enable = true,
     ignore_list = {
@@ -53,6 +92,9 @@ nvim_tree.setup {
     width = 50
   }
 }
+
+
+api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
 vim.cmd('autocmd BufEnter * ++nested if winnr("$") == 1 && bufname() == "NvimTree_" . tabpagenr() | quit | endif')
 
