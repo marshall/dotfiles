@@ -7,9 +7,10 @@ APT_PACKAGES=(
   build-essential
   curl
   fzf
-  gem 
+  gem
   git-core
   grc
+  neovim
   rake
   ripgrep
   ruby
@@ -17,7 +18,6 @@ APT_PACKAGES=(
   tmux
   tmuxinator
   vim
-  neovim
   zsh
 )
 
