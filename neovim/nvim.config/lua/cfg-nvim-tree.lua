@@ -1,4 +1,3 @@
--- local tree_cb = require('nvim-tree.config').nvim_tree_callback
 local nvim_tree = require('nvim-tree')
 local utils = require('utils')
 local api = vim.api
@@ -74,6 +73,15 @@ nvim_tree.setup {
       },
       glyphs = {
         default = "",
+        git = {
+          unstaged = "",  -- nf-fa-circle_o
+          staged = "",  -- nf-fa-dot_circle_o
+          unmerged = "",  -- nf-oct-git_pull_request
+          renamed = "➜",  -- nf-fa-arrow_circle_right
+          untracked = "",  -- nf-fa-eye
+          deleted = "",  -- nf-fa-trash_o
+          ignored = "◌"  -- nf-fa-info
+        },
       }
     },
     special_files = {},

@@ -9,6 +9,7 @@ return require('packer').startup(function(use)
   use { 'airblade/vim-gitgutter', config = [[require('cfg-gitgutter')]] }
   use { 'christoomey/vim-tmux-navigator' }
   use { 'frankier/neovim-colors-solarized-truecolor-only', config = [[require('cfg-solarized')]] }
+  use { 'github/copilot.vim' }
   use { 'junegunn/fzf', run = function() fn['fzf#install'](0) end}
   use { 'junegunn/fzf.vim', config = [[require('cfg-fzf')]] }
   use { 'kyazdani42/nvim-web-devicons', config=[[require('cfg-devicons')]] }
@@ -18,6 +19,7 @@ return require('packer').startup(function(use)
   use { 'neovim/nvim-lspconfig' }
   use { 'nvim-lualine/lualine.nvim', config = [[require('cfg-lualine')]] }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = [[require('cfg-treesitter')]] }
+  use { 'nvim-treesitter/nvim-treesitter-context', config = [[require('cfg-treesitter-context')]] }
   use { 'preservim/tagbar', config = [[require('cfg-tagbar')]] }
   use { 'simrat39/rust-tools.nvim' }
   use { 'tpope/vim-fugitive' }
