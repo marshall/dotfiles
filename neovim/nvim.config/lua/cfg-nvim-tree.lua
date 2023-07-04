@@ -71,14 +71,22 @@ local function dir_label(path)
     }
     return string.gsub(relto, "\n", "")
   else
-    return vim.fn.fnamemodify(path, ":~:s?\\~/Code/?")
+    return vim.fn.fnamemodify(path, ":~:s?\\~/Code/??")
   end
 end
 
 local function on_attach(bufnr)
+  local function opts(desc)
+    return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  -- default mappings
+  nvim_tree_api.config.mappings.default_on_attach(bufnr)
+
+  -- custom mappings
   vim.keymap.set("n", "<C-c>", function()
     nvim_tree_api.tree.change_root_to_node()
-  end, { buffer = bufnr, noremap = true, silent = true, nowait = true, desc = "change the root node" })
+  end, opts("change the root node"))
 end
 
 nvim_tree.setup {
