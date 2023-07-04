@@ -7,6 +7,11 @@ local exists = vim.fn.exists
 local wincmd = vim.fn.wincmd
 local winnr = vim.fn.winnr
 
+local enable_auto_open = true
+local function disable_auto_open()
+  enable_auto_open = false
+end
+
 local function open_nvim_tree(data)
   -- trying to replicate these legacy options:
   --
@@ -20,6 +25,10 @@ local function open_nvim_tree(data)
   local IGNORED_FT = {
     'gitcommit',
   }
+
+  if not enable_auto_open then
+    return
+  end
 
   -- buffer is a [No Name]
   local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
@@ -47,6 +56,21 @@ local function open_nvim_tree(data)
       return
     end
     require("nvim-tree.api").tree.toggle({ focus = false, find_file = true, })
+  end
+end
+
+local function dir_label(path)
+  local relative_base = vim.fs.normalize(vim.env.RELATIVE_BASE)
+  if relative_base then
+    local relto = vim.fn.system {
+      "realpath",
+      "--relative-base",
+      relative_base,
+      path,
+    }
+    return string.gsub(relto, "\n", "")
+  else
+    return vim.fn.fnamemodify(path, ":~:s?\\~/Code/?")
   end
 end
 
@@ -84,8 +108,11 @@ nvim_tree.setup {
         },
       }
     },
+    indent_markers = {
+      enable = true,
+    },
+    root_folder_label = dir_label,
     special_files = {},
-
   },
   tab = {
     sync = { open = true },
@@ -103,6 +130,8 @@ nvim_tree.setup {
 
 
 api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+-- for use in certain situations from CLI i.e. nvim +NoTree <file>
+api.nvim_create_user_command('NoTree', disable_auto_open, {})
 
 vim.cmd('autocmd BufEnter * ++nested if winnr("$") == 1 && bufname() == "NvimTree_" . tabpagenr() | quit | endif')
 
