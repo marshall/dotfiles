@@ -42,6 +42,9 @@
 [gpg]
     format = ssh
 
+[gpg "ssh"]
+    allowedSignersFile = ~/.allowed_signers
+
 [commit]
     gpgsign = true
 
