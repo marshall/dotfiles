@@ -57,8 +57,9 @@ require('clipboard')
 -- highlight on yank
 cmd 'au TextYankPost * lua vim.highlight.on_yank {on_visual = false}'
 
--- don't show tab characters in Go files
+-- don't show tab characters in Go or Cue files
 cmd 'au FileType go set nolist'
+cmd 'au Filetype cue set nolist'
 
 -- Textmate/sublime theme
 cmd 'au BufNewFile,BufRead *.tmTheme set filetype=xml'
