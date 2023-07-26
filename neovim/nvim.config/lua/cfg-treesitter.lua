@@ -6,6 +6,7 @@ require('nvim-treesitter.configs').setup {
     'cmake',
     'cpp',
     'css',
+    'cue',
     'dockerfile',
     'go',
     'graphql',

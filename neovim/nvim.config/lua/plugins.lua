@@ -10,6 +10,7 @@ return require('packer').startup(function(use)
   use { 'christoomey/vim-tmux-navigator' }
   use { 'frankier/neovim-colors-solarized-truecolor-only', config = [[require('cfg-solarized')]] }
   use { 'github/copilot.vim' }
+  use { 'jjo/vim-cue' }
   use { 'junegunn/fzf', run = function() fn['fzf#install'](0) end}
   use { 'junegunn/fzf.vim', config = [[require('cfg-fzf')]] }
   use { 'kyazdani42/nvim-web-devicons', config=[[require('cfg-devicons')]] }
