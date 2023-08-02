@@ -12,8 +12,11 @@
     "virtualTextCurrentLineOnly": false
   },
   "rust-analyzer": {
+    "procMacro": {
+      "enable": true
+    },
     "updates": {
-      "channel": "nightly"
+      "channel": "stable"
     },
     "rustfmt": {
       "enableRangeFormatting": true

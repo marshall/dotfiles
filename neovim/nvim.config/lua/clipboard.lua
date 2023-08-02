@@ -17,3 +17,7 @@ if vim.loop.fs_stat(win32yank) then
   map('v', '<leader>y', '"+y')
   map('n', '<leader>p', '"+p')
 end
+
+if vim.fn.has('macunix') then
+  vim.opt.clipboard = 'unnamedplus'
+end
