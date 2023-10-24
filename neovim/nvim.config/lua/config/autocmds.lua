@@ -25,3 +25,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave"
     end
   end,
 })
+
+vim.api.nvim_create_user_command("RestoreSession", function()
+  require("persistence").load()
+end, {})
