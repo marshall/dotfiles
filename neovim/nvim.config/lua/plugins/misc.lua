@@ -1,26 +1,66 @@
 return {
   {
-    'telescope.nvim',
+    "shumphrey/fugitive-gitlab.vim",
+  },
+  {
+    "ojroques/nvim-osc52",
+    config = function(_, opts)
+      require("osc52").setup(opts)
+
+      local function copy(lines, _)
+        require("osc52").copy(table.concat(lines, "\n"))
+      end
+
+      local function copy_visual(lines, _)
+        require("osc52").copy_visual(table.concat(lines, "\n"))
+      end
+
+      local function paste()
+        return { vim.fn.splite(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
+      end
+
+      vim.g.clipboard = {
+        name = "osc52",
+        copy = { ["+"] = copy, ["*"] = copy },
+        paste = { ["+"] = paste, ["*"] = paste },
+      }
+
+      vim.keymap.set("n", "<leader>c", '"+y')
+      vim.keymap.set("n", "<leader>cc", '"+yy')
+      vim.keymap.set("v", "<leader>c", require("osc52").copy_visual)
+    end,
+  },
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = true,
+  },
+  {
+    "telescope.nvim",
     dependencies = {
-      'nvim-telescope/telescope-fzf-native.nvim',
-      build = 'make',
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
       config = function()
-        require('telescope').load_extension('fzf')
+        require("telescope").load_extension("fzf")
       end,
     },
   },
   {
-    'christoomey/vim-tmux-navigator',
-    keys = {
-      { '<C-h>', '<cmd>TmuxNavigateLeft<cr>', desc = 'tmux/nvim left' },
-      { '<C-j>', '<cmd>TmuxNavigateDown<cr>', desc = 'tmux/nvim down' },
-      { '<C-k>', '<cmd>TmuxNavigateUp<cr>', desc = 'tmux/nvim up' },
-      { '<C-l>', '<cmd>TmuxNavigateRight<cr>', desc = 'tmux/nvim right' },
-      { '<C-/>', '<cmd>TmuxNavigatePrevious<cr>', desc = 'tmux prev' },
-    },
-    config = function(_, opts)
-      vim.g.tmux_navigator_no_mappings = 1
-    end
+    "tpope/vim-fugitive",
+    "tpope/vim-rhubarb",
   },
-  { 'tpope/vim-fugitive' },
+  {
+    "christoomey/vim-tmux-navigator",
+    keys = {
+      { "<C-h>", "<cmd>TmuxNavigateLeft<cr>", desc = "tmux/nvim left" },
+      { "<C-j>", "<cmd>TmuxNavigateDown<cr>", desc = "tmux/nvim down" },
+      { "<C-k>", "<cmd>TmuxNavigateUp<cr>", desc = "tmux/nvim up" },
+      { "<C-l>", "<cmd>TmuxNavigateRight<cr>", desc = "tmux/nvim right" },
+      { "<C-/>", "<cmd>TmuxNavigatePrevious<cr>", desc = "tmux prev" },
+    },
+    config = function(_, _)
+      vim.g.tmux_navigator_no_mappings = 1
+    end,
+  },
 }
