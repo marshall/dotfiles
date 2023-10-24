@@ -1,0 +1,1 @@
+alias zq="zoxide query"
