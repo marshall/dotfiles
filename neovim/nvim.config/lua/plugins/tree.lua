@@ -58,8 +58,13 @@ return {
       root_folder_label = function(path)
         local relative_base = vim.env.RELATIVE_BASE
         if relative_base then
+          -- check if this is macOS so we use grealpath instead of realpath
+          local realpath = "realpath"
+          if vim.fn.has("mac") == 1 then
+            realpath = "grealpath"
+          end
           local relto = vim.fn.system({
-            "realpath",
+            realpath,
             "--relative-base",
             relative_base,
             path,
