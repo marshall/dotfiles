@@ -12,31 +12,17 @@ return {
     "NoahTheDuke/vim-just",
   },
   {
-    "lspcontainers/lspcontainers.nvim",
-  },
-  {
     "neovim/nvim-lspconfig",
     opts = function(_, opts)
-      opts.servers.clangd.cmd = require("lspcontainers").command("clangd", {
-        image = "coruscant-dev:1.17.0",
-        workdir = vim.fn.getenv("HOME") .. "/Code",
-        cmd_builder = function(runtime, workdir, image, network, _)
-          local volume = "--volume=" .. workdir .. ":" .. workdir .. ":z"
-          return {
-            runtime,
-            "container",
-            "run",
-            "--interactive",
-            "--rm",
-            "--network=" .. network,
-            "--workdir=" .. workdir,
-            volume,
-            image,
-            "clangd",
-            "--background-index",
-          }
-        end,
-      })
+      opts.servers.clangd.cmd = {
+        "./coruscant/scripts/run-clangd.sh",
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion=iwyu",
+        "--completion-style=detailed",
+        "--function-arg-placeholders",
+        "--fallback-style=llvm",
+      }
       return opts
     end,
   },
@@ -49,5 +35,8 @@ return {
         "cue",
       },
     },
+  },
+  {
+    "jjo/vim-cue",
   },
 }
