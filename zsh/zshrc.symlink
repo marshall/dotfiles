@@ -44,3 +44,5 @@ for config_file ($ZSH/**/completion.sh) source $config_file
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 _path_append "$HOME/.rvm/bin"
 export PATH
+
+test -e ~/.iterm2_shell_integration.zsh && source ~/.iterm2_shell_integration.zsh || true
