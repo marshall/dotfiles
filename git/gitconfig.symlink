@@ -52,4 +52,7 @@
     gpgsign = true
 
 [include]
-    path = ~/.gitconfig_private
+  path = ~/.gitconfig_private
+
+[include]
+  path = ~/Code/dotfiles/ghq/gitconfig
