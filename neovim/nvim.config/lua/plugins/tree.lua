@@ -84,6 +84,9 @@ return {
     view = {
       width = 50,
     },
+    sort = {
+      sorter = "extension",
+    },
   },
   config = function(_, opts)
     require("nvim-tree").setup(opts)
