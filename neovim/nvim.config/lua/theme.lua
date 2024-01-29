@@ -19,20 +19,6 @@ M.highlights = {
   },
 }
 
--- this runs before the color scheme is set
-M.init = function()
-  local resolarized = require("resolarized")
-  local palette = resolarized.palette.solarized.dark
-  local scheme = resolarized.scheme.solarized
-
-  -- builtin colorscheme tweaks
-  local hl = scheme.hlgroups
-  hl.ColorColumn.bg = hl.CursorLineNr.bg
-  for _, diff in ipairs({ "Add", "Change", "Delete", "Text" }) do
-    hl["Diff" .. diff].bg = hl.LineNr.bg
-  end
-end
-
 -- this runs after lazyvim plugins are initialized
 M.setup = function()
   for key, hi in pairs(M.highlights) do

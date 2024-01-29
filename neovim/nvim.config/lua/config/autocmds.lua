@@ -11,3 +11,6 @@ end
 vim.api.nvim_create_user_command("RestoreSession", function()
   require("persistence").load()
 end, {})
+
+-- empty :Browse so that :GBrowse prints the URL as a notification
+vim.api.nvim_create_user_command("Browse", function(_) end, { nargs = 1 })
