@@ -15,5 +15,5 @@ indent_size = 2
 [*.lua]
 indent_size = 2
 
-[*.{yml,yaml}]
+[*.{json,yml,yaml}]
 indent_size = 2
