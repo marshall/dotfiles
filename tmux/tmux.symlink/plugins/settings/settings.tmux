@@ -1,5 +1,8 @@
 #!/bin/bash
 
-this_dir=$(cd "`dirname "$0"`"; pwd)
+this_dir=$(
+	cd "$(dirname "$0")"
+	pwd
+)
 
-source "$this_dir/solarized.sh"
+source "$this_dir/catppuccin.sh"
