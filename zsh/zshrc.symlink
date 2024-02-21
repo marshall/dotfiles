@@ -8,7 +8,12 @@ case "$OS_NAME" in
     ;;
     *)
         # read the DOTFILES path from this symlink
-        SCRIPT_PATH=`readlink $HOME/.zshrc || echo $HOME/.zshrc`
+        if readlink "$HOME/.zshrc"; then
+            SCRIPT_PATH=$(readlink "$HOME/.zshrc")
+        else
+            # some devcontainers use volume mounts instead of symlinks, so try a less risky symlink
+            SCRIPT_PATH=$(readlink "$HOME/.gitignore")
+        fi
         export DOTFILES=$(cd `dirname $SCRIPT_PATH`/..; pwd)
     ;;
 esac
@@ -29,8 +34,7 @@ for config_file ($ZSH/*/*.zsh) source $config_file
 
 # use .localrc for SUPER SECRET CRAP that you don't
 # want in your public, versioned repo.
-if [[ -a ~/.localrc ]]
-then
+if [[ -a ~/.localrc ]]; then
   source ~/.localrc
 fi
 

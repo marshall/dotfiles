@@ -1,2 +1,4 @@
 # this runs after compinit
-eval "$(zoxide init zsh)"
+if (which zoxide >/dev/null); then
+    eval "$(zoxide init zsh)"
+fi

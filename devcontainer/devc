@@ -1,0 +1,29 @@
+#!/usr/bin/env zsh
+#
+# devcontainer wrapper with support for dotfiles
+#
+
+set -e
+
+this_dir="$(cd "$(dirname $0)"; pwd)"
+workspace=$(git rev-parse --show-toplevel)
+
+case "$1" in
+    up)
+        # start container
+        CUSTOM_ZSHRC=$HOME/.zshrc \
+        devcontainer up \
+            --mount "type=bind,source=$DOTFILES,target=/dotfiles" \
+            --mount "type=bind,source=$DOTFILES-private,target=/dotfiles-private" \
+            --workspace-folder "$workspace"
+
+        # bootstrap env
+        devcontainer exec \
+            --workspace-folder "$workspace" \
+            /dotfiles/bootstrap/bootstrap.sh --devcontainer
+        ;;
+    shell)
+        # run shell
+        devcontainer exec --workspace-folder "$workspace" zsh
+        ;;
+esac

@@ -13,4 +13,11 @@ return {
       return o
     end,
   },
+  {
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    opts = {
+      open_mapping = "<F3>",
+    },
+  },
 }
