@@ -1,0 +1,12 @@
+# symlink this to /etc/systemd/system/ssh-no-sleep@.service
+# sudo systemctl enable ssh-no-sleep@
+
+[Unit]
+Description=ssh no sleep
+BindsTo=ssh@%i.service
+
+[Service]
+ExecStart=/usr/bin/systemd-inhibit --mode block --what sleep --who "ssh session "%I --why "session still active" /usr/bin/sleep infinity
+
+[Install]
+WantedBy=ssh@.service

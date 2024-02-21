@@ -17,12 +17,20 @@ run_cmd() {
     $@
 }
 
+if [[ "$1" == "--devcontainer" ]]; then
+    OS=devcontainer
+fi
+
 case "$OS" in
 Linux) . $THIS_DIR/bootstrap_linux.sh ;;
 Darwin) . $THIS_DIR/bootstrap_osx.sh ;;
 MINGW64*)
     # wholesale environment switch for MINGW64
     exec $THIS_DIR/bootstrap_mingw.sh
+    ;;
+devcontainer)
+    # wholesale environment switch for devcontainer
+    exec $THIS_DIR/bootstrap_devc.sh
     ;;
 *)
     echo "Unknown OS: $OS"

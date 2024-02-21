@@ -3,26 +3,28 @@
 set -e
 
 APT_PACKAGES=(
-  bat
-  build-essential
-  curl
-  fzf
-  gem
-  git-core
-  grc
-  neovim
-  rake
-  ripgrep
-  ruby
-  ruby-dev
-  tmux
-  tmuxinator
-  vim
-  zsh
+    bat
+    build-essential
+    curl
+    fzf
+    gem
+    git-core
+    grc
+    neovim
+    rake
+    ripgrep
+    ruby
+    ruby-dev
+    tmux
+    tmuxinator
+    vim
+    zsh
 )
 
-echo "apt-get requires sudo"
-run_cmd sudo apt-get install ${APT_PACKAGES[@]}
+run_cmd sudo apt-get update
+
+echo "apt-get install"
+run_cmd sudo apt-get install -y ${APT_PACKAGES[@]}
 
 echo "updating default shell to zsh"
-run_cmd sudo usermod --shell /usr/bin/zsh $USER
+run_cmd sudo usermod --shell /usr/bin/zsh $(whoami)
