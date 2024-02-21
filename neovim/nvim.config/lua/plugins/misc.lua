@@ -11,10 +11,6 @@ return {
         require("osc52").copy(table.concat(lines, "\n"))
       end
 
-      local function copy_visual(lines, _)
-        require("osc52").copy_visual(table.concat(lines, "\n"))
-      end
-
       local function paste()
         return { vim.fn.splite(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
       end
