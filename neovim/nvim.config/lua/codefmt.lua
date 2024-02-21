@@ -10,11 +10,15 @@ local formats = {
 
 local default_format = formats.four_space
 local filetypes = {
+  bash = formats.four_space,
   cue = formats.tab,
   go = formats.tab,
-  rust = formats.two_space,
+  json = formats.two_space,
+  jsonc = formats.two_space,
+  ruby = formats.four_space,
+  rust = formats.four_space,
   sh = formats.four_space,
-  bash = formats.four_space,
+  yaml = formats.two_space,
   zsh = formats.four_space,
 }
 

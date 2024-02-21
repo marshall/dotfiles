@@ -9,6 +9,16 @@ return {
   { import = "lazyvim.plugins.extras.lang.terraform" },
   { import = "lazyvim.plugins.extras.lang.yaml" },
   {
+    "stevearc/conform.nvim",
+    opts = function(_, opts)
+      opts.formatters.shfmt = {
+        -- 4 space indent
+        prepend_args = { "-i", 4 },
+      }
+      return opts
+    end,
+  },
+  {
     "NoahTheDuke/vim-just",
   },
   {
