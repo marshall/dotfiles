@@ -1,0 +1,9 @@
+import = ["~/Code/dotfiles/alacritty/catppuccin-mocha.toml"]
+
+[window]
+decorations = "None"
+
+[font]
+normal = { family = "MesloLGMDZ Nerd Font", style = "Regular" }
+size = 10.0
+builtin_box_drawing = false

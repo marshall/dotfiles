@@ -22,8 +22,21 @@ case "$1" in
             --workspace-folder "$workspace" \
             /dotfiles/bootstrap/bootstrap.sh --devcontainer
         ;;
-    shell)
+    shell|exec)
         # run shell
-        devcontainer exec --workspace-folder "$workspace" zsh
+        devcontainer exec --workspace-folder "$workspace" ${@:-zsh}
+        ;;
+    down)
+        # stop container(s). assumes a docker compose workflow for now
+        compose_files=()
+        for f in $(cat "$workspace/.devcontainer/devcontainer.json" | \
+            docker run --rm -i marshallc/jsmin | \
+            jq -r '.dockerComposeFile[]' | \
+            sed 's#${localWorkspaceFolder}#'$workspace'#'); do
+            compose_files+="-f"
+            compose_files+=$f
+        done
+
+        docker compose "${compose_files[@]}" down
         ;;
 esac
