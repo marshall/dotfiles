@@ -5,5 +5,7 @@ decorations = "None"
 
 [font]
 normal = { family = "MesloLGMDZ Nerd Font", style = "Regular" }
+bold = { family = "MesloLGMDZ Nerd Font", style = "Bold" }
+italic = { family = "MesloLGMDZ Nerd Font", style = "Italic" }
 size = 10.0
 builtin_box_drawing = false
