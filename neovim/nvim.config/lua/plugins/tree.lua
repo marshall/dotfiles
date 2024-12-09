@@ -31,6 +31,7 @@ return {
     end,
     renderer = {
       add_trailing = true,
+      group_empty = true,
       highlight_git = true,
       icons = {
         show = {

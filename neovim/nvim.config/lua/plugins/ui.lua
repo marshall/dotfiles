@@ -20,4 +20,7 @@ return {
       open_mapping = "<F3>",
     },
   },
+  {
+    "akinsho/bufferline.nvim",
+  },
 }

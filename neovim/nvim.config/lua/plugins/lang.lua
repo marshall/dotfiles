@@ -1,11 +1,8 @@
 return {
   { import = "lazyvim.plugins.extras.lang.clangd" },
-  -- { import = "lazyvim.plugins.extras.lang.cmake" },
-  -- { import = "lazyvim.plugins.extras.lang.go" },
   { import = "lazyvim.plugins.extras.lang.json" },
   { import = "lazyvim.plugins.extras.lang.python" },
-  -- { import = "lazyvim.plugins.extras.lang.ruby" },
-  { import = "lazyvim.plugins.extras.lang.rust" },
+  { import = "lazyvim.plugins.extras.formatting.black" },
   { import = "lazyvim.plugins.extras.lang.terraform" },
   { import = "lazyvim.plugins.extras.lang.yaml" },
   {
@@ -67,7 +64,24 @@ return {
             },
           },
         },
+        lua_ls = {
+          settings = {
+            Lua = {
+              workspace = {
+                checkThirdParty = false,
+                telemetry = { enable = false },
+                library = {
+                  vim.env.VIMRUNTIME,
+                  "${3rd}/love2d/library",
+                },
+              },
+            },
+          },
+        },
       },
     },
+  },
+  {
+    "cstrahan/vim-capnp",
   },
 }

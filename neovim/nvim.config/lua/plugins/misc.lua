@@ -1,5 +1,8 @@
 return {
   {
+    { import = "lazyvim.plugins.extras.coding.copilot" },
+  },
+  {
     "shumphrey/fugitive-gitlab.vim",
   },
   {
@@ -43,6 +46,14 @@ return {
     },
   },
   {
+    "ibhagwan/fzf-lua",
+    opts = {
+      fzf_opts = {
+        ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-history",
+      }
+    }
+  },
+  {
     "tpope/vim-fugitive",
     "tpope/vim-rhubarb",
   },
@@ -58,8 +69,5 @@ return {
     config = function(_, _)
       vim.g.tmux_navigator_no_mappings = 1
     end,
-  },
-  {
-    "github/copilot.vim",
   },
 }
