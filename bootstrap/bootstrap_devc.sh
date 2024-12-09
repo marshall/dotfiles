@@ -55,6 +55,11 @@ install_link() {
 }
 
 for symlink in $DOTFILES/**/*.symlink; do
+    ## leave out some special cases that are typically mounted as volumes
+    if [[ "$symlink" = *gitconfig.symlink ]] || [[ "$symlink" = *zshrc.symlink ]]; then
+        continue
+    fi
+
     filename=$(basename "$symlink" | sed "s/.symlink//")
     install_link "$symlink" "$HOME/.$filename"
 done

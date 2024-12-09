@@ -8,6 +8,9 @@ set -e
 this_dir="$(cd "$(dirname $0)"; pwd)"
 workspace=$(git rev-parse --show-toplevel)
 
+# get /usr/local/bin/docker first
+export PATH=/usr/local/bin:$PATH
+
 case "$1" in
     up)
         # start container
@@ -24,6 +27,7 @@ case "$1" in
         ;;
     shell|exec)
         # run shell
+        shift
         devcontainer exec --workspace-folder "$workspace" ${@:-zsh}
         ;;
     down)
