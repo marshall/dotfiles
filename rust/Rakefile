@@ -1,0 +1,17 @@
+CARGO_CONFIG = File.join(DOTFILES_DIR, "rust", "config.toml")
+CARGO_CONFIG_DIR = File.join(ENV["HOME"], ".cargo")
+CARGO_CONFIG_LINK =  File.join(CARGO_CONFIG_DIR, "config.toml")
+
+task :install_cargo_config do
+    if not Dir.exists?(CARGO_CONFIG_DIR)
+        Dir.mkdir(CARGO_CONFIG_DIR)
+    end
+    prompt_install_link(CARGO_CONFIG, CARGO_CONFIG_LINK)
+end
+
+task :uninstall_cargo_config do
+    uninstall_link(CARGO_CONFIG, CARGO_CONFIG_LINK)
+end
+
+task :install => :install_cargo_config
+task :uninstall => :uninstall_cargo_config
