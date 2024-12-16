@@ -9,6 +9,14 @@ local opts = {
   colorcolumn = "100",
   display = "msgsep",
   encoding = "UTF-8",
+  fillchars = {
+    foldopen = "",
+    foldclose = "",
+    fold = " ",
+    foldsep = " ",
+    diff = "╱",
+    eob = " ",
+  },
   foldenable = true,
   guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50",
   hidden = true,
@@ -41,6 +49,16 @@ vim.o.shiftwidth = 4 -- Number of spaces inserted when indentstringlen
 
 for key, val in pairs(opts) do
   vim.opt[key] = val
+end
+
+if vim.fn.has("nvim-0.10") == 1 then
+  vim.opt.smoothscroll = true
+  vim.opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
+  vim.opt.foldmethod = "expr"
+  vim.opt.foldtext = ""
+else
+  vim.opt.foldmethod = "indent"
+  vim.opt.foldtext = "v:lua.require'lazyvim.util'.ui.foldtext()"
 end
 
 require("codefmt").setup()

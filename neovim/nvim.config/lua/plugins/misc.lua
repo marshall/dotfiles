@@ -36,22 +36,12 @@ return {
     config = true,
   },
   {
-    "telescope.nvim",
-    dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "make",
-      config = function()
-        require("telescope").load_extension("fzf")
-      end,
-    },
-  },
-  {
     "ibhagwan/fzf-lua",
     opts = {
       fzf_opts = {
         ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-history",
-      }
-    }
+      },
+    },
   },
   {
     "tpope/vim-fugitive",

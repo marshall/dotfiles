@@ -111,12 +111,6 @@ return {
         -- buffer is a [No Name]
         local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
 
-        if no_name then
-          -- preserve startify for [No Name]
-          nvim_tree_api.tree.toggle({ focus = false })
-          return
-        end
-
         -- buffer is a directory
         local directory = vim.fn.isdirectory(data.file) == 1
 
