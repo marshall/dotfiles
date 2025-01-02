@@ -1,12 +1,10 @@
-import = ["~/Code/dotfiles/alacritty/catppuccin-mocha.toml"]
-
-[window]
-decorations = "full"
-startup_mode = "Fullscreen"
+import = [
+    "~/.config/alacritty/catppuccin-mocha.toml",
+    "~/.config/alacritty/alacritty-os.toml",
+]
 
 [font]
 normal = { family = "MesloLGMDZ Nerd Font", style = "Regular" }
 bold = { family = "MesloLGMDZ Nerd Font", style = "Bold" }
 italic = { family = "MesloLGMDZ Nerd Font", style = "Italic" }
-size = 14.0
 builtin_box_drawing = false

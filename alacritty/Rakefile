@@ -1,0 +1,28 @@
+require 'rbconfig'
+
+def os
+  case RbConfig::CONFIG['host_os']
+  when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+    'win'
+  when /darwin|mac os/
+    'macos'
+  when /linux/
+    'linux'
+  else
+    'unknown'
+  end
+end
+
+ALACRITTY_OS_CFG = File.join(DOTFILES_DIR, 'alacritty', 'alacritty.config', "alacritty-#{os}.toml")
+ALACRITTY_OS_LINK = File.join(DOTFILES_DIR, 'alacritty', 'alacritty.config', 'alacritty-os.toml')
+
+task :install_alacritty_config do
+  prompt_install_link(ALACRITTY_OS_CFG, ALACRITTY_OS_LINK) if File.exist?(ALACRITTY_OS_CFG)
+end
+
+task :uninstall_alacritty_config do
+  uninstall_link(ALACRITTY_OS_CFG, ALACRITTY_OS_LINK) if File.exist?(ALACRITTY_OS_CFG)
+end
+
+task install: :install_alacritty_config
+task uninstall: :uninstall_alacritty_config

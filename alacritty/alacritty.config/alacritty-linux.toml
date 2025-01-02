@@ -1,0 +1,6 @@
+[window]
+decorations = "full"
+startup_mode = "Windowed"
+
+[font]
+size = 10.0
