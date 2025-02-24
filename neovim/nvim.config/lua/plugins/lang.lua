@@ -19,21 +19,6 @@ return {
     "NoahTheDuke/vim-just",
   },
   {
-    "neovim/nvim-lspconfig",
-    opts = function(_, opts)
-      opts.servers.clangd.cmd = {
-        "./coruscant/scripts/run-clangd.sh",
-        "--background-index",
-        "--clang-tidy",
-        "--header-insertion=iwyu",
-        "--completion-style=detailed",
-        "--function-arg-placeholders",
-        "--fallback-style=llvm",
-      }
-      return opts
-    end,
-  },
-  {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },

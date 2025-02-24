@@ -91,7 +91,7 @@ return {
       width = 50,
     },
     sort = {
-      sorter = "extension",
+      sorter = "name",
     },
   },
   config = function(_, opts)
