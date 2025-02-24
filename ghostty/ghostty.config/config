@@ -1,0 +1,8 @@
+theme = catppuccin-mocha
+font-family = "MesloLGMDZ Nerd Font Mono"
+font-style = "Regular"
+font-style-bold = "Bold"
+font-style-italic = "Italic"
+font-size = "14.0"
+font-thicken = true
+cursor-style = "block_hollow"
