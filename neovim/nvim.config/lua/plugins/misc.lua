@@ -1,8 +1,5 @@
 return {
   {
-    { import = "lazyvim.plugins.extras.ai.copilot" },
-  },
-  {
     "shumphrey/fugitive-gitlab.vim",
   },
   {
