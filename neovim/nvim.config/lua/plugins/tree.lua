@@ -3,7 +3,7 @@ local enable_auto_open = true
 
 return {
   "nvim-tree/nvim-tree.lua",
-  dependencies = "nvim-web-devicons",
+  dependencies = "nvim-tree/nvim-web-devicons",
   opts = {
     diagnostics = {
       -- this re-enables icons for certain "special" files

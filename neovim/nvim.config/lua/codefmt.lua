@@ -12,6 +12,7 @@ local default_format = formats.four_space
 local filetypes = {
   bash = formats.four_space,
   cue = formats.tab,
+  gdscript = formats.tab,
   go = formats.tab,
   json = formats.two_space,
   jsonc = formats.two_space,

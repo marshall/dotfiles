@@ -4,3 +4,6 @@ vim.g.loaded_netrwPlugin = 1
 
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
+
+-- conditionally start a nvim server for godot projects
+require("godot")
